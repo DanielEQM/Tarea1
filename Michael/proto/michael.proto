@@ -1,0 +1,22 @@
+// Especifica la versión de la sintaxis de Protocol Buffers.
+syntax = "proto3";
+
+// Define el paquete de Go que se generará. Evita colisiones de nombres.
+option go_package = "michael-sys/proto";
+package mensaje;
+
+// El servicio "Greeter" define un conjunto de funciones remotas.
+service Greeter {
+  // Nuestra función remota. Recibe un HelloRequest y devuelve un HelloResponse.
+  rpc SayHello (HelloRequest) returns (HelloResponse);
+}
+
+// El mensaje de solicitud. Contiene el nombre de la persona a saludar.
+message HelloRequest {
+  string name = 1;
+}
+
+// El mensaje de respuesta. Contendrá el saludo final.
+message HelloResponse {
+  string message = 1;
+}

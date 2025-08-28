@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  lester:
+    build:
+      context: ./Lester
+    container_name: lester-container
+    ports:
+      - "50051:50051"
+
+  michael:
+    build:
+      context: ./Michael
+    container_name: michael-container
+    depends_on:
+      - lester
