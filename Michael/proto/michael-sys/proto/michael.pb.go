@@ -145,6 +145,50 @@ func (x *MissionResponse) GetRiesgo() string {
 	return ""
 }
 
+type ConfirmResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Conf          string                 `protobuf:"bytes,1,opt,name=conf,proto3" json:"conf,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ConfirmResponse) Reset() {
+	*x = ConfirmResponse{}
+	mi := &file_michael_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ConfirmResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ConfirmResponse) ProtoMessage() {}
+
+func (x *ConfirmResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_michael_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ConfirmResponse.ProtoReflect.Descriptor instead.
+func (*ConfirmResponse) Descriptor() ([]byte, []int) {
+	return file_michael_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *ConfirmResponse) GetConf() string {
+	if x != nil {
+		return x.Conf
+	}
+	return ""
+}
+
 var File_michael_proto protoreflect.FileDescriptor
 
 const file_michael_proto_rawDesc = "" +
@@ -157,9 +201,12 @@ const file_michael_proto_rawDesc = "" +
 	"\x05botin\x18\x02 \x01(\tR\x05botin\x12\x15\n" +
 	"\x06prob_f\x18\x03 \x01(\tR\x05probF\x12\x15\n" +
 	"\x06prob_t\x18\x04 \x01(\tR\x05probT\x12\x16\n" +
-	"\x06riesgo\x18\x05 \x01(\tR\x06riesgo2K\n" +
+	"\x06riesgo\x18\x05 \x01(\tR\x06riesgo\"%\n" +
+	"\x0fConfirmResponse\x12\x12\n" +
+	"\x04conf\x18\x01 \x01(\tR\x04conf2\x90\x01\n" +
 	"\aGreeter\x12@\n" +
-	"\vGiveMission\x12\x17.mensaje.MissionRequest\x1a\x18.mensaje.MissionResponseB\x13Z\x11michael-sys/protob\x06proto3"
+	"\vGiveMission\x12\x17.mensaje.MissionRequest\x1a\x18.mensaje.MissionResponse\x12C\n" +
+	"\x0eConfirmMission\x12\x17.mensaje.MissionRequest\x1a\x18.mensaje.ConfirmResponseB\x13Z\x11michael-sys/protob\x06proto3"
 
 var (
 	file_michael_proto_rawDescOnce sync.Once
@@ -173,16 +220,19 @@ func file_michael_proto_rawDescGZIP() []byte {
 	return file_michael_proto_rawDescData
 }
 
-var file_michael_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_michael_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_michael_proto_goTypes = []any{
 	(*MissionRequest)(nil),  // 0: mensaje.MissionRequest
 	(*MissionResponse)(nil), // 1: mensaje.MissionResponse
+	(*ConfirmResponse)(nil), // 2: mensaje.ConfirmResponse
 }
 var file_michael_proto_depIdxs = []int32{
 	0, // 0: mensaje.Greeter.GiveMission:input_type -> mensaje.MissionRequest
-	1, // 1: mensaje.Greeter.GiveMission:output_type -> mensaje.MissionResponse
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
+	0, // 1: mensaje.Greeter.ConfirmMission:input_type -> mensaje.MissionRequest
+	1, // 2: mensaje.Greeter.GiveMission:output_type -> mensaje.MissionResponse
+	2, // 3: mensaje.Greeter.ConfirmMission:output_type -> mensaje.ConfirmResponse
+	2, // [2:4] is the sub-list for method output_type
+	0, // [0:2] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -199,7 +249,7 @@ func file_michael_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_michael_proto_rawDesc), len(file_michael_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

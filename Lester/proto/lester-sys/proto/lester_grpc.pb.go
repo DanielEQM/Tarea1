@@ -21,7 +21,8 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Greeter_GiveMission_FullMethodName = "/mensaje.Greeter/GiveMission"
+	Greeter_GiveMission_FullMethodName    = "/mensaje.Greeter/GiveMission"
+	Greeter_ConfirmMission_FullMethodName = "/mensaje.Greeter/ConfirmMission"
 )
 
 // GreeterClient is the client API for Greeter service.
@@ -32,6 +33,7 @@ const (
 type GreeterClient interface {
 	// Nuestra función remota. Recibe un HelloRequest y devuelve un HelloResponse.
 	GiveMission(ctx context.Context, in *MissionRequest, opts ...grpc.CallOption) (*MissionResponse, error)
+	ConfirmMission(ctx context.Context, in *MissionRequest, opts ...grpc.CallOption) (*ConfirmResponse, error)
 }
 
 type greeterClient struct {
@@ -52,6 +54,16 @@ func (c *greeterClient) GiveMission(ctx context.Context, in *MissionRequest, opt
 	return out, nil
 }
 
+func (c *greeterClient) ConfirmMission(ctx context.Context, in *MissionRequest, opts ...grpc.CallOption) (*ConfirmResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ConfirmResponse)
+	err := c.cc.Invoke(ctx, Greeter_ConfirmMission_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // GreeterServer is the server API for Greeter service.
 // All implementations must embed UnimplementedGreeterServer
 // for forward compatibility.
@@ -60,6 +72,7 @@ func (c *greeterClient) GiveMission(ctx context.Context, in *MissionRequest, opt
 type GreeterServer interface {
 	// Nuestra función remota. Recibe un HelloRequest y devuelve un HelloResponse.
 	GiveMission(context.Context, *MissionRequest) (*MissionResponse, error)
+	ConfirmMission(context.Context, *MissionRequest) (*ConfirmResponse, error)
 	mustEmbedUnimplementedGreeterServer()
 }
 
@@ -72,6 +85,9 @@ type UnimplementedGreeterServer struct{}
 
 func (UnimplementedGreeterServer) GiveMission(context.Context, *MissionRequest) (*MissionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GiveMission not implemented")
+}
+func (UnimplementedGreeterServer) ConfirmMission(context.Context, *MissionRequest) (*ConfirmResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ConfirmMission not implemented")
 }
 func (UnimplementedGreeterServer) mustEmbedUnimplementedGreeterServer() {}
 func (UnimplementedGreeterServer) testEmbeddedByValue()                 {}
@@ -112,6 +128,24 @@ func _Greeter_GiveMission_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Greeter_ConfirmMission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MissionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GreeterServer).ConfirmMission(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Greeter_ConfirmMission_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GreeterServer).ConfirmMission(ctx, req.(*MissionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Greeter_ServiceDesc is the grpc.ServiceDesc for Greeter service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -122,6 +156,10 @@ var Greeter_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GiveMission",
 			Handler:    _Greeter_GiveMission_Handler,
+		},
+		{
+			MethodName: "ConfirmMission",
+			Handler:    _Greeter_ConfirmMission_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

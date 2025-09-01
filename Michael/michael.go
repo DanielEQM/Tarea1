@@ -57,4 +57,11 @@ func main() {
 	log.Printf("          del servidor: %s", r.GetProbF())
 	log.Printf("          del servidor: %s", r.GetProbT())
 	log.Printf("          del servidor: %s", r.GetRiesgo())
+
+	r1, err := c.ConfirmMission(ctx, &pb.MissionRequest{Pregunta: "HEy hey hey"})
+	if err != nil {
+		log.Fatalf("No se pudo saludar: %v", err)
+	}
+
+	log.Printf("Respuesta del servidor: %s", r1.GetConf())
 }

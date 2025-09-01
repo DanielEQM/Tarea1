@@ -9,6 +9,7 @@ package mensaje;
 service Greeter {
   // Nuestra función remota. Recibe un HelloRequest y devuelve un HelloResponse.
   rpc GiveMission (MissionRequest) returns (MissionResponse);
+  rpc ConfirmMission (MissionRequest) returns (ConfirmResponse);
 }
 
 // El mensaje de solicitud. Contiene el nombre de la persona a saludar.
@@ -23,4 +24,8 @@ message MissionResponse {
   string prob_f = 3;
   string prob_t = 4;
   string riesgo = 5;
+}
+
+message ConfirmResponse {
+  string conf = 1;
 }
