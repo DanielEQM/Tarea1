@@ -21,145 +21,145 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Greeter_GiveMission_FullMethodName    = "/mensaje.Greeter/GiveMission"
-	Greeter_ConfirmMission_FullMethodName = "/mensaje.Greeter/ConfirmMission"
+	Mission_Oferta_FullMethodName         = "/mensaje.Mission/Oferta"
+	Mission_ConfirmMission_FullMethodName = "/mensaje.Mission/ConfirmMission"
 )
 
-// GreeterClient is the client API for Greeter service.
+// MissionClient is the client API for Mission service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
 // El servicio "Greeter" define un conjunto de funciones remotas.
-type GreeterClient interface {
+type MissionClient interface {
 	// Nuestra función remota. Recibe un HelloRequest y devuelve un HelloResponse.
-	GiveMission(ctx context.Context, in *MissionRequest, opts ...grpc.CallOption) (*MissionResponse, error)
-	ConfirmMission(ctx context.Context, in *MissionRequest, opts ...grpc.CallOption) (*ConfirmResponse, error)
+	Oferta(ctx context.Context, in *MissionRequest, opts ...grpc.CallOption) (*MissionResponse, error)
+	ConfirmMission(ctx context.Context, in *ConfirmRequest, opts ...grpc.CallOption) (*ConfirmResponse, error)
 }
 
-type greeterClient struct {
+type missionClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewGreeterClient(cc grpc.ClientConnInterface) GreeterClient {
-	return &greeterClient{cc}
+func NewMissionClient(cc grpc.ClientConnInterface) MissionClient {
+	return &missionClient{cc}
 }
 
-func (c *greeterClient) GiveMission(ctx context.Context, in *MissionRequest, opts ...grpc.CallOption) (*MissionResponse, error) {
+func (c *missionClient) Oferta(ctx context.Context, in *MissionRequest, opts ...grpc.CallOption) (*MissionResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(MissionResponse)
-	err := c.cc.Invoke(ctx, Greeter_GiveMission_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, Mission_Oferta_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *greeterClient) ConfirmMission(ctx context.Context, in *MissionRequest, opts ...grpc.CallOption) (*ConfirmResponse, error) {
+func (c *missionClient) ConfirmMission(ctx context.Context, in *ConfirmRequest, opts ...grpc.CallOption) (*ConfirmResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ConfirmResponse)
-	err := c.cc.Invoke(ctx, Greeter_ConfirmMission_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, Mission_ConfirmMission_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// GreeterServer is the server API for Greeter service.
-// All implementations must embed UnimplementedGreeterServer
+// MissionServer is the server API for Mission service.
+// All implementations must embed UnimplementedMissionServer
 // for forward compatibility.
 //
 // El servicio "Greeter" define un conjunto de funciones remotas.
-type GreeterServer interface {
+type MissionServer interface {
 	// Nuestra función remota. Recibe un HelloRequest y devuelve un HelloResponse.
-	GiveMission(context.Context, *MissionRequest) (*MissionResponse, error)
-	ConfirmMission(context.Context, *MissionRequest) (*ConfirmResponse, error)
-	mustEmbedUnimplementedGreeterServer()
+	Oferta(context.Context, *MissionRequest) (*MissionResponse, error)
+	ConfirmMission(context.Context, *ConfirmRequest) (*ConfirmResponse, error)
+	mustEmbedUnimplementedMissionServer()
 }
 
-// UnimplementedGreeterServer must be embedded to have
+// UnimplementedMissionServer must be embedded to have
 // forward compatible implementations.
 //
 // NOTE: this should be embedded by value instead of pointer to avoid a nil
 // pointer dereference when methods are called.
-type UnimplementedGreeterServer struct{}
+type UnimplementedMissionServer struct{}
 
-func (UnimplementedGreeterServer) GiveMission(context.Context, *MissionRequest) (*MissionResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GiveMission not implemented")
+func (UnimplementedMissionServer) Oferta(context.Context, *MissionRequest) (*MissionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Oferta not implemented")
 }
-func (UnimplementedGreeterServer) ConfirmMission(context.Context, *MissionRequest) (*ConfirmResponse, error) {
+func (UnimplementedMissionServer) ConfirmMission(context.Context, *ConfirmRequest) (*ConfirmResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ConfirmMission not implemented")
 }
-func (UnimplementedGreeterServer) mustEmbedUnimplementedGreeterServer() {}
-func (UnimplementedGreeterServer) testEmbeddedByValue()                 {}
+func (UnimplementedMissionServer) mustEmbedUnimplementedMissionServer() {}
+func (UnimplementedMissionServer) testEmbeddedByValue()                 {}
 
-// UnsafeGreeterServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to GreeterServer will
+// UnsafeMissionServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to MissionServer will
 // result in compilation errors.
-type UnsafeGreeterServer interface {
-	mustEmbedUnimplementedGreeterServer()
+type UnsafeMissionServer interface {
+	mustEmbedUnimplementedMissionServer()
 }
 
-func RegisterGreeterServer(s grpc.ServiceRegistrar, srv GreeterServer) {
-	// If the following call pancis, it indicates UnimplementedGreeterServer was
+func RegisterMissionServer(s grpc.ServiceRegistrar, srv MissionServer) {
+	// If the following call pancis, it indicates UnimplementedMissionServer was
 	// embedded by pointer and is nil.  This will cause panics if an
 	// unimplemented method is ever invoked, so we test this at initialization
 	// time to prevent it from happening at runtime later due to I/O.
 	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
 		t.testEmbeddedByValue()
 	}
-	s.RegisterService(&Greeter_ServiceDesc, srv)
+	s.RegisterService(&Mission_ServiceDesc, srv)
 }
 
-func _Greeter_GiveMission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Mission_Oferta_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(MissionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GreeterServer).GiveMission(ctx, in)
+		return srv.(MissionServer).Oferta(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Greeter_GiveMission_FullMethodName,
+		FullMethod: Mission_Oferta_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GreeterServer).GiveMission(ctx, req.(*MissionRequest))
+		return srv.(MissionServer).Oferta(ctx, req.(*MissionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Greeter_ConfirmMission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MissionRequest)
+func _Mission_ConfirmMission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ConfirmRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GreeterServer).ConfirmMission(ctx, in)
+		return srv.(MissionServer).ConfirmMission(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Greeter_ConfirmMission_FullMethodName,
+		FullMethod: Mission_ConfirmMission_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GreeterServer).ConfirmMission(ctx, req.(*MissionRequest))
+		return srv.(MissionServer).ConfirmMission(ctx, req.(*ConfirmRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// Greeter_ServiceDesc is the grpc.ServiceDesc for Greeter service.
+// Mission_ServiceDesc is the grpc.ServiceDesc for Mission service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var Greeter_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "mensaje.Greeter",
-	HandlerType: (*GreeterServer)(nil),
+var Mission_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "mensaje.Mission",
+	HandlerType: (*MissionServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GiveMission",
-			Handler:    _Greeter_GiveMission_Handler,
+			MethodName: "Oferta",
+			Handler:    _Mission_Oferta_Handler,
 		},
 		{
 			MethodName: "ConfirmMission",
-			Handler:    _Greeter_ConfirmMission_Handler,
+			Handler:    _Mission_ConfirmMission_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

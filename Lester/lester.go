@@ -15,25 +15,32 @@ import (
 // Definimos una struct para nuestro servidor. Debe embeber el UnimplementedGreeterServer.
 // Esto asegura la compatibilidad hacia adelante si se añaden más RPCs al servicio.
 type server struct {
-	pb.UnimplementedGreeterServer
+	pb.UnimplementedMissionServer
 }
 
 // var rechazo = 0
 
 // SayHello es la implementación de la función definida en el archivo .proto.
 // Esta es la lógica real que se ejecuta cuando un cliente llama a este RPC.
-func (s *server) GiveMission(ctx context.Context, in *pb.MissionRequest) (*pb.MissionResponse, error) {
-	log.Printf("Recibida petición de: %v", in.GetPregunta())
+func (s *server) Oferta(ctx context.Context, in *pb.MissionRequest) (*pb.MissionResponse, error) {
+	log.Printf("Recibida petición de: %v, con %d rechazos", in.GetPregunta(), in.GetRechazo())
+	if in.GetRechazo() == 3 {
+		log.Printf("Ahora te esperas")
+	}
 	// Creamos y devolvemos la respuesta.
 	prob := rand.Intn(100)
-	if prob >= 90 {
-		return &pb.MissionResponse{Hay: "NO", Botin: "", ProbF: "", ProbT: "", Riesgo: ""}, nil
+	log.Printf("La probabilidad es de %d", prob)
+	if prob < 50 {
+		return &pb.MissionResponse{Disp: false, Botin: 0, ProbF: 0, ProbT: 0, Riesgo: 0}, nil
 	}
-	return &pb.MissionResponse{Hay: "YES", Botin: "1", ProbF: "2", ProbT: "3", Riesgo: "4"}, nil
+	if prob > 60 {
+		return &pb.MissionResponse{Disp: true, Botin: 100, ProbF: 40, ProbT: 40}, nil
+	}
+	return &pb.MissionResponse{Disp: true, Botin: 100, ProbF: 70, ProbT: 70, Riesgo: 70}, nil
 }
 
-func (s1 *server) ConfirmMission(ctx context.Context, in *pb.MissionRequest) (*pb.ConfirmResponse, error) {
-	return &pb.ConfirmResponse{Conf: "Dale pibe"}, nil
+func (s1 *server) ConfirmMission(ctx context.Context, in *pb.ConfirmRequest) (*pb.ConfirmResponse, error) {
+	return &pb.ConfirmResponse{Conf: true}, nil
 }
 
 func main() {
@@ -50,8 +57,8 @@ func main() {
 	// 3. Registramos nuestro servicio 'Greeter' en el servidor gRPC.
 	//    Esto conecta nuestra implementación lógica (la struct 'server') con el
 	//    servicio definido en el .proto.
-	pb.RegisterGreeterServer(s, &server{})
-	pb.RegisterGreeterServer(s1, &server{})
+	pb.RegisterMissionServer(s, &server{})
+	pb.RegisterMissionServer(s1, &server{})
 	log.Printf("Servidor escuchando en %v", lis.Addr())
 
 	// 4. Iniciamos el servidor para que empiece a aceptar peticiones en el puerto.

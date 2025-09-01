@@ -6,26 +6,31 @@ option go_package = "michael-sys/proto";
 package mensaje;
 
 // El servicio "Greeter" define un conjunto de funciones remotas.
-service Greeter {
+service Mission {
   // Nuestra función remota. Recibe un HelloRequest y devuelve un HelloResponse.
-  rpc GiveMission (MissionRequest) returns (MissionResponse);
-  rpc ConfirmMission (MissionRequest) returns (ConfirmResponse);
+  rpc Oferta (MissionRequest) returns (MissionResponse);
+  rpc ConfirmMission (ConfirmRequest) returns (ConfirmResponse);
 }
 
 // El mensaje de solicitud. Contiene el nombre de la persona a saludar.
 message MissionRequest {
   string pregunta = 1;
+  int32 rechazo = 2;
 }
 
 // El mensaje de respuesta. Contendrá el saludo final.
 message MissionResponse {
-  string hay = 1;
-  string botin = 2;
-  string prob_f = 3;
-  string prob_t = 4;
-  string riesgo = 5;
+  bool  disp = 1;
+  int32 botin = 2;
+  int32 prob_f = 3;
+  int32 prob_t = 4;
+  int32 riesgo = 5;
+}
+
+message ConfirmRequest {
+  bool conf = 1;
 }
 
 message ConfirmResponse {
-  string conf = 1;
+  bool conf = 1;
 }

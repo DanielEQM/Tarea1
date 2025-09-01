@@ -28,12 +28,12 @@ func main() {
 
 	// 2. Creamos un "stub" de cliente a partir de la conexión.
 	//    Este objeto 'c' es el que tiene los métodos remotos que podemos llamar.
-	c := pb.NewGreeterClient(conn)
+	c := pb.NewMissionClient(conn)
 
 	// 3. Preparamos el contexto y los datos para la llamada remota.
 	//    Un contexto puede llevar deadlines, cancelaciones, y otros valores a través
 	//    de las llamadas.
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Hour)
 	defer cancel()
 
 	// Tomamos un nombre de los argumentos de la línea de comandos, o usamos "Mundo"
@@ -46,22 +46,38 @@ func main() {
 	//    Esto parece una llamada a una función local, pero gRPC se encarga de
 	//    serializar los datos, enviarlos al servidor, esperar la respuesta y
 	//    deserializarla.
-	r, err := c.GiveMission(ctx, &pb.MissionRequest{Pregunta: pregunta})
-	if err != nil {
-		log.Fatalf("No se pudo saludar: %v", err)
+	var rechazo int32 = 0
+	keep := true
+	for keep {
+		r, err := c.Oferta(ctx, &pb.MissionRequest{Pregunta: pregunta, Rechazo: rechazo})
+		if rechazo == 3 {
+			time.Sleep(10 * time.Second)
+			rechazo = 0
+		}
+		if err != nil {
+			log.Fatalf("No se pudo saludar: %v", err)
+		}
+		if r.GetDisp() {
+			log.Printf("y el rechazo %d", rechazo)
+			log.Printf("Respuesta del servidor: %t", r.GetDisp())
+			log.Printf("          del servidor: %d", r.GetBotin())
+			log.Printf("          del servidor: %d", r.GetProbF())
+			log.Printf("          del servidor: %d", r.GetProbT())
+			log.Printf("          del servidor: %d", r.GetRiesgo())
+			log.Printf("")
+			if r.GetRiesgo() == 0 || !(r.GetRiesgo() < 80 && (r.GetProbF() > 50 || r.GetProbT() > 50)) {
+				rechazo += 1
+			} else {
+				break
+			}
+		}
 	}
 	// 5. Imprimimos la respuesta del servidor.
 
-	log.Printf("Respuesta del servidor: %s", r.GetHay())
-	log.Printf("          del servidor: %s", r.GetBotin())
-	log.Printf("          del servidor: %s", r.GetProbF())
-	log.Printf("          del servidor: %s", r.GetProbT())
-	log.Printf("          del servidor: %s", r.GetRiesgo())
-
-	r1, err := c.ConfirmMission(ctx, &pb.MissionRequest{Pregunta: "HEy hey hey"})
+	r1, err := c.ConfirmMission(ctx, &pb.ConfirmRequest{Conf: true})
 	if err != nil {
 		log.Fatalf("No se pudo saludar: %v", err)
 	}
 
-	log.Printf("Respuesta del servidor: %s", r1.GetConf())
+	log.Printf("Respuesta del servidor: %t", r1.GetConf())
 }

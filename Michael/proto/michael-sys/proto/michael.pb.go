@@ -27,6 +27,7 @@ const (
 type MissionRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Pregunta      string                 `protobuf:"bytes,1,opt,name=pregunta,proto3" json:"pregunta,omitempty"`
+	Rechazo       int32                  `protobuf:"varint,2,opt,name=rechazo,proto3" json:"rechazo,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -68,14 +69,21 @@ func (x *MissionRequest) GetPregunta() string {
 	return ""
 }
 
+func (x *MissionRequest) GetRechazo() int32 {
+	if x != nil {
+		return x.Rechazo
+	}
+	return 0
+}
+
 // El mensaje de respuesta. Contendrá el saludo final.
 type MissionResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Hay           string                 `protobuf:"bytes,1,opt,name=hay,proto3" json:"hay,omitempty"`
-	Botin         string                 `protobuf:"bytes,2,opt,name=botin,proto3" json:"botin,omitempty"`
-	ProbF         string                 `protobuf:"bytes,3,opt,name=prob_f,json=probF,proto3" json:"prob_f,omitempty"`
-	ProbT         string                 `protobuf:"bytes,4,opt,name=prob_t,json=probT,proto3" json:"prob_t,omitempty"`
-	Riesgo        string                 `protobuf:"bytes,5,opt,name=riesgo,proto3" json:"riesgo,omitempty"`
+	Disp          bool                   `protobuf:"varint,1,opt,name=disp,proto3" json:"disp,omitempty"`
+	Botin         int32                  `protobuf:"varint,2,opt,name=botin,proto3" json:"botin,omitempty"`
+	ProbF         int32                  `protobuf:"varint,3,opt,name=prob_f,json=probF,proto3" json:"prob_f,omitempty"`
+	ProbT         int32                  `protobuf:"varint,4,opt,name=prob_t,json=probT,proto3" json:"prob_t,omitempty"`
+	Riesgo        int32                  `protobuf:"varint,5,opt,name=riesgo,proto3" json:"riesgo,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -110,51 +118,95 @@ func (*MissionResponse) Descriptor() ([]byte, []int) {
 	return file_michael_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *MissionResponse) GetHay() string {
+func (x *MissionResponse) GetDisp() bool {
 	if x != nil {
-		return x.Hay
+		return x.Disp
 	}
-	return ""
+	return false
 }
 
-func (x *MissionResponse) GetBotin() string {
+func (x *MissionResponse) GetBotin() int32 {
 	if x != nil {
 		return x.Botin
 	}
-	return ""
+	return 0
 }
 
-func (x *MissionResponse) GetProbF() string {
+func (x *MissionResponse) GetProbF() int32 {
 	if x != nil {
 		return x.ProbF
 	}
-	return ""
+	return 0
 }
 
-func (x *MissionResponse) GetProbT() string {
+func (x *MissionResponse) GetProbT() int32 {
 	if x != nil {
 		return x.ProbT
 	}
-	return ""
+	return 0
 }
 
-func (x *MissionResponse) GetRiesgo() string {
+func (x *MissionResponse) GetRiesgo() int32 {
 	if x != nil {
 		return x.Riesgo
 	}
-	return ""
+	return 0
+}
+
+type ConfirmRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Conf          bool                   `protobuf:"varint,1,opt,name=conf,proto3" json:"conf,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ConfirmRequest) Reset() {
+	*x = ConfirmRequest{}
+	mi := &file_michael_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ConfirmRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ConfirmRequest) ProtoMessage() {}
+
+func (x *ConfirmRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_michael_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ConfirmRequest.ProtoReflect.Descriptor instead.
+func (*ConfirmRequest) Descriptor() ([]byte, []int) {
+	return file_michael_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *ConfirmRequest) GetConf() bool {
+	if x != nil {
+		return x.Conf
+	}
+	return false
 }
 
 type ConfirmResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Conf          string                 `protobuf:"bytes,1,opt,name=conf,proto3" json:"conf,omitempty"`
+	Conf          bool                   `protobuf:"varint,1,opt,name=conf,proto3" json:"conf,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ConfirmResponse) Reset() {
 	*x = ConfirmResponse{}
-	mi := &file_michael_proto_msgTypes[2]
+	mi := &file_michael_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -166,7 +218,7 @@ func (x *ConfirmResponse) String() string {
 func (*ConfirmResponse) ProtoMessage() {}
 
 func (x *ConfirmResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_michael_proto_msgTypes[2]
+	mi := &file_michael_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -179,34 +231,37 @@ func (x *ConfirmResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ConfirmResponse.ProtoReflect.Descriptor instead.
 func (*ConfirmResponse) Descriptor() ([]byte, []int) {
-	return file_michael_proto_rawDescGZIP(), []int{2}
+	return file_michael_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *ConfirmResponse) GetConf() string {
+func (x *ConfirmResponse) GetConf() bool {
 	if x != nil {
 		return x.Conf
 	}
-	return ""
+	return false
 }
 
 var File_michael_proto protoreflect.FileDescriptor
 
 const file_michael_proto_rawDesc = "" +
 	"\n" +
-	"\rmichael.proto\x12\amensaje\",\n" +
+	"\rmichael.proto\x12\amensaje\"F\n" +
 	"\x0eMissionRequest\x12\x1a\n" +
-	"\bpregunta\x18\x01 \x01(\tR\bpregunta\"\x7f\n" +
-	"\x0fMissionResponse\x12\x10\n" +
-	"\x03hay\x18\x01 \x01(\tR\x03hay\x12\x14\n" +
-	"\x05botin\x18\x02 \x01(\tR\x05botin\x12\x15\n" +
-	"\x06prob_f\x18\x03 \x01(\tR\x05probF\x12\x15\n" +
-	"\x06prob_t\x18\x04 \x01(\tR\x05probT\x12\x16\n" +
-	"\x06riesgo\x18\x05 \x01(\tR\x06riesgo\"%\n" +
+	"\bpregunta\x18\x01 \x01(\tR\bpregunta\x12\x18\n" +
+	"\arechazo\x18\x02 \x01(\x05R\arechazo\"\x81\x01\n" +
+	"\x0fMissionResponse\x12\x12\n" +
+	"\x04disp\x18\x01 \x01(\bR\x04disp\x12\x14\n" +
+	"\x05botin\x18\x02 \x01(\x05R\x05botin\x12\x15\n" +
+	"\x06prob_f\x18\x03 \x01(\x05R\x05probF\x12\x15\n" +
+	"\x06prob_t\x18\x04 \x01(\x05R\x05probT\x12\x16\n" +
+	"\x06riesgo\x18\x05 \x01(\x05R\x06riesgo\"$\n" +
+	"\x0eConfirmRequest\x12\x12\n" +
+	"\x04conf\x18\x01 \x01(\bR\x04conf\"%\n" +
 	"\x0fConfirmResponse\x12\x12\n" +
-	"\x04conf\x18\x01 \x01(\tR\x04conf2\x90\x01\n" +
-	"\aGreeter\x12@\n" +
-	"\vGiveMission\x12\x17.mensaje.MissionRequest\x1a\x18.mensaje.MissionResponse\x12C\n" +
-	"\x0eConfirmMission\x12\x17.mensaje.MissionRequest\x1a\x18.mensaje.ConfirmResponseB\x13Z\x11michael-sys/protob\x06proto3"
+	"\x04conf\x18\x01 \x01(\bR\x04conf2\x8b\x01\n" +
+	"\aMission\x12;\n" +
+	"\x06Oferta\x12\x17.mensaje.MissionRequest\x1a\x18.mensaje.MissionResponse\x12C\n" +
+	"\x0eConfirmMission\x12\x17.mensaje.ConfirmRequest\x1a\x18.mensaje.ConfirmResponseB\x13Z\x11michael-sys/protob\x06proto3"
 
 var (
 	file_michael_proto_rawDescOnce sync.Once
@@ -220,17 +275,18 @@ func file_michael_proto_rawDescGZIP() []byte {
 	return file_michael_proto_rawDescData
 }
 
-var file_michael_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_michael_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_michael_proto_goTypes = []any{
 	(*MissionRequest)(nil),  // 0: mensaje.MissionRequest
 	(*MissionResponse)(nil), // 1: mensaje.MissionResponse
-	(*ConfirmResponse)(nil), // 2: mensaje.ConfirmResponse
+	(*ConfirmRequest)(nil),  // 2: mensaje.ConfirmRequest
+	(*ConfirmResponse)(nil), // 3: mensaje.ConfirmResponse
 }
 var file_michael_proto_depIdxs = []int32{
-	0, // 0: mensaje.Greeter.GiveMission:input_type -> mensaje.MissionRequest
-	0, // 1: mensaje.Greeter.ConfirmMission:input_type -> mensaje.MissionRequest
-	1, // 2: mensaje.Greeter.GiveMission:output_type -> mensaje.MissionResponse
-	2, // 3: mensaje.Greeter.ConfirmMission:output_type -> mensaje.ConfirmResponse
+	0, // 0: mensaje.Mission.Oferta:input_type -> mensaje.MissionRequest
+	2, // 1: mensaje.Mission.ConfirmMission:input_type -> mensaje.ConfirmRequest
+	1, // 2: mensaje.Mission.Oferta:output_type -> mensaje.MissionResponse
+	3, // 3: mensaje.Mission.ConfirmMission:output_type -> mensaje.ConfirmResponse
 	2, // [2:4] is the sub-list for method output_type
 	0, // [0:2] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -249,7 +305,7 @@ func file_michael_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_michael_proto_rawDesc), len(file_michael_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
