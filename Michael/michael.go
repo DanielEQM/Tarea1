@@ -37,20 +37,24 @@ func main() {
 	defer cancel()
 
 	// Tomamos un nombre de los argumentos de la línea de comandos, o usamos "Mundo"
-	name := "matias"
+	pregunta := "Hola"
 	if len(os.Args) > 1 {
-		name = os.Args[1]
+		pregunta = os.Args[1]
 	}
 
 	// 4. ¡Llamamos a la función remota!
 	//    Esto parece una llamada a una función local, pero gRPC se encarga de
 	//    serializar los datos, enviarlos al servidor, esperar la respuesta y
 	//    deserializarla.
-	r, err := c.SayHello(ctx, &pb.HelloRequest{Name: name})
+	r, err := c.GiveMission(ctx, &pb.MissionRequest{Pregunta: pregunta})
 	if err != nil {
 		log.Fatalf("No se pudo saludar: %v", err)
 	}
-
 	// 5. Imprimimos la respuesta del servidor.
-	log.Printf("Respuesta del servidor: %s", r.GetMessage())
+
+	log.Printf("Respuesta del servidor: %s", r.GetHay())
+	log.Printf("          del servidor: %s", r.GetBotin())
+	log.Printf("          del servidor: %s", r.GetProbF())
+	log.Printf("          del servidor: %s", r.GetProbT())
+	log.Printf("          del servidor: %s", r.GetRiesgo())
 }

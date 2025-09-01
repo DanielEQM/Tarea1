@@ -1,8 +1,13 @@
-# Dockerizar server
+#compilar proto
+protoC:
+	cd Lester/proto && protoc --go_out=. --go-grpc_out=. ./lester.proto
+	cd Michael/proto && protoc --go_out=. --go-grpc_out=. ./michael.proto
+
+# Dockerizar lester
 docker-lester: 
 	sudo docker-compose up --build lester
 
-# Dockerizar client
+# Dockerizar michael
 docker-michael:
 	sudo docker-compose up --build michael
 

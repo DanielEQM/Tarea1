@@ -8,15 +8,19 @@ package mensaje;
 // El servicio "Greeter" define un conjunto de funciones remotas.
 service Greeter {
   // Nuestra función remota. Recibe un HelloRequest y devuelve un HelloResponse.
-  rpc SayHello (HelloRequest) returns (HelloResponse);
+  rpc GiveMission (MissionRequest) returns (MissionResponse);
 }
 
 // El mensaje de solicitud. Contiene el nombre de la persona a saludar.
-message HelloRequest {
-  string name = 1;
+message MissionRequest {
+  string pregunta = 1;
 }
 
 // El mensaje de respuesta. Contendrá el saludo final.
-message HelloResponse {
-  string message = 1;
+message MissionResponse {
+  string hay = 1;
+  string botin = 2;
+  string prob_f = 3;
+  string prob_t = 4;
+  string riesgo = 5;
 }

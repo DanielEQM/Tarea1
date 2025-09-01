@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"log"
+	"math/rand"
 	"net"
 
 	// Importamos el código generado por protoc
@@ -17,12 +18,19 @@ type server struct {
 	pb.UnimplementedGreeterServer
 }
 
+// var rechazo = 0
+
 // SayHello es la implementación de la función definida en el archivo .proto.
 // Esta es la lógica real que se ejecuta cuando un cliente llama a este RPC.
-func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloResponse, error) {
-	log.Printf("Recibida petición de: %v", in.GetName())
+func (s *server) GiveMission(ctx context.Context, in *pb.MissionRequest) (*pb.MissionResponse, error) {
+	log.Printf("Recibida petición de: %v", in.GetPregunta())
 	// Creamos y devolvemos la respuesta.
-	return &pb.HelloResponse{Message: "Hola, " + in.GetName() + "!"}, nil
+	prob := rand.Intn(100)
+	if prob >= 90 {
+		return &pb.MissionResponse{Hay: "NO", Botin: "", ProbF: "", ProbT: "", Riesgo: ""}, nil
+	}
+	return &pb.MissionResponse{Hay: "YES", Botin: "1", ProbF: "2", ProbT: "3", Riesgo: "4"}, nil
+
 }
 
 func main() {

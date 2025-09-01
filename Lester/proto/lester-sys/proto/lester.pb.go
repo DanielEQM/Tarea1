@@ -24,27 +24,27 @@ const (
 )
 
 // El mensaje de solicitud. Contiene el nombre de la persona a saludar.
-type HelloRequest struct {
+type MissionRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Pregunta      string                 `protobuf:"bytes,1,opt,name=pregunta,proto3" json:"pregunta,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *HelloRequest) Reset() {
-	*x = HelloRequest{}
+func (x *MissionRequest) Reset() {
+	*x = MissionRequest{}
 	mi := &file_lester_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *HelloRequest) String() string {
+func (x *MissionRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*HelloRequest) ProtoMessage() {}
+func (*MissionRequest) ProtoMessage() {}
 
-func (x *HelloRequest) ProtoReflect() protoreflect.Message {
+func (x *MissionRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_lester_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -56,40 +56,44 @@ func (x *HelloRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use HelloRequest.ProtoReflect.Descriptor instead.
-func (*HelloRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use MissionRequest.ProtoReflect.Descriptor instead.
+func (*MissionRequest) Descriptor() ([]byte, []int) {
 	return file_lester_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *HelloRequest) GetName() string {
+func (x *MissionRequest) GetPregunta() string {
 	if x != nil {
-		return x.Name
+		return x.Pregunta
 	}
 	return ""
 }
 
 // El mensaje de respuesta. Contendrá el saludo final.
-type HelloResponse struct {
+type MissionResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Message       string                 `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
+	Hay           string                 `protobuf:"bytes,1,opt,name=hay,proto3" json:"hay,omitempty"`
+	Botin         string                 `protobuf:"bytes,2,opt,name=botin,proto3" json:"botin,omitempty"`
+	ProbF         string                 `protobuf:"bytes,3,opt,name=prob_f,json=probF,proto3" json:"prob_f,omitempty"`
+	ProbT         string                 `protobuf:"bytes,4,opt,name=prob_t,json=probT,proto3" json:"prob_t,omitempty"`
+	Riesgo        string                 `protobuf:"bytes,5,opt,name=riesgo,proto3" json:"riesgo,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *HelloResponse) Reset() {
-	*x = HelloResponse{}
+func (x *MissionResponse) Reset() {
+	*x = MissionResponse{}
 	mi := &file_lester_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *HelloResponse) String() string {
+func (x *MissionResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*HelloResponse) ProtoMessage() {}
+func (*MissionResponse) ProtoMessage() {}
 
-func (x *HelloResponse) ProtoReflect() protoreflect.Message {
+func (x *MissionResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_lester_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -101,14 +105,42 @@ func (x *HelloResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use HelloResponse.ProtoReflect.Descriptor instead.
-func (*HelloResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use MissionResponse.ProtoReflect.Descriptor instead.
+func (*MissionResponse) Descriptor() ([]byte, []int) {
 	return file_lester_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *HelloResponse) GetMessage() string {
+func (x *MissionResponse) GetHay() string {
 	if x != nil {
-		return x.Message
+		return x.Hay
+	}
+	return ""
+}
+
+func (x *MissionResponse) GetBotin() string {
+	if x != nil {
+		return x.Botin
+	}
+	return ""
+}
+
+func (x *MissionResponse) GetProbF() string {
+	if x != nil {
+		return x.ProbF
+	}
+	return ""
+}
+
+func (x *MissionResponse) GetProbT() string {
+	if x != nil {
+		return x.ProbT
+	}
+	return ""
+}
+
+func (x *MissionResponse) GetRiesgo() string {
+	if x != nil {
+		return x.Riesgo
 	}
 	return ""
 }
@@ -117,13 +149,17 @@ var File_lester_proto protoreflect.FileDescriptor
 
 const file_lester_proto_rawDesc = "" +
 	"\n" +
-	"\flester.proto\x12\amensaje\"\"\n" +
-	"\fHelloRequest\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\")\n" +
-	"\rHelloResponse\x12\x18\n" +
-	"\amessage\x18\x01 \x01(\tR\amessage2D\n" +
-	"\aGreeter\x129\n" +
-	"\bSayHello\x12\x15.mensaje.HelloRequest\x1a\x16.mensaje.HelloResponseB\x12Z\x10lester-sys/protob\x06proto3"
+	"\flester.proto\x12\amensaje\",\n" +
+	"\x0eMissionRequest\x12\x1a\n" +
+	"\bpregunta\x18\x01 \x01(\tR\bpregunta\"\x7f\n" +
+	"\x0fMissionResponse\x12\x10\n" +
+	"\x03hay\x18\x01 \x01(\tR\x03hay\x12\x14\n" +
+	"\x05botin\x18\x02 \x01(\tR\x05botin\x12\x15\n" +
+	"\x06prob_f\x18\x03 \x01(\tR\x05probF\x12\x15\n" +
+	"\x06prob_t\x18\x04 \x01(\tR\x05probT\x12\x16\n" +
+	"\x06riesgo\x18\x05 \x01(\tR\x06riesgo2K\n" +
+	"\aGreeter\x12@\n" +
+	"\vGiveMission\x12\x17.mensaje.MissionRequest\x1a\x18.mensaje.MissionResponseB\x12Z\x10lester-sys/protob\x06proto3"
 
 var (
 	file_lester_proto_rawDescOnce sync.Once
@@ -139,12 +175,12 @@ func file_lester_proto_rawDescGZIP() []byte {
 
 var file_lester_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_lester_proto_goTypes = []any{
-	(*HelloRequest)(nil),  // 0: mensaje.HelloRequest
-	(*HelloResponse)(nil), // 1: mensaje.HelloResponse
+	(*MissionRequest)(nil),  // 0: mensaje.MissionRequest
+	(*MissionResponse)(nil), // 1: mensaje.MissionResponse
 }
 var file_lester_proto_depIdxs = []int32{
-	0, // 0: mensaje.Greeter.SayHello:input_type -> mensaje.HelloRequest
-	1, // 1: mensaje.Greeter.SayHello:output_type -> mensaje.HelloResponse
+	0, // 0: mensaje.Greeter.GiveMission:input_type -> mensaje.MissionRequest
+	1, // 1: mensaje.Greeter.GiveMission:output_type -> mensaje.MissionResponse
 	1, // [1:2] is the sub-list for method output_type
 	0, // [0:1] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
