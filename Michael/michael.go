@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"log"
-	"os"
 	"time"
 
 	pb "Michael/proto/michael-sys/proto" // Reemplaza con el path de tu módulo
@@ -37,10 +36,6 @@ func main() {
 	defer cancel()
 
 	// Tomamos un nombre de los argumentos de la línea de comandos, o usamos "Mundo"
-	pregunta := "Hola"
-	if len(os.Args) > 1 {
-		pregunta = os.Args[1]
-	}
 
 	// 4. ¡Llamamos a la función remota!
 	//    Esto parece una llamada a una función local, pero gRPC se encarga de
@@ -49,9 +44,8 @@ func main() {
 	var rechazo int32 = 0
 	keep := true
 	for keep {
-		r, err := c.Oferta(ctx, &pb.MissionRequest{Pregunta: pregunta, Rechazo: rechazo})
+		r, err := c.Oferta(ctx, &pb.MissionRequest{Rechazo: rechazo})
 		if rechazo == 3 {
-			time.Sleep(10 * time.Second)
 			rechazo = 0
 		}
 		if err != nil {
@@ -74,10 +68,8 @@ func main() {
 	}
 	// 5. Imprimimos la respuesta del servidor.
 
-	r1, err := c.ConfirmMission(ctx, &pb.ConfirmRequest{Conf: true})
+	_, err = c.ConfirmMission(ctx, &pb.ConfirmRequest{Conf: true})
 	if err != nil {
 		log.Fatalf("No se pudo saludar: %v", err)
 	}
-
-	log.Printf("Respuesta del servidor: %t", r1.GetConf())
 }

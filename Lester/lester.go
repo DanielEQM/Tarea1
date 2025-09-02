@@ -5,6 +5,7 @@ import (
 	"log"
 	"math/rand"
 	"net"
+	"time"
 
 	// Importamos el código generado por protoc
 	pb "Lester/proto/lester-sys/proto" // Reemplaza con el path de tu módulo
@@ -23,24 +24,24 @@ type server struct {
 // SayHello es la implementación de la función definida en el archivo .proto.
 // Esta es la lógica real que se ejecuta cuando un cliente llama a este RPC.
 func (s *server) Oferta(ctx context.Context, in *pb.MissionRequest) (*pb.MissionResponse, error) {
-	log.Printf("Recibida petición de: %v, con %d rechazos", in.GetPregunta(), in.GetRechazo())
+	log.Printf("Recibida petición con %d rechazos", in.GetRechazo())
 	if in.GetRechazo() == 3 {
 		log.Printf("Ahora te esperas")
+		time.Sleep(10 * time.Second)
 	}
 	// Creamos y devolvemos la respuesta.
 	prob := rand.Intn(100)
 	log.Printf("La probabilidad es de %d", prob)
-	if prob < 50 {
+	if prob > 90 {
 		return &pb.MissionResponse{Disp: false, Botin: 0, ProbF: 0, ProbT: 0, Riesgo: 0}, nil
 	}
-	if prob > 60 {
-		return &pb.MissionResponse{Disp: true, Botin: 100, ProbF: 40, ProbT: 40}, nil
-	}
+
 	return &pb.MissionResponse{Disp: true, Botin: 100, ProbF: 70, ProbT: 70, Riesgo: 70}, nil
 }
 
 func (s1 *server) ConfirmMission(ctx context.Context, in *pb.ConfirmRequest) (*pb.ConfirmResponse, error) {
-	return &pb.ConfirmResponse{Conf: true}, nil
+	// debe hacer algo
+	return &pb.ConfirmResponse{}, nil
 }
 
 func main() {

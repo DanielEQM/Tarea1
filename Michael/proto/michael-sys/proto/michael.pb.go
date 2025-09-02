@@ -26,8 +26,7 @@ const (
 // El mensaje de solicitud. Contiene el nombre de la persona a saludar.
 type MissionRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Pregunta      string                 `protobuf:"bytes,1,opt,name=pregunta,proto3" json:"pregunta,omitempty"`
-	Rechazo       int32                  `protobuf:"varint,2,opt,name=rechazo,proto3" json:"rechazo,omitempty"`
+	Rechazo       int32                  `protobuf:"varint,1,opt,name=rechazo,proto3" json:"rechazo,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -60,13 +59,6 @@ func (x *MissionRequest) ProtoReflect() protoreflect.Message {
 // Deprecated: Use MissionRequest.ProtoReflect.Descriptor instead.
 func (*MissionRequest) Descriptor() ([]byte, []int) {
 	return file_michael_proto_rawDescGZIP(), []int{0}
-}
-
-func (x *MissionRequest) GetPregunta() string {
-	if x != nil {
-		return x.Pregunta
-	}
-	return ""
 }
 
 func (x *MissionRequest) GetRechazo() int32 {
@@ -199,7 +191,6 @@ func (x *ConfirmRequest) GetConf() bool {
 
 type ConfirmResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Conf          bool                   `protobuf:"varint,1,opt,name=conf,proto3" json:"conf,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -234,21 +225,13 @@ func (*ConfirmResponse) Descriptor() ([]byte, []int) {
 	return file_michael_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *ConfirmResponse) GetConf() bool {
-	if x != nil {
-		return x.Conf
-	}
-	return false
-}
-
 var File_michael_proto protoreflect.FileDescriptor
 
 const file_michael_proto_rawDesc = "" +
 	"\n" +
-	"\rmichael.proto\x12\amensaje\"F\n" +
-	"\x0eMissionRequest\x12\x1a\n" +
-	"\bpregunta\x18\x01 \x01(\tR\bpregunta\x12\x18\n" +
-	"\arechazo\x18\x02 \x01(\x05R\arechazo\"\x81\x01\n" +
+	"\rmichael.proto\x12\amensaje\"*\n" +
+	"\x0eMissionRequest\x12\x18\n" +
+	"\arechazo\x18\x01 \x01(\x05R\arechazo\"\x81\x01\n" +
 	"\x0fMissionResponse\x12\x12\n" +
 	"\x04disp\x18\x01 \x01(\bR\x04disp\x12\x14\n" +
 	"\x05botin\x18\x02 \x01(\x05R\x05botin\x12\x15\n" +
@@ -256,9 +239,8 @@ const file_michael_proto_rawDesc = "" +
 	"\x06prob_t\x18\x04 \x01(\x05R\x05probT\x12\x16\n" +
 	"\x06riesgo\x18\x05 \x01(\x05R\x06riesgo\"$\n" +
 	"\x0eConfirmRequest\x12\x12\n" +
-	"\x04conf\x18\x01 \x01(\bR\x04conf\"%\n" +
-	"\x0fConfirmResponse\x12\x12\n" +
-	"\x04conf\x18\x01 \x01(\bR\x04conf2\x8b\x01\n" +
+	"\x04conf\x18\x01 \x01(\bR\x04conf\"\x11\n" +
+	"\x0fConfirmResponse2\x8b\x01\n" +
 	"\aMission\x12;\n" +
 	"\x06Oferta\x12\x17.mensaje.MissionRequest\x1a\x18.mensaje.MissionResponse\x12C\n" +
 	"\x0eConfirmMission\x12\x17.mensaje.ConfirmRequest\x1a\x18.mensaje.ConfirmResponseB\x13Z\x11michael-sys/protob\x06proto3"

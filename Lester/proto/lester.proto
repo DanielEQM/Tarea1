@@ -14,8 +14,7 @@ service Mission {
 
 // El mensaje de solicitud. Contiene el nombre de la persona a saludar.
 message MissionRequest {
-  string pregunta = 1;
-  int32 rechazo = 2;
+  int32 rechazo = 1;
 }
 
 // El mensaje de respuesta. Contendrá el saludo final.
@@ -31,6 +30,4 @@ message ConfirmRequest {
   bool conf = 1;
 }
 
-message ConfirmResponse {
-  bool conf = 1;
-}
+message ConfirmResponse {}
