@@ -4,7 +4,7 @@
 // versions:
 // 	protoc-gen-go v1.36.8
 // 	protoc        v3.21.12
-// source: franklin.proto
+// source: trevor.proto
 
 package proto
 
@@ -32,7 +32,7 @@ type DistraccionRequest struct {
 
 func (x *DistraccionRequest) Reset() {
 	*x = DistraccionRequest{}
-	mi := &file_franklin_proto_msgTypes[0]
+	mi := &file_trevor_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -44,7 +44,7 @@ func (x *DistraccionRequest) String() string {
 func (*DistraccionRequest) ProtoMessage() {}
 
 func (x *DistraccionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_franklin_proto_msgTypes[0]
+	mi := &file_trevor_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -57,7 +57,7 @@ func (x *DistraccionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DistraccionRequest.ProtoReflect.Descriptor instead.
 func (*DistraccionRequest) Descriptor() ([]byte, []int) {
-	return file_franklin_proto_rawDescGZIP(), []int{0}
+	return file_trevor_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *DistraccionRequest) GetTurnos() int32 {
@@ -77,7 +77,7 @@ type DistraccionResponse struct {
 
 func (x *DistraccionResponse) Reset() {
 	*x = DistraccionResponse{}
-	mi := &file_franklin_proto_msgTypes[1]
+	mi := &file_trevor_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -89,7 +89,7 @@ func (x *DistraccionResponse) String() string {
 func (*DistraccionResponse) ProtoMessage() {}
 
 func (x *DistraccionResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_franklin_proto_msgTypes[1]
+	mi := &file_trevor_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -102,7 +102,7 @@ func (x *DistraccionResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DistraccionResponse.ProtoReflect.Descriptor instead.
 func (*DistraccionResponse) Descriptor() ([]byte, []int) {
-	return file_franklin_proto_rawDescGZIP(), []int{1}
+	return file_trevor_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *DistraccionResponse) GetConfirmacion() bool {
@@ -128,7 +128,7 @@ type GolpeRequest struct {
 
 func (x *GolpeRequest) Reset() {
 	*x = GolpeRequest{}
-	mi := &file_franklin_proto_msgTypes[2]
+	mi := &file_trevor_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -140,7 +140,7 @@ func (x *GolpeRequest) String() string {
 func (*GolpeRequest) ProtoMessage() {}
 
 func (x *GolpeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_franklin_proto_msgTypes[2]
+	mi := &file_trevor_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -153,7 +153,7 @@ func (x *GolpeRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GolpeRequest.ProtoReflect.Descriptor instead.
 func (*GolpeRequest) Descriptor() ([]byte, []int) {
-	return file_franklin_proto_rawDescGZIP(), []int{2}
+	return file_trevor_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *GolpeRequest) GetTurnos() int32 {
@@ -174,7 +174,7 @@ type GolpeResponse struct {
 
 func (x *GolpeResponse) Reset() {
 	*x = GolpeResponse{}
-	mi := &file_franklin_proto_msgTypes[3]
+	mi := &file_trevor_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -186,7 +186,7 @@ func (x *GolpeResponse) String() string {
 func (*GolpeResponse) ProtoMessage() {}
 
 func (x *GolpeResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_franklin_proto_msgTypes[3]
+	mi := &file_trevor_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -199,7 +199,7 @@ func (x *GolpeResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GolpeResponse.ProtoReflect.Descriptor instead.
 func (*GolpeResponse) Descriptor() ([]byte, []int) {
-	return file_franklin_proto_rawDescGZIP(), []int{3}
+	return file_trevor_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *GolpeResponse) GetConfirmacion() bool {
@@ -223,11 +223,11 @@ func (x *GolpeResponse) GetRazon() string {
 	return ""
 }
 
-var File_franklin_proto protoreflect.FileDescriptor
+var File_trevor_proto protoreflect.FileDescriptor
 
-const file_franklin_proto_rawDesc = "" +
+const file_trevor_proto_rawDesc = "" +
 	"\n" +
-	"\x0efranklin.proto\x12\amensaje\",\n" +
+	"\ftrevor.proto\x12\amensaje\",\n" +
 	"\x12DistraccionRequest\x12\x16\n" +
 	"\x06turnos\x18\x01 \x01(\x05R\x06turnos\"O\n" +
 	"\x13DistraccionResponse\x12\"\n" +
@@ -243,28 +243,28 @@ const file_franklin_proto_rawDesc = "" +
 	"\x05razon\x18\x03 \x01(\tR\x05razon2\x8b\x01\n" +
 	"\aMission\x12H\n" +
 	"\vDistraccion\x12\x1b.mensaje.DistraccionRequest\x1a\x1c.mensaje.DistraccionResponse\x126\n" +
-	"\x05Golpe\x12\x15.mensaje.GolpeRequest\x1a\x16.mensaje.GolpeResponseB\x14Z\x12franklin-sys/protob\x06proto3"
+	"\x05Golpe\x12\x15.mensaje.GolpeRequest\x1a\x16.mensaje.GolpeResponseB\x12Z\x10trevor-sys/protob\x06proto3"
 
 var (
-	file_franklin_proto_rawDescOnce sync.Once
-	file_franklin_proto_rawDescData []byte
+	file_trevor_proto_rawDescOnce sync.Once
+	file_trevor_proto_rawDescData []byte
 )
 
-func file_franklin_proto_rawDescGZIP() []byte {
-	file_franklin_proto_rawDescOnce.Do(func() {
-		file_franklin_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_franklin_proto_rawDesc), len(file_franklin_proto_rawDesc)))
+func file_trevor_proto_rawDescGZIP() []byte {
+	file_trevor_proto_rawDescOnce.Do(func() {
+		file_trevor_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_trevor_proto_rawDesc), len(file_trevor_proto_rawDesc)))
 	})
-	return file_franklin_proto_rawDescData
+	return file_trevor_proto_rawDescData
 }
 
-var file_franklin_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
-var file_franklin_proto_goTypes = []any{
+var file_trevor_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_trevor_proto_goTypes = []any{
 	(*DistraccionRequest)(nil),  // 0: mensaje.DistraccionRequest
 	(*DistraccionResponse)(nil), // 1: mensaje.DistraccionResponse
 	(*GolpeRequest)(nil),        // 2: mensaje.GolpeRequest
 	(*GolpeResponse)(nil),       // 3: mensaje.GolpeResponse
 }
-var file_franklin_proto_depIdxs = []int32{
+var file_trevor_proto_depIdxs = []int32{
 	0, // 0: mensaje.Mission.Distraccion:input_type -> mensaje.DistraccionRequest
 	2, // 1: mensaje.Mission.Golpe:input_type -> mensaje.GolpeRequest
 	1, // 2: mensaje.Mission.Distraccion:output_type -> mensaje.DistraccionResponse
@@ -276,26 +276,26 @@ var file_franklin_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_franklin_proto_init() }
-func file_franklin_proto_init() {
-	if File_franklin_proto != nil {
+func init() { file_trevor_proto_init() }
+func file_trevor_proto_init() {
+	if File_trevor_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_franklin_proto_rawDesc), len(file_franklin_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_trevor_proto_rawDesc), len(file_trevor_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_franklin_proto_goTypes,
-		DependencyIndexes: file_franklin_proto_depIdxs,
-		MessageInfos:      file_franklin_proto_msgTypes,
+		GoTypes:           file_trevor_proto_goTypes,
+		DependencyIndexes: file_trevor_proto_depIdxs,
+		MessageInfos:      file_trevor_proto_msgTypes,
 	}.Build()
-	File_franklin_proto = out.File
-	file_franklin_proto_goTypes = nil
-	file_franklin_proto_depIdxs = nil
+	File_trevor_proto = out.File
+	file_trevor_proto_goTypes = nil
+	file_trevor_proto_depIdxs = nil
 }

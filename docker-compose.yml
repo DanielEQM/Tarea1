@@ -14,6 +14,8 @@ services:
     container_name: michael-container
     depends_on:
       - lester
+      - franklin
+      - trevor
 
   franklin:
     build: 
@@ -21,3 +23,10 @@ services:
     container_name: franklin-container
     ports:
       - "50052:50052"
+
+  trevor:
+    build:
+      context: ./trevor
+    container_name: trevor-container
+    ports:
+      - "50053:50053"

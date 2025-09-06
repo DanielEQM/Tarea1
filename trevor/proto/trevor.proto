@@ -2,7 +2,7 @@
 syntax = "proto3";
 
 // Define el paquete de Go que se generará. Evita colisiones de nombres.
-option go_package = "franklin-sys/proto";
+option go_package = "trevor-sys/proto";
 package mensaje;
 
 service Mission {

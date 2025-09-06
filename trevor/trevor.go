@@ -7,7 +7,7 @@ import (
 	"net"
 
 	// Importamos el código generado por protoc
-	pb "franklin/proto/franklin-sys/proto" // Reemplaza con el path de tu módulo
+	pb "trevor/proto/trevor-sys/proto" // Reemplaza con el path de tu módulo
 
 	"google.golang.org/grpc"
 )
@@ -20,37 +20,36 @@ func (s *server) Distraccion(ctx context.Context, in *pb.DistraccionRequest) (*p
 	prob := rand.Intn(100)
 	log.Printf("la probabilidad es: %d", prob)
 	if prob < 10 {
-		log.Printf("Chop, para de ladrar!")
-		log.Printf("Oh no, fallamos")
-		return &pb.DistraccionResponse{Confirmacion: false, Razon: "Chop me distrajo"}, nil
+		log.Printf("Parece que bebi más de la cuenta... zzz")
+		return &pb.DistraccionResponse{Confirmacion: false, Razon: "Bebi más de la cuenta"}, nil
 	}
 	return &pb.DistraccionResponse{Confirmacion: true}, nil
 }
 
-func (s *server) Golpe(ctx context.Context, in *pb.GolpeRequest) (*pb.GolpeResponse, error) {
+func (s *server) Golpe(stx context.Context, in *pb.GolpeRequest) (*pb.GolpeResponse, error) {
 	var estrellas int = 0
 	limite := 5
-	extra := 0
 	victoria := true
 	razon := ""
 	for i := 1; i < int(in.GetTurnos()); i++ {
-		// acá se lee?
+		log.Printf("Turno: %d", i)
+		// Acá lee?
+		if estrellas == 5 {
+			limite = 7
+		}
 		if estrellas == limite {
 			victoria = false
-			razon = "Se llego a 5 estrellas..."
-			extra = 0
+			razon = "Se llego a 7 estrellas..."
 			break
 		}
-		if estrellas >= 3 {
-			extra += 1000
-		}
 	}
-	return &pb.GolpeResponse{Confirmacion: victoria, BotinExtra: int32(extra), Razon: razon}, nil
+	estrellas++
+	return &pb.GolpeResponse{Confirmacion: victoria, Razon: razon}, nil
 }
 
 func main() {
 	// 1. Abrimos un puerto para escuchar (en este caso, el 50051)
-	lis, err := net.Listen("tcp", ":50052")
+	lis, err := net.Listen("tcp", ":50053")
 	if err != nil {
 		log.Fatalf("Fallo al escuchar: %v", err)
 	}

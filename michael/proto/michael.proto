@@ -11,6 +11,7 @@ service Mission {
   rpc Oferta (MissionRequest) returns (MissionResponse);
   rpc ConfirmMission (ConfirmRequest) returns (ConfirmResponse);
   rpc Distraccion(DistraccionRequest) returns (DistraccionResponse);
+  rpc Golpe(GolpeRequest) returns (GolpeResponse);
 }
 
 // El mensaje de solicitud. Contiene el nombre de la persona a saludar.
@@ -39,4 +40,14 @@ message DistraccionRequest {
 
 message DistraccionResponse {
   bool confirmacion = 1;
+}
+
+message GolpeRequest {
+  int32 turnos = 1;
+}
+
+message GolpeResponse {
+  bool confirmacion = 1;
+  int32 botinExtra = 2;
+  string razon = 3;
 }

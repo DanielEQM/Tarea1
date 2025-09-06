@@ -4,7 +4,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v3.21.12
-// source: franklin.proto
+// source: trevor.proto
 
 package proto
 
@@ -157,5 +157,5 @@ var Mission_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "franklin.proto",
+	Metadata: "trevor.proto",
 }

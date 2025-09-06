@@ -313,6 +313,110 @@ func (x *DistraccionResponse) GetConfirmacion() bool {
 	return false
 }
 
+type GolpeRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Turnos        int32                  `protobuf:"varint,1,opt,name=turnos,proto3" json:"turnos,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GolpeRequest) Reset() {
+	*x = GolpeRequest{}
+	mi := &file_michael_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GolpeRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GolpeRequest) ProtoMessage() {}
+
+func (x *GolpeRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_michael_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GolpeRequest.ProtoReflect.Descriptor instead.
+func (*GolpeRequest) Descriptor() ([]byte, []int) {
+	return file_michael_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *GolpeRequest) GetTurnos() int32 {
+	if x != nil {
+		return x.Turnos
+	}
+	return 0
+}
+
+type GolpeResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Confirmacion  bool                   `protobuf:"varint,1,opt,name=confirmacion,proto3" json:"confirmacion,omitempty"`
+	BotinExtra    int32                  `protobuf:"varint,2,opt,name=botinExtra,proto3" json:"botinExtra,omitempty"`
+	Razon         string                 `protobuf:"bytes,3,opt,name=razon,proto3" json:"razon,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GolpeResponse) Reset() {
+	*x = GolpeResponse{}
+	mi := &file_michael_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GolpeResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GolpeResponse) ProtoMessage() {}
+
+func (x *GolpeResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_michael_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GolpeResponse.ProtoReflect.Descriptor instead.
+func (*GolpeResponse) Descriptor() ([]byte, []int) {
+	return file_michael_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *GolpeResponse) GetConfirmacion() bool {
+	if x != nil {
+		return x.Confirmacion
+	}
+	return false
+}
+
+func (x *GolpeResponse) GetBotinExtra() int32 {
+	if x != nil {
+		return x.BotinExtra
+	}
+	return 0
+}
+
+func (x *GolpeResponse) GetRazon() string {
+	if x != nil {
+		return x.Razon
+	}
+	return ""
+}
+
 var File_michael_proto protoreflect.FileDescriptor
 
 const file_michael_proto_rawDesc = "" +
@@ -332,11 +436,20 @@ const file_michael_proto_rawDesc = "" +
 	"\x12DistraccionRequest\x12\x16\n" +
 	"\x06turnos\x18\x01 \x01(\x05R\x06turnos\"9\n" +
 	"\x13DistraccionResponse\x12\"\n" +
-	"\fconfirmacion\x18\x01 \x01(\bR\fconfirmacion2\xd5\x01\n" +
+	"\fconfirmacion\x18\x01 \x01(\bR\fconfirmacion\"&\n" +
+	"\fGolpeRequest\x12\x16\n" +
+	"\x06turnos\x18\x01 \x01(\x05R\x06turnos\"i\n" +
+	"\rGolpeResponse\x12\"\n" +
+	"\fconfirmacion\x18\x01 \x01(\bR\fconfirmacion\x12\x1e\n" +
+	"\n" +
+	"botinExtra\x18\x02 \x01(\x05R\n" +
+	"botinExtra\x12\x14\n" +
+	"\x05razon\x18\x03 \x01(\tR\x05razon2\x8d\x02\n" +
 	"\aMission\x12;\n" +
 	"\x06Oferta\x12\x17.mensaje.MissionRequest\x1a\x18.mensaje.MissionResponse\x12C\n" +
 	"\x0eConfirmMission\x12\x17.mensaje.ConfirmRequest\x1a\x18.mensaje.ConfirmResponse\x12H\n" +
-	"\vDistraccion\x12\x1b.mensaje.DistraccionRequest\x1a\x1c.mensaje.DistraccionResponseB\x13Z\x11michael-sys/protob\x06proto3"
+	"\vDistraccion\x12\x1b.mensaje.DistraccionRequest\x1a\x1c.mensaje.DistraccionResponse\x126\n" +
+	"\x05Golpe\x12\x15.mensaje.GolpeRequest\x1a\x16.mensaje.GolpeResponseB\x13Z\x11michael-sys/protob\x06proto3"
 
 var (
 	file_michael_proto_rawDescOnce sync.Once
@@ -350,7 +463,7 @@ func file_michael_proto_rawDescGZIP() []byte {
 	return file_michael_proto_rawDescData
 }
 
-var file_michael_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_michael_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_michael_proto_goTypes = []any{
 	(*MissionRequest)(nil),      // 0: mensaje.MissionRequest
 	(*MissionResponse)(nil),     // 1: mensaje.MissionResponse
@@ -358,16 +471,20 @@ var file_michael_proto_goTypes = []any{
 	(*ConfirmResponse)(nil),     // 3: mensaje.ConfirmResponse
 	(*DistraccionRequest)(nil),  // 4: mensaje.DistraccionRequest
 	(*DistraccionResponse)(nil), // 5: mensaje.DistraccionResponse
+	(*GolpeRequest)(nil),        // 6: mensaje.GolpeRequest
+	(*GolpeResponse)(nil),       // 7: mensaje.GolpeResponse
 }
 var file_michael_proto_depIdxs = []int32{
 	0, // 0: mensaje.Mission.Oferta:input_type -> mensaje.MissionRequest
 	2, // 1: mensaje.Mission.ConfirmMission:input_type -> mensaje.ConfirmRequest
 	4, // 2: mensaje.Mission.Distraccion:input_type -> mensaje.DistraccionRequest
-	1, // 3: mensaje.Mission.Oferta:output_type -> mensaje.MissionResponse
-	3, // 4: mensaje.Mission.ConfirmMission:output_type -> mensaje.ConfirmResponse
-	5, // 5: mensaje.Mission.Distraccion:output_type -> mensaje.DistraccionResponse
-	3, // [3:6] is the sub-list for method output_type
-	0, // [0:3] is the sub-list for method input_type
+	6, // 3: mensaje.Mission.Golpe:input_type -> mensaje.GolpeRequest
+	1, // 4: mensaje.Mission.Oferta:output_type -> mensaje.MissionResponse
+	3, // 5: mensaje.Mission.ConfirmMission:output_type -> mensaje.ConfirmResponse
+	5, // 6: mensaje.Mission.Distraccion:output_type -> mensaje.DistraccionResponse
+	7, // 7: mensaje.Mission.Golpe:output_type -> mensaje.GolpeResponse
+	4, // [4:8] is the sub-list for method output_type
+	0, // [0:4] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -384,7 +501,7 @@ func file_michael_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_michael_proto_rawDesc), len(file_michael_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

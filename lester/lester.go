@@ -39,7 +39,7 @@ func (s *server) Oferta(ctx context.Context, in *pb.MissionRequest) (*pb.Mission
 	return &pb.MissionResponse{Disp: true, Botin: "100", ProbF: "70", ProbT: "60", Riesgo: "70"}, nil
 }
 
-func (s1 *server) ConfirmMission(ctx context.Context, in *pb.ConfirmRequest) (*pb.ConfirmResponse, error) {
+func (s *server) ConfirmMission(ctx context.Context, in *pb.ConfirmRequest) (*pb.ConfirmResponse, error) {
 	// debe hacer algo
 	return &pb.ConfirmResponse{}, nil
 }
@@ -53,13 +53,11 @@ func main() {
 
 	// 2. Creamos una nueva instancia del servidor gRPC
 	s := grpc.NewServer()
-	s1 := grpc.NewServer()
 
 	// 3. Registramos nuestro servicio 'Greeter' en el servidor gRPC.
 	//    Esto conecta nuestra implementación lógica (la struct 'server') con el
 	//    servicio definido en el .proto.
 	pb.RegisterMissionServer(s, &server{})
-	pb.RegisterMissionServer(s1, &server{})
 	log.Printf("Servidor escuchando en %v", lis.Addr())
 
 	// 4. Iniciamos el servidor para que empiece a aceptar peticiones en el puerto.

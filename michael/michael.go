@@ -44,7 +44,7 @@ func main() {
 	//    Este objeto 'c' es el que tiene los métodos remotos que podemos llamar.
 	L := pb.NewMissionClient(connL)
 	F := pb.NewMissionClient(connF)
-	// T := pb.NewMissionClient(connT)
+	T := pb.NewMissionClient(connT)
 
 	// 3. Preparamos el contexto y los datos para la llamada remota.
 	//    Un contexto puede llevar deadlines, cancelaciones, y otros valores a través
@@ -95,20 +95,68 @@ func main() {
 	if err != nil {
 		log.Fatalf("No se pudo saludar: %v", err)
 	}
+	//----- Se guardan los datos
+	botin, _ := strconv.Atoi(r.GetBotin())
 	probF, _ := strconv.Atoi(r.GetProbF())
 	probT, _ := strconv.Atoi(r.GetProbT())
+	//riesgo, _ := strconv.Atoi(r.GetRiesgo())
 	log.Printf("probF: %d y probT: %d", probF, probT)
+	//-----
+
+	victoria := true
 	if probF > probT {
 		turnos := 200 - probF
 		log.Printf("%d", turnos)
-		d, err := F.Distraccion(ctx, &pb.DistraccionRequest{Turnos: int32(turnos)})
+		f, err := F.Distraccion(ctx, &pb.DistraccionRequest{Turnos: int32(turnos)})
 		if err != nil {
 			log.Fatalf("No se pudo saludar: %v", err)
 		}
-		if d.GetConfirmacion() {
-			log.Printf("Nice")
+		if f.GetConfirmacion() {
+			turnos = 200 - probT
+			t, err := T.Golpe(ctx, &pb.GolpeRequest{Turnos: int32(turnos)})
+			if err != nil {
+				log.Fatalf("No se pudo saludar: %v", err)
+			}
+			if t.GetConfirmacion() {
+				log.Printf("Nice")
+			} else {
+				victoria = false
+			}
 		} else {
-			log.Printf("bad")
+			victoria = false
 		}
+	} else {
+		turnos := 200 - probT
+		log.Printf("%d", turnos)
+		t, err := T.Distraccion(ctx, &pb.DistraccionRequest{Turnos: int32(turnos)})
+		if err != nil {
+			log.Fatalf("No se pudo saludar: %v", err)
+		}
+		if t.GetConfirmacion() {
+			turnos = 200 - probF
+			f, err := F.Golpe(ctx, &pb.GolpeRequest{Turnos: int32(turnos)})
+			if err != nil {
+				log.Fatalf("No se pudo saludar: %v", err)
+			}
+			if f.GetConfirmacion() {
+				botin += int(f.GetBotinExtra())
+				log.Printf("Nice")
+			} else {
+				victoria = false
+			}
+		} else {
+			victoria = false
+		}
+	}
+	if victoria {
+		extra := botin % 4
+		botin -= extra
+		botin /= 4
+		log.Printf("botin lester: %d + extra: %d. Total: %d", botin, extra, botin+extra)
+		log.Printf("botin franklin: %d", botin)
+		log.Printf("botin trevor: %d", botin)
+		log.Printf("nice")
+	} else {
+		log.Printf("bad")
 	}
 }
