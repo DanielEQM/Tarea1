@@ -72,10 +72,10 @@ func (x *MissionRequest) GetRechazo() int32 {
 type MissionResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Disp          bool                   `protobuf:"varint,1,opt,name=disp,proto3" json:"disp,omitempty"`
-	Botin         int32                  `protobuf:"varint,2,opt,name=botin,proto3" json:"botin,omitempty"`
-	ProbF         int32                  `protobuf:"varint,3,opt,name=prob_f,json=probF,proto3" json:"prob_f,omitempty"`
-	ProbT         int32                  `protobuf:"varint,4,opt,name=prob_t,json=probT,proto3" json:"prob_t,omitempty"`
-	Riesgo        int32                  `protobuf:"varint,5,opt,name=riesgo,proto3" json:"riesgo,omitempty"`
+	Botin         string                 `protobuf:"bytes,2,opt,name=botin,proto3" json:"botin,omitempty"`
+	ProbF         string                 `protobuf:"bytes,3,opt,name=prob_f,json=probF,proto3" json:"prob_f,omitempty"`
+	ProbT         string                 `protobuf:"bytes,4,opt,name=prob_t,json=probT,proto3" json:"prob_t,omitempty"`
+	Riesgo        string                 `protobuf:"bytes,5,opt,name=riesgo,proto3" json:"riesgo,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -117,32 +117,32 @@ func (x *MissionResponse) GetDisp() bool {
 	return false
 }
 
-func (x *MissionResponse) GetBotin() int32 {
+func (x *MissionResponse) GetBotin() string {
 	if x != nil {
 		return x.Botin
 	}
-	return 0
+	return ""
 }
 
-func (x *MissionResponse) GetProbF() int32 {
+func (x *MissionResponse) GetProbF() string {
 	if x != nil {
 		return x.ProbF
 	}
-	return 0
+	return ""
 }
 
-func (x *MissionResponse) GetProbT() int32 {
+func (x *MissionResponse) GetProbT() string {
 	if x != nil {
 		return x.ProbT
 	}
-	return 0
+	return ""
 }
 
-func (x *MissionResponse) GetRiesgo() int32 {
+func (x *MissionResponse) GetRiesgo() string {
 	if x != nil {
 		return x.Riesgo
 	}
-	return 0
+	return ""
 }
 
 type ConfirmRequest struct {
@@ -234,10 +234,10 @@ const file_lester_proto_rawDesc = "" +
 	"\arechazo\x18\x01 \x01(\x05R\arechazo\"\x81\x01\n" +
 	"\x0fMissionResponse\x12\x12\n" +
 	"\x04disp\x18\x01 \x01(\bR\x04disp\x12\x14\n" +
-	"\x05botin\x18\x02 \x01(\x05R\x05botin\x12\x15\n" +
-	"\x06prob_f\x18\x03 \x01(\x05R\x05probF\x12\x15\n" +
-	"\x06prob_t\x18\x04 \x01(\x05R\x05probT\x12\x16\n" +
-	"\x06riesgo\x18\x05 \x01(\x05R\x06riesgo\"$\n" +
+	"\x05botin\x18\x02 \x01(\tR\x05botin\x12\x15\n" +
+	"\x06prob_f\x18\x03 \x01(\tR\x05probF\x12\x15\n" +
+	"\x06prob_t\x18\x04 \x01(\tR\x05probT\x12\x16\n" +
+	"\x06riesgo\x18\x05 \x01(\tR\x06riesgo\"$\n" +
 	"\x0eConfirmRequest\x12\x12\n" +
 	"\x04conf\x18\x01 \x01(\bR\x04conf\"\x11\n" +
 	"\x0fConfirmResponse2\x8b\x01\n" +

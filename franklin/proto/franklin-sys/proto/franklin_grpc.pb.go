@@ -4,7 +4,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v3.21.12
-// source: michael.proto
+// source: franklin.proto
 
 package proto
 
@@ -21,19 +21,14 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Mission_Oferta_FullMethodName         = "/mensaje.Mission/Oferta"
-	Mission_ConfirmMission_FullMethodName = "/mensaje.Mission/ConfirmMission"
+	Mission_Distraccion_FullMethodName = "/mensaje.Mission/Distraccion"
 )
 
 // MissionClient is the client API for Mission service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-//
-// El servicio "Greeter" define un conjunto de funciones remotas.
 type MissionClient interface {
-	// Nuestra función remota. Recibe un HelloRequest y devuelve un HelloResponse.
-	Oferta(ctx context.Context, in *MissionRequest, opts ...grpc.CallOption) (*MissionResponse, error)
-	ConfirmMission(ctx context.Context, in *ConfirmRequest, opts ...grpc.CallOption) (*ConfirmResponse, error)
+	Distraccion(ctx context.Context, in *DistraccionRequest, opts ...grpc.CallOption) (*DistraccionResponse, error)
 }
 
 type missionClient struct {
@@ -44,20 +39,10 @@ func NewMissionClient(cc grpc.ClientConnInterface) MissionClient {
 	return &missionClient{cc}
 }
 
-func (c *missionClient) Oferta(ctx context.Context, in *MissionRequest, opts ...grpc.CallOption) (*MissionResponse, error) {
+func (c *missionClient) Distraccion(ctx context.Context, in *DistraccionRequest, opts ...grpc.CallOption) (*DistraccionResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(MissionResponse)
-	err := c.cc.Invoke(ctx, Mission_Oferta_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *missionClient) ConfirmMission(ctx context.Context, in *ConfirmRequest, opts ...grpc.CallOption) (*ConfirmResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ConfirmResponse)
-	err := c.cc.Invoke(ctx, Mission_ConfirmMission_FullMethodName, in, out, cOpts...)
+	out := new(DistraccionResponse)
+	err := c.cc.Invoke(ctx, Mission_Distraccion_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -67,12 +52,8 @@ func (c *missionClient) ConfirmMission(ctx context.Context, in *ConfirmRequest, 
 // MissionServer is the server API for Mission service.
 // All implementations must embed UnimplementedMissionServer
 // for forward compatibility.
-//
-// El servicio "Greeter" define un conjunto de funciones remotas.
 type MissionServer interface {
-	// Nuestra función remota. Recibe un HelloRequest y devuelve un HelloResponse.
-	Oferta(context.Context, *MissionRequest) (*MissionResponse, error)
-	ConfirmMission(context.Context, *ConfirmRequest) (*ConfirmResponse, error)
+	Distraccion(context.Context, *DistraccionRequest) (*DistraccionResponse, error)
 	mustEmbedUnimplementedMissionServer()
 }
 
@@ -83,11 +64,8 @@ type MissionServer interface {
 // pointer dereference when methods are called.
 type UnimplementedMissionServer struct{}
 
-func (UnimplementedMissionServer) Oferta(context.Context, *MissionRequest) (*MissionResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Oferta not implemented")
-}
-func (UnimplementedMissionServer) ConfirmMission(context.Context, *ConfirmRequest) (*ConfirmResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ConfirmMission not implemented")
+func (UnimplementedMissionServer) Distraccion(context.Context, *DistraccionRequest) (*DistraccionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Distraccion not implemented")
 }
 func (UnimplementedMissionServer) mustEmbedUnimplementedMissionServer() {}
 func (UnimplementedMissionServer) testEmbeddedByValue()                 {}
@@ -110,38 +88,20 @@ func RegisterMissionServer(s grpc.ServiceRegistrar, srv MissionServer) {
 	s.RegisterService(&Mission_ServiceDesc, srv)
 }
 
-func _Mission_Oferta_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MissionRequest)
+func _Mission_Distraccion_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DistraccionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MissionServer).Oferta(ctx, in)
+		return srv.(MissionServer).Distraccion(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Mission_Oferta_FullMethodName,
+		FullMethod: Mission_Distraccion_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MissionServer).Oferta(ctx, req.(*MissionRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Mission_ConfirmMission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ConfirmRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(MissionServer).ConfirmMission(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Mission_ConfirmMission_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MissionServer).ConfirmMission(ctx, req.(*ConfirmRequest))
+		return srv.(MissionServer).Distraccion(ctx, req.(*DistraccionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -154,14 +114,10 @@ var Mission_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*MissionServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Oferta",
-			Handler:    _Mission_Oferta_Handler,
-		},
-		{
-			MethodName: "ConfirmMission",
-			Handler:    _Mission_ConfirmMission_Handler,
+			MethodName: "Distraccion",
+			Handler:    _Mission_Distraccion_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "michael.proto",
+	Metadata: "franklin.proto",
 }

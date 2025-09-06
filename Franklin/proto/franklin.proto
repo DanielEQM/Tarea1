@@ -1,6 +1,0 @@
-// Especifica la versión de la sintaxis de Protocol Buffers.
-syntax = "proto3";
-
-// Define el paquete de Go que se generará. Evita colisiones de nombres.
-option go_package = "franklin-sys/proto";
-package mensaje;

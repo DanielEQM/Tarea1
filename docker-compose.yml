@@ -3,14 +3,21 @@ version: "3.8"
 services:
   lester:
     build:
-      context: ./Lester
+      context: ./lester
     container_name: lester-container
     ports:
       - "50051:50051"
 
   michael:
     build:
-      context: ./Michael
+      context: ./michael
     container_name: michael-container
     depends_on:
       - lester
+
+  franklin:
+    build: 
+      context: ./franklin
+    container_name: franklin-container
+    ports:
+      - "50052:50052"

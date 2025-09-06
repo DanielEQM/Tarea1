@@ -20,10 +20,10 @@ message MissionRequest {
 // El mensaje de respuesta. Contendrá el saludo final.
 message MissionResponse {
   bool  disp = 1;
-  int32 botin = 2;
-  int32 prob_f = 3;
-  int32 prob_t = 4;
-  int32 riesgo = 5;
+  string botin = 2;
+  string prob_f = 3;
+  string prob_t = 4;
+  string riesgo = 5;
 }
 
 message ConfirmRequest {

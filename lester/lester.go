@@ -8,7 +8,7 @@ import (
 	"time"
 
 	// Importamos el código generado por protoc
-	pb "Lester/proto/lester-sys/proto" // Reemplaza con el path de tu módulo
+	pb "lester/proto/lester-sys/proto" // Reemplaza con el path de tu módulo
 
 	"google.golang.org/grpc"
 )
@@ -33,10 +33,10 @@ func (s *server) Oferta(ctx context.Context, in *pb.MissionRequest) (*pb.Mission
 	prob := rand.Intn(100)
 	log.Printf("La probabilidad es de %d", prob)
 	if prob > 90 {
-		return &pb.MissionResponse{Disp: false, Botin: 0, ProbF: 0, ProbT: 0, Riesgo: 0}, nil
+		return &pb.MissionResponse{Disp: false, Botin: "0", ProbF: "0", ProbT: "0", Riesgo: "0"}, nil
 	}
 
-	return &pb.MissionResponse{Disp: true, Botin: 100, ProbF: 70, ProbT: 70, Riesgo: 70}, nil
+	return &pb.MissionResponse{Disp: true, Botin: "100", ProbF: "70", ProbT: "60", Riesgo: "70"}, nil
 }
 
 func (s1 *server) ConfirmMission(ctx context.Context, in *pb.ConfirmRequest) (*pb.ConfirmResponse, error) {

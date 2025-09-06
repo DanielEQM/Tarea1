@@ -72,10 +72,10 @@ func (x *MissionRequest) GetRechazo() int32 {
 type MissionResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Disp          bool                   `protobuf:"varint,1,opt,name=disp,proto3" json:"disp,omitempty"`
-	Botin         int32                  `protobuf:"varint,2,opt,name=botin,proto3" json:"botin,omitempty"`
-	ProbF         int32                  `protobuf:"varint,3,opt,name=prob_f,json=probF,proto3" json:"prob_f,omitempty"`
-	ProbT         int32                  `protobuf:"varint,4,opt,name=prob_t,json=probT,proto3" json:"prob_t,omitempty"`
-	Riesgo        int32                  `protobuf:"varint,5,opt,name=riesgo,proto3" json:"riesgo,omitempty"`
+	Botin         string                 `protobuf:"bytes,2,opt,name=botin,proto3" json:"botin,omitempty"`
+	ProbF         string                 `protobuf:"bytes,3,opt,name=prob_f,json=probF,proto3" json:"prob_f,omitempty"`
+	ProbT         string                 `protobuf:"bytes,4,opt,name=prob_t,json=probT,proto3" json:"prob_t,omitempty"`
+	Riesgo        string                 `protobuf:"bytes,5,opt,name=riesgo,proto3" json:"riesgo,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -117,32 +117,32 @@ func (x *MissionResponse) GetDisp() bool {
 	return false
 }
 
-func (x *MissionResponse) GetBotin() int32 {
+func (x *MissionResponse) GetBotin() string {
 	if x != nil {
 		return x.Botin
 	}
-	return 0
+	return ""
 }
 
-func (x *MissionResponse) GetProbF() int32 {
+func (x *MissionResponse) GetProbF() string {
 	if x != nil {
 		return x.ProbF
 	}
-	return 0
+	return ""
 }
 
-func (x *MissionResponse) GetProbT() int32 {
+func (x *MissionResponse) GetProbT() string {
 	if x != nil {
 		return x.ProbT
 	}
-	return 0
+	return ""
 }
 
-func (x *MissionResponse) GetRiesgo() int32 {
+func (x *MissionResponse) GetRiesgo() string {
 	if x != nil {
 		return x.Riesgo
 	}
-	return 0
+	return ""
 }
 
 type ConfirmRequest struct {
@@ -225,6 +225,94 @@ func (*ConfirmResponse) Descriptor() ([]byte, []int) {
 	return file_michael_proto_rawDescGZIP(), []int{3}
 }
 
+type DistraccionRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Turnos        int32                  `protobuf:"varint,1,opt,name=turnos,proto3" json:"turnos,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DistraccionRequest) Reset() {
+	*x = DistraccionRequest{}
+	mi := &file_michael_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DistraccionRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DistraccionRequest) ProtoMessage() {}
+
+func (x *DistraccionRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_michael_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DistraccionRequest.ProtoReflect.Descriptor instead.
+func (*DistraccionRequest) Descriptor() ([]byte, []int) {
+	return file_michael_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *DistraccionRequest) GetTurnos() int32 {
+	if x != nil {
+		return x.Turnos
+	}
+	return 0
+}
+
+type DistraccionResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Confirmacion  bool                   `protobuf:"varint,1,opt,name=confirmacion,proto3" json:"confirmacion,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DistraccionResponse) Reset() {
+	*x = DistraccionResponse{}
+	mi := &file_michael_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DistraccionResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DistraccionResponse) ProtoMessage() {}
+
+func (x *DistraccionResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_michael_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DistraccionResponse.ProtoReflect.Descriptor instead.
+func (*DistraccionResponse) Descriptor() ([]byte, []int) {
+	return file_michael_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *DistraccionResponse) GetConfirmacion() bool {
+	if x != nil {
+		return x.Confirmacion
+	}
+	return false
+}
+
 var File_michael_proto protoreflect.FileDescriptor
 
 const file_michael_proto_rawDesc = "" +
@@ -234,16 +322,21 @@ const file_michael_proto_rawDesc = "" +
 	"\arechazo\x18\x01 \x01(\x05R\arechazo\"\x81\x01\n" +
 	"\x0fMissionResponse\x12\x12\n" +
 	"\x04disp\x18\x01 \x01(\bR\x04disp\x12\x14\n" +
-	"\x05botin\x18\x02 \x01(\x05R\x05botin\x12\x15\n" +
-	"\x06prob_f\x18\x03 \x01(\x05R\x05probF\x12\x15\n" +
-	"\x06prob_t\x18\x04 \x01(\x05R\x05probT\x12\x16\n" +
-	"\x06riesgo\x18\x05 \x01(\x05R\x06riesgo\"$\n" +
+	"\x05botin\x18\x02 \x01(\tR\x05botin\x12\x15\n" +
+	"\x06prob_f\x18\x03 \x01(\tR\x05probF\x12\x15\n" +
+	"\x06prob_t\x18\x04 \x01(\tR\x05probT\x12\x16\n" +
+	"\x06riesgo\x18\x05 \x01(\tR\x06riesgo\"$\n" +
 	"\x0eConfirmRequest\x12\x12\n" +
 	"\x04conf\x18\x01 \x01(\bR\x04conf\"\x11\n" +
-	"\x0fConfirmResponse2\x8b\x01\n" +
+	"\x0fConfirmResponse\",\n" +
+	"\x12DistraccionRequest\x12\x16\n" +
+	"\x06turnos\x18\x01 \x01(\x05R\x06turnos\"9\n" +
+	"\x13DistraccionResponse\x12\"\n" +
+	"\fconfirmacion\x18\x01 \x01(\bR\fconfirmacion2\xd5\x01\n" +
 	"\aMission\x12;\n" +
 	"\x06Oferta\x12\x17.mensaje.MissionRequest\x1a\x18.mensaje.MissionResponse\x12C\n" +
-	"\x0eConfirmMission\x12\x17.mensaje.ConfirmRequest\x1a\x18.mensaje.ConfirmResponseB\x13Z\x11michael-sys/protob\x06proto3"
+	"\x0eConfirmMission\x12\x17.mensaje.ConfirmRequest\x1a\x18.mensaje.ConfirmResponse\x12H\n" +
+	"\vDistraccion\x12\x1b.mensaje.DistraccionRequest\x1a\x1c.mensaje.DistraccionResponseB\x13Z\x11michael-sys/protob\x06proto3"
 
 var (
 	file_michael_proto_rawDescOnce sync.Once
@@ -257,20 +350,24 @@ func file_michael_proto_rawDescGZIP() []byte {
 	return file_michael_proto_rawDescData
 }
 
-var file_michael_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_michael_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_michael_proto_goTypes = []any{
-	(*MissionRequest)(nil),  // 0: mensaje.MissionRequest
-	(*MissionResponse)(nil), // 1: mensaje.MissionResponse
-	(*ConfirmRequest)(nil),  // 2: mensaje.ConfirmRequest
-	(*ConfirmResponse)(nil), // 3: mensaje.ConfirmResponse
+	(*MissionRequest)(nil),      // 0: mensaje.MissionRequest
+	(*MissionResponse)(nil),     // 1: mensaje.MissionResponse
+	(*ConfirmRequest)(nil),      // 2: mensaje.ConfirmRequest
+	(*ConfirmResponse)(nil),     // 3: mensaje.ConfirmResponse
+	(*DistraccionRequest)(nil),  // 4: mensaje.DistraccionRequest
+	(*DistraccionResponse)(nil), // 5: mensaje.DistraccionResponse
 }
 var file_michael_proto_depIdxs = []int32{
 	0, // 0: mensaje.Mission.Oferta:input_type -> mensaje.MissionRequest
 	2, // 1: mensaje.Mission.ConfirmMission:input_type -> mensaje.ConfirmRequest
-	1, // 2: mensaje.Mission.Oferta:output_type -> mensaje.MissionResponse
-	3, // 3: mensaje.Mission.ConfirmMission:output_type -> mensaje.ConfirmResponse
-	2, // [2:4] is the sub-list for method output_type
-	0, // [0:2] is the sub-list for method input_type
+	4, // 2: mensaje.Mission.Distraccion:input_type -> mensaje.DistraccionRequest
+	1, // 3: mensaje.Mission.Oferta:output_type -> mensaje.MissionResponse
+	3, // 4: mensaje.Mission.ConfirmMission:output_type -> mensaje.ConfirmResponse
+	5, // 5: mensaje.Mission.Distraccion:output_type -> mensaje.DistraccionResponse
+	3, // [3:6] is the sub-list for method output_type
+	0, // [0:3] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -287,7 +384,7 @@ func file_michael_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_michael_proto_rawDesc), len(file_michael_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
