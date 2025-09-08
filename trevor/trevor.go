@@ -6,8 +6,7 @@ import (
 	"math/rand"
 	"net"
 
-	// Importamos el código generado por protoc
-	pb "trevor/proto/trevor-sys/proto" // Reemplaza con el path de tu módulo
+	pb "trevor/proto/trevor-sys/proto"
 
 	"google.golang.org/grpc"
 )
@@ -26,6 +25,18 @@ func (s *server) Distraccion(ctx context.Context, in *pb.DistraccionRequest) (*p
 	return &pb.DistraccionResponse{Confirmacion: true}, nil
 }
 
+/*********************
+** Nombre: Distraccion
+**********************
+** Parametros: ctx (context.Context), in (*pb.DistraccionRequest)
+**********************
+** Retorno: *pb.DistraccionResponse, error
+**********************
+** Descripción: Parte de la fase 2, donde Trevor lleva a cabo la distracción.
+ Tiene un 10% de que falle porque se emborrachó, asignando el valor false a
+ Confirmacion. Caso contrario, se asigna el valor true a Confirmacion.
+*/
+
 func (s *server) Golpe(stx context.Context, in *pb.GolpeRequest) (*pb.GolpeResponse, error) {
 	var estrellas int = 0
 	limite := 5
@@ -33,7 +44,6 @@ func (s *server) Golpe(stx context.Context, in *pb.GolpeRequest) (*pb.GolpeRespo
 	razon := ""
 	for i := 1; i < int(in.GetTurnos()); i++ {
 		log.Printf("Turno: %d", i)
-		// Acá lee?
 		if estrellas == 5 {
 			limite = 7
 		}
@@ -47,23 +57,29 @@ func (s *server) Golpe(stx context.Context, in *pb.GolpeRequest) (*pb.GolpeRespo
 	return &pb.GolpeResponse{Confirmacion: victoria, Razon: razon}, nil
 }
 
+/*********************
+** Nombre: Golpe
+**********************
+** Parametros: ctx (context.Context), in (*pb.GolpeRequest)
+**********************
+** Retorno: *pb.GolpeResponse, error
+**********************
+** Descripción: Parte de la fase 3, donde Trevor lleva a cabo el golpe.
+En el caso de obtener más de 5 estrellas, activa su habilidad especial de aumentar
+su límite de fracaso a 7 estrellas. Retorna la confirmacion de victoria
+o derrota, el botin extra y la razon asociada.
+*/
+
 func main() {
-	// 1. Abrimos un puerto para escuchar (en este caso, el 50051)
 	lis, err := net.Listen("tcp", ":50053")
 	if err != nil {
 		log.Fatalf("Fallo al escuchar: %v", err)
 	}
 
-	// 2. Creamos una nueva instancia del servidor gRPC
 	s := grpc.NewServer()
-
-	// 3. Registramos nuestro servicio 'Greeter' en el servidor gRPC.
-	//    Esto conecta nuestra implementación lógica (la struct 'server') con el
-	//    servicio definido en el .proto.
 	pb.RegisterMissionServer(s, &server{})
 	log.Printf("Servidor escuchando en %v", lis.Addr())
 
-	// 4. Iniciamos el servidor para que empiece a aceptar peticiones en el puerto.
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("Fallo al servir: %v", err)
 	}
