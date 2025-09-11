@@ -1,7 +1,5 @@
-FROM golang:1.24.2
-
+FROM golang:1.24.2 AS builder
 WORKDIR /app
-
 COPY . .
 
 RUN go mod tidy

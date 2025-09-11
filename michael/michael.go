@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"log"
+	"os"
 	"strconv"
 	"time"
 
@@ -13,9 +14,9 @@ import (
 )
 
 const (
-	addressL = "lester-container:50051"
-	addressF = "franklin-container:50052"
-	addressT = "trevor-container:50053" // La dirección del servidor
+	addressL = "localhost:50051"
+	addressF = "localhost:50052"
+	addressT = "localhost:50053" // La dirección del servidor
 )
 
 func main() {
@@ -149,6 +150,12 @@ func main() {
 		}
 	}
 	if victoria {
+		file, err := os.Create("algo.txt")
+		if err != nil {
+			log.Fatalf("%v", err)
+		}
+		defer file.Close()
+
 		extra := botin % 4
 		botin -= extra
 		botin /= 4
