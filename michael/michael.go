@@ -14,15 +14,9 @@ import (
 )
 
 const (
-<<<<<<< HEAD
 	addressL = "localhost:50051"
 	addressF = "localhost:50052"
 	addressT = "localhost:50053" // La dirección del servidor
-=======
-	addressL = "lester-container:50051"
-	addressF = "franklin-container:50052"
-	addressT = "trevor-container:50053"
->>>>>>> ce0c21c9088dde9f9826d76919f4243391d600fa
 )
 
 func main() {
