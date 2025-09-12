@@ -104,11 +104,12 @@ func (s *server) Oferta(ctx context.Context, in *pb.MissionRequest) (*pb.Mission
 
 	prob := rand.Intn(100)
 	log.Printf("La probabilidad es de %d", prob)
+	o := sss[rand.Intn(len(sss)-1)]
 	if prob > 90 {
 		return &pb.MissionResponse{Disp: false, Botin: "0", ProbF: "0", ProbT: "0", Riesgo: "0"}, nil
 	}
 
-	return &pb.MissionResponse{Disp: true, Botin: "100", ProbF: "70", ProbT: "60", Riesgo: "70"}, nil
+	return &pb.MissionResponse{Disp: true, Botin: o[0], ProbF: o[1], ProbT: o[2], Riesgo: o[3]}, nil
 }
 
 /*********************
@@ -178,8 +179,6 @@ func main() {
 	go notificarEstrellas("Trevor", 20, stopChan)
 
 	initRabbit()
-	defer rabbitConn.Close()
-	defer rabbitCh.Close()
 
 	lis, err := net.Listen("tcp", ":50051")
 	if err != nil {
@@ -189,6 +188,9 @@ func main() {
 	pb.RegisterMissionServer(s, &server{})
 	log.Printf("Servidor escuchando en %v", lis.Addr())
 	publishMessage("Franklin", "hola")
+
+	defer rabbitConn.Close()
+	defer rabbitCh.Close()
 
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("Fallo al servir: %v", err)
