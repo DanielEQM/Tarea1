@@ -1,10 +1,13 @@
 package main
 
 import (
+	"bufio"
 	"context"
+	"fmt"
 	"log"
 	"math/rand"
 	"net"
+	"os"
 	"time"
 
 	"github.com/streadway/amqp"
@@ -104,7 +107,46 @@ func (s *server) ConfirmMission(ctx context.Context, in *pb.ConfirmRequest) (*pb
 Lester se entera a través de *pb.ConfirmResponse.
 */
 
+var sss [][]string
+
 func main() {
+	file, err := os.Open("ofertas/ofertas_grande.csv")
+	if err != nil {
+		log.Fatalf("%v", err)
+	}
+	defer file.Close()
+
+	reader := bufio.NewReader(file)
+	cont := 0
+	for {
+		line, err := reader.ReadString('\n')
+		if err != nil {
+			if err.Error() == "EOF" {
+				break
+			}
+			log.Printf("%v", err)
+		}
+		sep := 0
+		aux := ""
+		sss = append(sss, []string{})
+		for i := 0; i < len(line); i++ {
+			if line[i] == ',' {
+				sss[cont] = append(sss[cont], aux)
+				sep++
+				aux = ""
+				continue
+			}
+			aux += string(line[i])
+		}
+		sss[cont] = append(sss[cont], aux[:len(aux)-2])
+		cont++
+	}
+	for i := 0; i < len(sss); i++ {
+		for j := 0; j < len(sss[0]); j++ {
+			fmt.Printf("(%s %d) ", sss[i][j], j)
+		}
+		fmt.Println(i)
+	}
 	initRabbit()
 	defer rabbitConn.Close()
 	defer rabbitCh.Close()

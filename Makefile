@@ -18,22 +18,17 @@ docker-franklin:
 docker-trevor: 
 	sudo docker-compose up --build trevor
 
-lester:
-	go build lester.go
-	go run lester
+Lester:
+	cd lester && go build lester.go && go run lester
 
-trevor:
-	go build trevor.go
-	go run trevor
+Trevor:
+	cd trevor && go build trevor.go && go run trevor
 
-franklin:
-	go build franklin.go
-	go run franklin
+Franklin:
+	cd franklin && go build franklin.go && go run franklin
 
-michael:
-	go build michael.go
-	go run michael
-
+Michael:
+	cd michael && go build michael.go && go run michael
 
 # Parar todo
 docker-turnoff:

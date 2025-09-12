@@ -85,6 +85,7 @@ func main() {
 	botin, _ := strconv.Atoi(r.GetBotin())
 	probF, _ := strconv.Atoi(r.GetProbF())
 	probT, _ := strconv.Atoi(r.GetProbT())
+	botinExtra := 0
 	//riesgo, _ := strconv.Atoi(r.GetRiesgo())
 	log.Printf("probF: %d y probT: %d", probF, probT)
 
@@ -124,7 +125,7 @@ func main() {
 				log.Fatalf("No se pudo saludar: %v", err)
 			}
 			if f.GetConfirmacion() {
-				botin += int(f.GetBotinExtra())
+				botinExtra += int(f.GetBotinExtra())
 				log.Printf("Nice")
 			} else {
 				victoria = false
@@ -133,21 +134,68 @@ func main() {
 			victoria = false
 		}
 	}
-	if victoria {
-		file, err := os.Create("algo.txt")
-		if err != nil {
-			log.Fatalf("%v", err)
-		}
-		defer file.Close()
+	//---
+	botinTotal := botin + botinExtra
+	extraLester := (botinTotal) % 4
+	botinTotal -= extraLester
+	botinTotal /= 4
+	//---
+	file, err := os.Create("Informe.txt")
+	if err != nil {
+		log.Fatalf("%v", err)
+	}
+	defer file.Close()
 
-		extra := botin % 4
-		botin -= extra
-		botin /= 4
-		log.Printf("botin lester: %d + extra: %d. Total: %d", botin, extra, botin+extra)
-		log.Printf("botin franklin: %d", botin)
-		log.Printf("botin trevor: %d", botin)
+	if victoria {
+		line := "==============================================\n"
+		line += "==        REPORTE FINAL DE LA MISIÓN        ==\n"
+		line += "==============================================\n"
+		line += "Misión: Asalato al banco\n"
+		line += "Resultado Global: MISSION COMPLETADA CON EXITO\n\n"
+		line += "       <--    REPARTO DEL BOTIN    -->        \n"
+		line += "Botin Base: $" + strconv.Itoa(botin) + "\n"
+		line += "Botin Extra (Habilidad de Chop): $" + strconv.Itoa(botinExtra) + "\n"
+		line += "Botin Total: $" + strconv.Itoa(botinTotal) + "\n"
+		line += "----------------------------------------------\n"
+		line += "botin franklin: $" + strconv.Itoa(botin) + "\n"
+		line += "\n"
+		line += "botin trevor: $" + strconv.Itoa(botin) + "\n"
+		line += "\n"
+		line += "botin lester: $" + strconv.Itoa(botin) + " + extra: $" + strconv.Itoa(extraLester) + ". Total: $" + strconv.Itoa(botin+extraLester) + "\n"
+		line += "\n"
+		line += "----------------------------------------------\n"
+		line += "Saldo Final: $" + strconv.Itoa(botinTotal) + "\n"
+		line += "=============================================="
+		err = os.WriteFile("Informe.txt", []byte(line), 0606)
+		if err != nil {
+			log.Printf("%v", err)
+		}
+
 		log.Printf("nice")
 	} else {
+		line := "============================================\n"
+		line += "==       REPORTE FINAL DE LA MISIÓN       ==\n"
+		line += "============================================\n"
+		line += "Misión: Asalato al banco\n"
+		line += "Resultado Global: MISSION INCOMPLETA...\n\n"
+		line += "      <--    REPARTO DEL BOTIN    -->       \n"
+		line += "Botin Base: $" + strconv.Itoa(botin) + "\n"
+		line += "Botin Extra (Habilidad de Chop): $" + strconv.Itoa(botinExtra) + "\n"
+		line += "Botin Total Perdido: $" + strconv.Itoa(botinTotal) + "\n"
+		line += "--------------------------------------------\n"
+		line += "botin franklin: $0\n"
+		line += "\n"
+		line += "botin franklin: $0\n"
+		line += "\n"
+		line += "botin lester: $0 + extra: $0. Total: $0\n"
+		line += "\n"
+		line += "--------------------------------------------\n"
+		line += "Saldo Final Perdido: $0\n"
+		line += "============================================"
+		err = os.WriteFile("Informe.txt", []byte(line), 0606)
+		if err != nil {
+			log.Printf("%v", err)
+		}
 		log.Printf("bad")
 	}
 }
