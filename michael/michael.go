@@ -99,6 +99,7 @@ func main() {
 
 	victoria := true
 	if probF > probT {
+		log.Println("¡Franklin inicia la distracción!")
 		turnos := 200 - probF
 		log.Printf("%d", turnos)
 		f, err := F.Distraccion(ctx, &pb.DistraccionRequest{Turnos: int32(turnos)})
@@ -106,20 +107,25 @@ func main() {
 			log.Fatalf("No se pudo saludar: %v", err)
 		}
 		if f.GetConfirmacion() {
+			log.Println("=== Fase 2 completada con éxito ===")
+			log.Println("Franklin logró distraer, Trevor ejecuta el golpe!")
 			turnos = 200 - probT
 			t, err := T.Golpe(ctx, &pb.GolpeRequest{Turnos: int32(turnos)})
 			if err != nil {
-				log.Fatalf("No se pudo saludar: %v", err)
+				log.Fatalf("Error en el golpe de Trevor: %v", err)
 			}
 			if t.GetConfirmacion() {
-				log.Printf("Nice")
+				log.Printf("=== Atraco completado con éxito ===")
 			} else {
+				log.Println("Trevor falló en el golpe")
 				victoria = false
 			}
 		} else {
+			log.Println("Franklin falló en la distracción")
 			victoria = false
 		}
 	} else {
+		log.Println("=== Trevor inicia la distracción ===")
 		turnos := 200 - probT
 		log.Printf("%d", turnos)
 		t, err := T.Distraccion(ctx, &pb.DistraccionRequest{Turnos: int32(turnos)})
@@ -127,6 +133,8 @@ func main() {
 			log.Fatalf("No se pudo saludar: %v", err)
 		}
 		if t.GetConfirmacion() {
+			log.Println("=== Fase 2 completada con éxito ===")
+			log.Println("Trevor logró distraer, Franklin ejecuta el golpe!")
 			turnos = 200 - probF
 			f, err := F.Golpe(ctx, &pb.GolpeRequest{Turnos: int32(turnos)})
 			if err != nil {
@@ -134,13 +142,21 @@ func main() {
 			}
 			if f.GetConfirmacion() {
 				botinExtra += int(f.GetBotinExtra())
-				log.Printf("Nice")
+				log.Printf("=== Atraco completado con éxito ===")
 			} else {
+				log.Println("Franklin falló en el golpe")
 				victoria = false
 			}
 		} else {
+			log.Println("Trevor falló en la distracción")
 			victoria = false
 		}
+	}
+
+	if victoria {
+		log.Println("=== Fase 3 completada con éxito ===")
+	} else {
+		log.Println("=== Fase 3 fracasó ===")
 	}
 	//---
 	botinTotal := botin + botinExtra

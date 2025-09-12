@@ -187,7 +187,6 @@ func main() {
 	s := grpc.NewServer()
 	pb.RegisterMissionServer(s, &server{})
 	log.Printf("Servidor escuchando en %v", lis.Addr())
-	publishMessage("Franklin", "hola")
 
 	defer rabbitConn.Close()
 	defer rabbitCh.Close()

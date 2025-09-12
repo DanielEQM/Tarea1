@@ -25,6 +25,7 @@ func fallo(err error, msg string) {
 }
 
 func (s *server) Distraccion(ctx context.Context, in *pb.DistraccionRequest) (*pb.DistraccionResponse, error) {
+	log.Printf("Franklin comienza la distracción por %d turnos...", in.GetTurnos())
 	prob := rand.Intn(100)
 	log.Printf("la probabilidad es: %d", prob)
 	if prob < 10 {
@@ -32,6 +33,8 @@ func (s *server) Distraccion(ctx context.Context, in *pb.DistraccionRequest) (*p
 		log.Printf("Oh no, fallamos")
 		return &pb.DistraccionResponse{Confirmacion: false, Razon: "Chop me distrajo"}, nil
 	}
+	log.Print("Distracción completada con éxito por Franklin")
+	log.Println("=== Fase 2 completada con éxito ===")
 	return &pb.DistraccionResponse{Confirmacion: true}, nil
 }
 
