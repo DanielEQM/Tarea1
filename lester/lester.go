@@ -102,9 +102,9 @@ func (s *server) Oferta(ctx context.Context, in *pb.MissionRequest) (*pb.Mission
 		time.Sleep(10 * time.Second)
 	}
 
-	prob := rand.Intn(100)
+	prob := rand.Intn(101)
 	log.Printf("La probabilidad es de %d", prob)
-	o := sss[rand.Intn(len(sss)-1)]
+	o := sss[rand.Intn(len(sss))]
 	if prob > 90 {
 		return &pb.MissionResponse{Disp: false, Botin: "0", ProbF: "0", ProbT: "0", Riesgo: "0"}, nil
 	}

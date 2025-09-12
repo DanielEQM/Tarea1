@@ -216,7 +216,7 @@ func main() {
 		line += "--------------------------------------------\n"
 		line += "Saldo Final Perdido: $0\n"
 		line += "============================================"
-		err = os.WriteFile("Informe.txt", []byte(line), 0606)
+		err = os.WriteFile("informe.txt", []byte(line), 0606)
 		if err != nil {
 			log.Printf("%v", err)
 		}
