@@ -95,10 +95,19 @@ func main() {
 	defer ch.Close()
 
 	q, err := ch.QueueDeclare(
-		"notificaciones",
+		"cola.Franklin",
 		false, false, false, false, nil,
 	)
 	fallo(err, "No se pudo declarar la cola")
+
+	err = ch.QueueBind(
+		q.Name,
+		"Franklin",
+		"notificaciones",
+		false,
+		nil,
+	)
+	fallo(err, "No se pudo hacer el bind")
 
 	msgs, err := ch.Consume(
 		q.Name,
@@ -121,8 +130,6 @@ func main() {
 		}
 	}()
 
-	<-forever
-
 	lis, err := net.Listen("tcp", ":50052")
 	if err != nil {
 		log.Fatalf("Fallo al escuchar: %v", err)
@@ -135,4 +142,5 @@ func main() {
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("Fallo al servir: %v", err)
 	}
+	<-forever
 }

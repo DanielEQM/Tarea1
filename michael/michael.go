@@ -14,9 +14,9 @@ import (
 )
 
 const (
-	addressL = "localhost:50051"
-	addressF = "localhost:50052"
-	addressT = "localhost:50053" // La dirección del servidor
+	addressL = "lester:50051"
+	addressF = "franklin:50052"
+	addressT = "trevor:50053" // La dirección del servidor
 )
 
 func main() {
@@ -53,16 +53,12 @@ func main() {
 			log.Fatalf("No se pudo saludar: %v", err)
 		}
 		if rechazo == 3 {
+			log.Printf("Michael rechazó 3 veces. Lester lo hace esperar 10s ...")
+			time.Sleep(10 * time.Second)
 			rechazo = 0
 		}
 		if r.GetDisp() {
-			/*log.Printf("y el rechazo %d", rechazo)
-			log.Printf("Respuesta del servidor: %t", r.GetDisp())
-			log.Printf("          del servidor: %s", r.GetBotin())
-			log.Printf("          del servidor: %s", r.GetProbF())
-			log.Printf("          del servidor: %s", r.GetProbT())
-			log.Printf("          del servidor: %s", r.GetRiesgo())
-			log.Printf("")*/
+			log.Printf("Oferta recibida -> Botín: %s, ProbF: %s, ProbT: %s, Riesgo: %s", r.GetBotin(), r.GetProbF(), r.GetProbT(), r.GetRiesgo())
 			if r.GetBotin() == "" || r.GetProbF() == "" || r.GetProbT() == "" || r.GetRiesgo() == "" {
 				rechazo++
 				continue
@@ -71,12 +67,24 @@ func main() {
 			probT, _ := strconv.Atoi(r.GetProbT())
 			riesgo, _ := strconv.Atoi(r.GetRiesgo())
 			if (probF <= 50 && probT <= 50) || riesgo >= 80 {
+				log.Printf("Michael rechaza la oferta...")
 				rechazo++
 				continue
 			}
+
+			log.Println("¡Michael acepta la oferta!")
+			_, err = L.ConfirmMission(ctx, &pb.ConfirmRequest{Conf: true})
+			if err != nil {
+				log.Fatalf("Error al confirmar oferta: %v", err)
+			}
 			break
+		} else {
+			log.Println("Lester no tiene ofertas en este momento, reintentando...")
+			time.Sleep(2 * time.Second)
 		}
 	}
+
+	log.Println("=== Fase 1 completada con éxito ===")
 
 	_, err = L.ConfirmMission(ctx, &pb.ConfirmRequest{Conf: true})
 	if err != nil {
@@ -176,7 +184,7 @@ func main() {
 		line := "============================================\n"
 		line += "==       REPORTE FINAL DE LA MISIÓN       ==\n"
 		line += "============================================\n"
-		line += "Misión: Asalato al banco\n"
+		line += "Misión: Asalto al banco\n"
 		line += "Resultado Global: MISSION INCOMPLETA...\n\n"
 		line += "      <--    REPARTO DEL BOTIN    -->       \n"
 		line += "Botin Base: $" + strconv.Itoa(botin) + "\n"

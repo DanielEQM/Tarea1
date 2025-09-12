@@ -19,6 +19,38 @@ import (
 
 var rabbitConn *amqp.Connection
 var rabbitCh *amqp.Channel
+var sss [][]string
+
+func notificarEstrellas(personaje string, riesgo int, stopChan chan bool) {
+	frecuencia := 100 - riesgo
+	estrellas := 0
+
+	ticker := time.NewTicker(time.Duration(frecuencia) * time.Millisecond)
+	defer ticker.Stop()
+
+	for {
+		select {
+		case <-stopChan:
+			log.Printf("Se detuvieron las notificaciones a %s", personaje)
+			return
+		case <-ticker.C:
+			estrellas++
+			msg := fmt.Sprintf("%s tiene ahora %d estrellas", personaje, estrellas)
+			publishMessage(personaje, msg)
+
+			if personaje == "Trevor" && estrellas >= 7 {
+				log.Printf("Trevor alcanzó su limite de estrellas (7). Fracaso")
+				stopChan <- true
+				return
+			}
+			if personaje == "Franklin" && estrellas >= 5 {
+				log.Printf("Franklin alcanzó su limite de estrellas (5). Fracasó")
+				stopChan <- true
+				return
+			}
+		}
+	}
+}
 
 func fallo(err error, msg string) {
 	if err != nil {
@@ -45,10 +77,10 @@ func initRabbit() {
 	fallo(err, "No se pudo declarar la cola")
 }
 
-func publishMessage(msg string) {
+func publishMessage(personaje, msg string) {
 	err := rabbitCh.Publish(
-		"",
 		"notificaciones",
+		personaje,
 		false,
 		false,
 		amqp.Publishing{
@@ -56,7 +88,7 @@ func publishMessage(msg string) {
 			Body:        []byte(msg),
 		})
 	fallo(err, "Error publicando un mensaje")
-	log.Printf(" [x] Lester envió: %s", msg)
+	log.Printf(" [x] Lester notificó a %s: %s", personaje, msg)
 }
 
 type server struct {
@@ -107,8 +139,6 @@ func (s *server) ConfirmMission(ctx context.Context, in *pb.ConfirmRequest) (*pb
 Lester se entera a través de *pb.ConfirmResponse.
 */
 
-var sss [][]string
-
 func main() {
 	file, err := os.Open("ofertas/ofertas_grande.csv")
 	if err != nil {
@@ -118,8 +148,9 @@ func main() {
 
 	reader := bufio.NewReader(file)
 	cont := 0
+	line, err := reader.ReadString('\n')
 	for {
-		line, err := reader.ReadString('\n')
+		line, err = reader.ReadString('\n')
 		if err != nil {
 			if err.Error() == "EOF" {
 				break
@@ -141,12 +172,11 @@ func main() {
 		sss[cont] = append(sss[cont], aux[:len(aux)-2])
 		cont++
 	}
-	for i := 0; i < len(sss); i++ {
-		for j := 0; j < len(sss[0]); j++ {
-			fmt.Printf("(%s %d) ", sss[i][j], j)
-		}
-		fmt.Println(i)
-	}
+
+	stopChan := make(chan bool)
+	go notificarEstrellas("Franklin", 20, stopChan)
+	go notificarEstrellas("Trevor", 20, stopChan)
+
 	initRabbit()
 	defer rabbitConn.Close()
 	defer rabbitCh.Close()
@@ -158,7 +188,7 @@ func main() {
 	s := grpc.NewServer()
 	pb.RegisterMissionServer(s, &server{})
 	log.Printf("Servidor escuchando en %v", lis.Addr())
-	publishMessage("hola")
+	publishMessage("Franklin", "hola")
 
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("Fallo al servir: %v", err)

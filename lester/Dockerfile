@@ -5,7 +5,7 @@ WORKDIR /app
 COPY . .
 
 RUN go mod tidy
-RUN go build -o lester ./lester.go 
+RUN go build -o lester .
 
 # Comando por defecto
-CMD ["/app/lester"]
+CMD ["./lester"]

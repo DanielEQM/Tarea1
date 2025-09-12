@@ -44,7 +44,7 @@ services:
       context: ./trevor
     depends_on:
       - rabbitmq
-    command: ["app/trevor"]
+    command: ["/app/trevor"]
     container_name: trevor-container
     ports:
       - "50053:50053"
