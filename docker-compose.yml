@@ -1,9 +1,21 @@
-version: "3.8"
-
 services:
+  rabbitmq:
+    image: rabbitmq:3.12-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
   lester:
     build:
       context: ./lester
+    depends_on:
+      - rabbitmq
+    environment:
+      AMQP_URI: amqp://guest:guest@rabbitmq:5672/
+    command: ["/app/lester"]
     container_name: lester-container
     ports:
       - "50051:50051"
@@ -20,6 +32,9 @@ services:
   franklin:
     build: 
       context: ./franklin
+    depends_on:
+      - rabbitmq
+    command: ["/app/franklin"]
     container_name: franklin-container
     ports:
       - "50052:50052"
@@ -27,6 +42,9 @@ services:
   trevor:
     build:
       context: ./trevor
+    depends_on:
+      - rabbitmq
+    command: ["app/trevor"]
     container_name: trevor-container
     ports:
       - "50053:50053"

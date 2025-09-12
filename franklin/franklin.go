@@ -5,6 +5,9 @@ import (
 	"log"
 	"math/rand"
 	"net"
+	"os"
+
+	"github.com/rabbitmq/amqp091-go"
 
 	pb "franklin/proto/franklin-sys/proto"
 
@@ -13,6 +16,12 @@ import (
 
 type server struct {
 	pb.UnimplementedMissionServer
+}
+
+func fallo(err error, msg string) {
+	if err != nil {
+		log.Fatalf("%s: %s", msg, err)
+	}
 }
 
 func (s *server) Distraccion(ctx context.Context, in *pb.DistraccionRequest) (*pb.DistraccionResponse, error) {
@@ -72,6 +81,48 @@ o derrota, el botin extra y la razon asociada.
 */
 
 func main() {
+	amqpURI := os.Getenv("AMQP_URI")
+	if amqpURI == "" {
+		amqpURI = "amqp://guest:guest@rabbitmq:5672/"
+	}
+
+	conn, err := amqp091.Dial(amqpURI)
+	fallo(err, "No se pudo conectar a RabbitMQ")
+	defer conn.Close()
+
+	ch, err := conn.Channel()
+	fallo(err, "No se pudo abrir un canal")
+	defer ch.Close()
+
+	q, err := ch.QueueDeclare(
+		"notificaciones",
+		false, false, false, false, nil,
+	)
+	fallo(err, "No se pudo declarar la cola")
+
+	msgs, err := ch.Consume(
+		q.Name,
+		"",
+		true,
+		false,
+		false,
+		false,
+		nil,
+	)
+	fallo(err, "No se pudo registrar el consumidor")
+
+	log.Printf("Franklin esperando notificaciones...\n")
+
+	forever := make(chan bool)
+
+	go func() {
+		for d := range msgs {
+			log.Printf("Franklin recibió: %s", d.Body)
+		}
+	}()
+
+	<-forever
+
 	lis, err := net.Listen("tcp", ":50052")
 	if err != nil {
 		log.Fatalf("Fallo al escuchar: %v", err)

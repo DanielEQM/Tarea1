@@ -7,10 +7,54 @@ import (
 	"net"
 	"time"
 
+	"github.com/streadway/amqp"
+
 	pb "lester/proto/lester-sys/proto"
 
 	"google.golang.org/grpc"
 )
+
+var rabbitConn *amqp.Connection
+var rabbitCh *amqp.Channel
+
+func fallo(err error, msg string) {
+	if err != nil {
+		log.Fatalf("%s: %s", msg, err)
+	}
+}
+
+func initRabbit() {
+	var err error
+	rabbitConn, err = amqp.Dial("amqp://guest:guest@rabbitmq:5672/")
+	fallo(err, "No se pudo conectar a RabbitMQ")
+
+	rabbitCh, err = rabbitConn.Channel()
+	fallo(err, "No se pudo abrir el canal")
+
+	_, err = rabbitCh.QueueDeclare(
+		"notificaciones",
+		false,
+		false,
+		false,
+		false,
+		nil,
+	)
+	fallo(err, "No se pudo declarar la cola")
+}
+
+func publishMessage(msg string) {
+	err := rabbitCh.Publish(
+		"",
+		"notificaciones",
+		false,
+		false,
+		amqp.Publishing{
+			ContentType: "text/plain",
+			Body:        []byte(msg),
+		})
+	fallo(err, "Error publicando un mensaje")
+	log.Printf(" [x] Lester envió: %s", msg)
+}
 
 type server struct {
 	pb.UnimplementedMissionServer
@@ -61,6 +105,10 @@ Lester se entera a través de *pb.ConfirmResponse.
 */
 
 func main() {
+	initRabbit()
+	defer rabbitConn.Close()
+	defer rabbitCh.Close()
+
 	lis, err := net.Listen("tcp", ":50051")
 	if err != nil {
 		log.Fatalf("Fallo al escuchar: %v", err)
@@ -68,6 +116,7 @@ func main() {
 	s := grpc.NewServer()
 	pb.RegisterMissionServer(s, &server{})
 	log.Printf("Servidor escuchando en %v", lis.Addr())
+	publishMessage("hola")
 
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("Fallo al servir: %v", err)
