@@ -85,7 +85,7 @@ func (s *server) NotificarEstrellas(ctx context.Context, in *pb.AvisoRequest) (*
 	go func() {
 		amqpURI := os.Getenv("AMQP_URI")
 		if amqpURI == "" {
-			amqpURI = "amqp://guest:guest@10.35.168.35:5672/"
+			amqpURI = "amqp://guest:guest@localhost:5672/"
 		}
 		conn, err := connectWithRetry(amqpURI)
 		fallo(err, "Se excedió el tiempo maximo")
