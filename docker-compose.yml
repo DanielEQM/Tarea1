@@ -24,16 +24,10 @@ services:
     build:
       context: ./michael
     container_name: michael-container
-    depends_on:
-      - lester
-      - franklin
-      - trevor
 
   franklin:
     build: 
       context: ./franklin
-    depends_on:
-      - rabbitmq
     environment:
       AMQP_URI: amqp://guest:guest@rabbitmq:5672/
     command: ["/app/franklin"]
@@ -44,8 +38,6 @@ services:
   trevor:
     build:
       context: ./trevor
-    depends_on:
-      - rabbitmq
     environment:
       AMQP_URI: amqp://guest:guest@rabbitmq:5672/
     command: ["/app/trevor"]
