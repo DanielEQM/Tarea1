@@ -92,9 +92,6 @@ func main() {
 
 	log.Println("=== Fase 1 completada con éxito ===")
 
-	_, err = L.ConfirmMission(ctx, &pb.ConfirmRequest{Conf: true})
-	fallo(err, "No se pudo conectar")
-
 	botin, _ := strconv.Atoi(r.GetBotin())
 	probF, _ := strconv.Atoi(r.GetProbF())
 	probT, _ := strconv.Atoi(r.GetProbT())
@@ -182,7 +179,13 @@ func main() {
 	if victoria {
 		log.Println("=== Fase 3 completada con éxito ===")
 	} else {
-		log.Println("=== Fase 3 fracasó ===")
+		if whenFail == "2" {
+			log.Println("=== Fase 2 fracasó ===")
+			log.Println("=== Fase 3 fracasó ===")
+
+		} else {
+			log.Println("=== Fase 3 fracasó ===")
+		}
 	}
 	//---
 	botinTotal := botin + botinExtra
@@ -240,7 +243,7 @@ func main() {
 		fallo(err, "No se pudo conectar")
 		line += msj.GetMsj() + "\n"
 		line += "botin Trevor: $0\n"
-		msj, err = F.ConfirmacionPago(ctx, &pb.PagoRequest{Victoria: victoria, Fase: whenFail, Who: WhoFail})
+		msj, err = T.ConfirmacionPago(ctx, &pb.PagoRequest{Victoria: victoria, Fase: whenFail, Who: WhoFail})
 		fallo(err, "No se pudo conectar")
 		line += msj.GetMsj() + "\n"
 		line += "botin Lester: $0 + extra: $0. Total: $0\n"
