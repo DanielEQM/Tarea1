@@ -71,7 +71,7 @@ func (s *server) Golpe(stx context.Context, in *pb.GolpeRequest) (*pb.GolpeRespo
 	//
 	amqpURI := os.Getenv("AMQP_URI")
 	if amqpURI == "" {
-		amqpURI = "amqp://guest:guest@localhost:5672/"
+		amqpURI = "amqp://guest:guest@10.53.168.35:5672/"
 	}
 	conn, err := connectWithRetry(amqpURI)
 	fallo(err, "Se excedio el tiempo")
