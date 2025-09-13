@@ -167,6 +167,19 @@ func (s *server) ConfirmacionPago(ctx context.Context, in *pb.PagoRequest) (*pb.
 	return &pb.PagoResponse{Msj: "Tch, para la proxima será"}, nil
 }
 
+/*********************
+** Nombre: ConfirmacionPago
+**********************
+** Parametros: ctx (context.Context), in (*pb.PagoRequest)
+**********************
+** Retorno: *pb.PagoResponse, error
+**********************
+** Descripción: Responde a Lester con un mensaje al momento de confirmar el pago. 
+En caso de salir victoriosos, confirma que recibe el pago. 
+Tambien Trevor responde cuando fracasa la mision por culpa de alguien mas, cuando sabotea 
+la distraccion por haber estado ebrio o cuando lo atrapan. 
+*/
+
 func main() {
 	lis, err := net.Listen("tcp", ":50053")
 	fallo(err, "Fallo al escuchar")

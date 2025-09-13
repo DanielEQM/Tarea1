@@ -195,6 +195,17 @@ func (s *server) ConfirmacionPago(ctx context.Context, in *pb.PagoRequest) (*pb.
 	}
 	return &pb.PagoResponse{Msj: "Para eso mejor no te doy más misiones"}, nil
 }
+/*********************
+** Nombre: ConfirmacionPago
+**********************
+** Parametros: ctx (context.Context), in (*pb.PagoRequest)
+**********************
+** Retorno: *pb.PagoResponse, error
+**********************
+** Descripción: Responde a el personaje con un mensaje al momento de confirmar el pago. 
+En caso de salir victoriosos, envia un mensaje dando las gracias.
+Caso contrario envia un mensaje reprochandolo.
+*/
 
 func main() {
 	file, err := os.Open("ofertas/ofertas_grande.csv")

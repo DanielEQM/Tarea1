@@ -169,6 +169,19 @@ func (s *server) ConfirmacionPago(ctx context.Context, in *pb.PagoRequest) (*pb.
 	return &pb.PagoResponse{Msj: "Me han atrapado! Perdón!"}, nil
 }
 
+/*********************
+** Nombre: ConfirmacionPago
+**********************
+** Parametros: ctx (context.Context), in (*pb.PagoRequest)
+**********************
+** Retorno: *pb.PagoResponse, error
+**********************
+** Descripción: Responde a Lester con un mensaje al momento de confirmar el pago. 
+En caso de salir victoriosos, confirma que recibe el pago. 
+Tambien Franklin responde cuando fracasa la mision por culpa de alguien mas, cuando se distrae 
+con Chop en la fase de distraccion o cuando lo atrapan. 
+*/
+
 func main() {
 	lis, err := net.Listen("tcp", ":50052")
 	fallo(err, "Fallo al escuchar")
