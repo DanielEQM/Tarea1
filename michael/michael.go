@@ -19,23 +19,23 @@ const (
 	addressT = "trevor:50053" // La dirección del servidor
 )
 
+func fallo(err error, msgs string) {
+	if err != nil {
+		log.Printf("%s: %v", msgs, err)
+	}
+}
+
 func main() {
 	connL, err := grpc.Dial(addressL, grpc.WithTransportCredentials(insecure.NewCredentials()))
-	if err != nil {
-		log.Fatalf("No se pudo conectar: %v", err)
-	}
+	fallo(err, "No se pudo conectar")
 	defer connL.Close()
 
 	connF, err := grpc.Dial(addressF, grpc.WithTransportCredentials(insecure.NewCredentials()))
-	if err != nil {
-		log.Fatalf("No se pudo conectar: %v", err)
-	}
+	fallo(err, "No se pudo conectar")
 	defer connF.Close()
 
 	connT, err := grpc.Dial(addressT, grpc.WithTransportCredentials(insecure.NewCredentials()))
-	if err != nil {
-		log.Fatalf("No se pudo conectar: %v", err)
-	}
+	fallo(err, "No se pudo conectar")
 	defer connT.Close()
 
 	L := pb.NewMissionClient(connL)
@@ -49,9 +49,7 @@ func main() {
 	var r *pb.MissionResponse
 	for {
 		r, err = L.Oferta(ctx, &pb.MissionRequest{Rechazo: rechazo})
-		if err != nil {
-			log.Fatalf("No se pudo saludar: %v", err)
-		}
+		fallo(err, "No se pudo conectar")
 		if rechazo == 3 {
 			log.Printf("Michael rechazó 3 veces. Lester lo hace esperar 10s ...")
 			time.Sleep(10 * time.Second)
@@ -74,9 +72,7 @@ func main() {
 
 			log.Println("¡Michael acepta la oferta!")
 			_, err = L.ConfirmMission(ctx, &pb.ConfirmRequest{Conf: true})
-			if err != nil {
-				log.Fatalf("Error al confirmar oferta: %v", err)
-			}
+			fallo(err, "No se pudo conectar")
 			break
 		} else {
 			log.Println("Lester no tiene ofertas en este momento, reintentando...")
@@ -87,14 +83,13 @@ func main() {
 	log.Println("=== Fase 1 completada con éxito ===")
 
 	_, err = L.ConfirmMission(ctx, &pb.ConfirmRequest{Conf: true})
-	if err != nil {
-		log.Fatalf("No se pudo saludar: %v", err)
-	}
+	fallo(err, "No se pudo conectar")
+
 	botin, _ := strconv.Atoi(r.GetBotin())
 	probF, _ := strconv.Atoi(r.GetProbF())
 	probT, _ := strconv.Atoi(r.GetProbT())
 	botinExtra := 0
-	//riesgo, _ := strconv.Atoi(r.GetRiesgo())
+	riesgo, _ := strconv.Atoi(r.GetRiesgo())
 	log.Printf("probF: %d y probT: %d", probF, probT)
 
 	victoria := true
@@ -103,18 +98,22 @@ func main() {
 		turnos := 200 - probF
 		log.Printf("%d", turnos)
 		f, err := F.Distraccion(ctx, &pb.DistraccionRequest{Turnos: int32(turnos)})
-		if err != nil {
-			log.Fatalf("No se pudo saludar: %v", err)
-		}
+		fallo(err, "No se pudo conectar")
+
 		if f.GetConfirmacion() {
 			log.Println("=== Fase 2 completada con éxito ===")
 			log.Println("Franklin logró distraer, Trevor ejecuta el golpe!")
 			turnos = 200 - probT
+			_, err = L.NotificarEstrellas(ctx, &pb.AvisoRequest{Pj: "Trevor", Riesgo: int32(riesgo), Turnos: int32(turnos)})
+			fallo(err, "No se pudo conectar")
+
 			t, err := T.Golpe(ctx, &pb.GolpeRequest{Turnos: int32(turnos)})
-			if err != nil {
-				log.Fatalf("Error en el golpe de Trevor: %v", err)
-			}
+			fallo(err, "No se pudo conectar")
+
 			if t.GetConfirmacion() {
+				_, err = L.NotificarGolpe(ctx, &pb.ConfirmRequest{Conf: false})
+				fallo(err, "No se pudo conectar")
+
 				log.Printf("=== Atraco completado con éxito ===")
 			} else {
 				log.Println("Trevor falló en el golpe")
@@ -127,23 +126,26 @@ func main() {
 	} else {
 		log.Println("=== Trevor inicia la distracción ===")
 		turnos := 200 - probT
-		log.Printf("%d", turnos)
 		t, err := T.Distraccion(ctx, &pb.DistraccionRequest{Turnos: int32(turnos)})
-		if err != nil {
-			log.Fatalf("No se pudo saludar: %v", err)
-		}
+		fallo(err, "No se pudo conectar")
+
 		if t.GetConfirmacion() {
 			log.Println("=== Fase 2 completada con éxito ===")
 			log.Println("Trevor logró distraer, Franklin ejecuta el golpe!")
 			turnos = 200 - probF
+			_, err = L.NotificarEstrellas(ctx, &pb.AvisoRequest{Pj: "Franklin", Riesgo: int32(riesgo), Turnos: int32(turnos)})
+			fallo(err, "No se pudo conectar")
+
 			f, err := F.Golpe(ctx, &pb.GolpeRequest{Turnos: int32(turnos)})
-			if err != nil {
-				log.Fatalf("No se pudo saludar: %v", err)
-			}
+			fallo(err, "No se pudo conectar")
+
 			if f.GetConfirmacion() {
-				botinExtra += int(f.GetBotinExtra())
+				botinExtra = int(f.GetBotinExtra())
 				log.Printf("=== Atraco completado con éxito ===")
 			} else {
+				_, err = L.NotificarGolpe(ctx, &pb.ConfirmRequest{Conf: false})
+				fallo(err, "No se pudo conectar")
+
 				log.Println("Franklin falló en el golpe")
 				victoria = false
 			}
@@ -164,10 +166,9 @@ func main() {
 	botinTotal -= extraLester
 	botinTotal /= 4
 	//---
-	file, err := os.Create("Informe.txt")
-	if err != nil {
-		log.Fatalf("%v", err)
-	}
+	file, err := os.Create("informe.txt")
+	fallo(err, "No se pudo conectar")
+
 	defer file.Close()
 
 	if victoria {
@@ -190,12 +191,9 @@ func main() {
 		line += "----------------------------------------------\n"
 		line += "Saldo Final: $" + strconv.Itoa(botinTotal) + "\n"
 		line += "=============================================="
-		err = os.WriteFile("Informe.txt", []byte(line), 0606)
-		if err != nil {
-			log.Printf("%v", err)
-		}
+		err = os.WriteFile("informe.txt", []byte(line), 0606)
+		fallo(err, "No se pudo conectar")
 
-		log.Printf("nice")
 	} else {
 		line := "============================================\n"
 		line += "==       REPORTE FINAL DE LA MISIÓN       ==\n"
@@ -217,9 +215,8 @@ func main() {
 		line += "Saldo Final Perdido: $0\n"
 		line += "============================================"
 		err = os.WriteFile("informe.txt", []byte(line), 0606)
-		if err != nil {
-			log.Printf("%v", err)
-		}
-		log.Printf("bad")
+		fallo(err, "No se pudo conectar")
+
 	}
+	log.Printf("=== FASE 4 COMPLETADA ===")
 }

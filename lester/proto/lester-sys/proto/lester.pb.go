@@ -23,6 +23,102 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type AvisoRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Pj            string                 `protobuf:"bytes,1,opt,name=pj,proto3" json:"pj,omitempty"`
+	Riesgo        int32                  `protobuf:"varint,2,opt,name=riesgo,proto3" json:"riesgo,omitempty"`
+	Turnos        int32                  `protobuf:"varint,3,opt,name=turnos,proto3" json:"turnos,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AvisoRequest) Reset() {
+	*x = AvisoRequest{}
+	mi := &file_lester_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AvisoRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AvisoRequest) ProtoMessage() {}
+
+func (x *AvisoRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_lester_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AvisoRequest.ProtoReflect.Descriptor instead.
+func (*AvisoRequest) Descriptor() ([]byte, []int) {
+	return file_lester_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *AvisoRequest) GetPj() string {
+	if x != nil {
+		return x.Pj
+	}
+	return ""
+}
+
+func (x *AvisoRequest) GetRiesgo() int32 {
+	if x != nil {
+		return x.Riesgo
+	}
+	return 0
+}
+
+func (x *AvisoRequest) GetTurnos() int32 {
+	if x != nil {
+		return x.Turnos
+	}
+	return 0
+}
+
+type AvisoResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AvisoResponse) Reset() {
+	*x = AvisoResponse{}
+	mi := &file_lester_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AvisoResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AvisoResponse) ProtoMessage() {}
+
+func (x *AvisoResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_lester_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AvisoResponse.ProtoReflect.Descriptor instead.
+func (*AvisoResponse) Descriptor() ([]byte, []int) {
+	return file_lester_proto_rawDescGZIP(), []int{1}
+}
+
 // El mensaje de solicitud. Contiene el nombre de la persona a saludar.
 type MissionRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -33,7 +129,7 @@ type MissionRequest struct {
 
 func (x *MissionRequest) Reset() {
 	*x = MissionRequest{}
-	mi := &file_lester_proto_msgTypes[0]
+	mi := &file_lester_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -45,7 +141,7 @@ func (x *MissionRequest) String() string {
 func (*MissionRequest) ProtoMessage() {}
 
 func (x *MissionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_lester_proto_msgTypes[0]
+	mi := &file_lester_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -58,7 +154,7 @@ func (x *MissionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MissionRequest.ProtoReflect.Descriptor instead.
 func (*MissionRequest) Descriptor() ([]byte, []int) {
-	return file_lester_proto_rawDescGZIP(), []int{0}
+	return file_lester_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *MissionRequest) GetRechazo() int32 {
@@ -82,7 +178,7 @@ type MissionResponse struct {
 
 func (x *MissionResponse) Reset() {
 	*x = MissionResponse{}
-	mi := &file_lester_proto_msgTypes[1]
+	mi := &file_lester_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -94,7 +190,7 @@ func (x *MissionResponse) String() string {
 func (*MissionResponse) ProtoMessage() {}
 
 func (x *MissionResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_lester_proto_msgTypes[1]
+	mi := &file_lester_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -107,7 +203,7 @@ func (x *MissionResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MissionResponse.ProtoReflect.Descriptor instead.
 func (*MissionResponse) Descriptor() ([]byte, []int) {
-	return file_lester_proto_rawDescGZIP(), []int{1}
+	return file_lester_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *MissionResponse) GetDisp() bool {
@@ -154,7 +250,7 @@ type ConfirmRequest struct {
 
 func (x *ConfirmRequest) Reset() {
 	*x = ConfirmRequest{}
-	mi := &file_lester_proto_msgTypes[2]
+	mi := &file_lester_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -166,7 +262,7 @@ func (x *ConfirmRequest) String() string {
 func (*ConfirmRequest) ProtoMessage() {}
 
 func (x *ConfirmRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_lester_proto_msgTypes[2]
+	mi := &file_lester_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -179,7 +275,7 @@ func (x *ConfirmRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ConfirmRequest.ProtoReflect.Descriptor instead.
 func (*ConfirmRequest) Descriptor() ([]byte, []int) {
-	return file_lester_proto_rawDescGZIP(), []int{2}
+	return file_lester_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *ConfirmRequest) GetConf() bool {
@@ -197,7 +293,7 @@ type ConfirmResponse struct {
 
 func (x *ConfirmResponse) Reset() {
 	*x = ConfirmResponse{}
-	mi := &file_lester_proto_msgTypes[3]
+	mi := &file_lester_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -209,7 +305,7 @@ func (x *ConfirmResponse) String() string {
 func (*ConfirmResponse) ProtoMessage() {}
 
 func (x *ConfirmResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_lester_proto_msgTypes[3]
+	mi := &file_lester_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -222,14 +318,19 @@ func (x *ConfirmResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ConfirmResponse.ProtoReflect.Descriptor instead.
 func (*ConfirmResponse) Descriptor() ([]byte, []int) {
-	return file_lester_proto_rawDescGZIP(), []int{3}
+	return file_lester_proto_rawDescGZIP(), []int{5}
 }
 
 var File_lester_proto protoreflect.FileDescriptor
 
 const file_lester_proto_rawDesc = "" +
 	"\n" +
-	"\flester.proto\x12\amensaje\"*\n" +
+	"\flester.proto\x12\amensaje\"N\n" +
+	"\fAvisoRequest\x12\x0e\n" +
+	"\x02pj\x18\x01 \x01(\tR\x02pj\x12\x16\n" +
+	"\x06riesgo\x18\x02 \x01(\x05R\x06riesgo\x12\x16\n" +
+	"\x06turnos\x18\x03 \x01(\x05R\x06turnos\"\x0f\n" +
+	"\rAvisoResponse\"*\n" +
 	"\x0eMissionRequest\x12\x18\n" +
 	"\arechazo\x18\x01 \x01(\x05R\arechazo\"\x81\x01\n" +
 	"\x0fMissionResponse\x12\x12\n" +
@@ -240,10 +341,12 @@ const file_lester_proto_rawDesc = "" +
 	"\x06riesgo\x18\x05 \x01(\tR\x06riesgo\"$\n" +
 	"\x0eConfirmRequest\x12\x12\n" +
 	"\x04conf\x18\x01 \x01(\bR\x04conf\"\x11\n" +
-	"\x0fConfirmResponse2\x8b\x01\n" +
+	"\x0fConfirmResponse2\x95\x02\n" +
 	"\aMission\x12;\n" +
 	"\x06Oferta\x12\x17.mensaje.MissionRequest\x1a\x18.mensaje.MissionResponse\x12C\n" +
-	"\x0eConfirmMission\x12\x17.mensaje.ConfirmRequest\x1a\x18.mensaje.ConfirmResponseB\x12Z\x10lester-sys/protob\x06proto3"
+	"\x0eConfirmMission\x12\x17.mensaje.ConfirmRequest\x1a\x18.mensaje.ConfirmResponse\x12C\n" +
+	"\x12NotificarEstrellas\x12\x15.mensaje.AvisoRequest\x1a\x16.mensaje.AvisoResponse\x12C\n" +
+	"\x0eNotificarGolpe\x12\x17.mensaje.ConfirmRequest\x1a\x18.mensaje.ConfirmResponseB\x12Z\x10lester-sys/protob\x06proto3"
 
 var (
 	file_lester_proto_rawDescOnce sync.Once
@@ -257,20 +360,26 @@ func file_lester_proto_rawDescGZIP() []byte {
 	return file_lester_proto_rawDescData
 }
 
-var file_lester_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_lester_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_lester_proto_goTypes = []any{
-	(*MissionRequest)(nil),  // 0: mensaje.MissionRequest
-	(*MissionResponse)(nil), // 1: mensaje.MissionResponse
-	(*ConfirmRequest)(nil),  // 2: mensaje.ConfirmRequest
-	(*ConfirmResponse)(nil), // 3: mensaje.ConfirmResponse
+	(*AvisoRequest)(nil),    // 0: mensaje.AvisoRequest
+	(*AvisoResponse)(nil),   // 1: mensaje.AvisoResponse
+	(*MissionRequest)(nil),  // 2: mensaje.MissionRequest
+	(*MissionResponse)(nil), // 3: mensaje.MissionResponse
+	(*ConfirmRequest)(nil),  // 4: mensaje.ConfirmRequest
+	(*ConfirmResponse)(nil), // 5: mensaje.ConfirmResponse
 }
 var file_lester_proto_depIdxs = []int32{
-	0, // 0: mensaje.Mission.Oferta:input_type -> mensaje.MissionRequest
-	2, // 1: mensaje.Mission.ConfirmMission:input_type -> mensaje.ConfirmRequest
-	1, // 2: mensaje.Mission.Oferta:output_type -> mensaje.MissionResponse
-	3, // 3: mensaje.Mission.ConfirmMission:output_type -> mensaje.ConfirmResponse
-	2, // [2:4] is the sub-list for method output_type
-	0, // [0:2] is the sub-list for method input_type
+	2, // 0: mensaje.Mission.Oferta:input_type -> mensaje.MissionRequest
+	4, // 1: mensaje.Mission.ConfirmMission:input_type -> mensaje.ConfirmRequest
+	0, // 2: mensaje.Mission.NotificarEstrellas:input_type -> mensaje.AvisoRequest
+	4, // 3: mensaje.Mission.NotificarGolpe:input_type -> mensaje.ConfirmRequest
+	3, // 4: mensaje.Mission.Oferta:output_type -> mensaje.MissionResponse
+	5, // 5: mensaje.Mission.ConfirmMission:output_type -> mensaje.ConfirmResponse
+	1, // 6: mensaje.Mission.NotificarEstrellas:output_type -> mensaje.AvisoResponse
+	5, // 7: mensaje.Mission.NotificarGolpe:output_type -> mensaje.ConfirmResponse
+	4, // [4:8] is the sub-list for method output_type
+	0, // [0:4] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -287,7 +396,7 @@ func file_lester_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_lester_proto_rawDesc), len(file_lester_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

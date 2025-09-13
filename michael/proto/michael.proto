@@ -12,6 +12,17 @@ service Mission {
   rpc ConfirmMission (ConfirmRequest) returns (ConfirmResponse);
   rpc Distraccion(DistraccionRequest) returns (DistraccionResponse);
   rpc Golpe(GolpeRequest) returns (GolpeResponse);
+  rpc NotificarEstrellas(AvisoRequest) returns (AvisoResponse);
+  rpc NotificarGolpe(ConfirmRequest) returns (ConfirmResponse);
+}
+
+message AvisoRequest {
+  string pj = 1;
+  int32 riesgo = 2;
+  int32 turnos = 3;
+}
+
+message AvisoResponse {
 }
 
 // El mensaje de solicitud. Contiene el nombre de la persona a saludar.

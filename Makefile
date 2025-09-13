@@ -11,6 +11,7 @@ docker-lester:
 
 docker-michael:
 	sudo docker-compose up --build michael
+	sudo docker cp michael-container:/app/informe.txt ./michael/informe.txt
 
 docker-franklin: 
 	sudo docker-compose up --build franklin

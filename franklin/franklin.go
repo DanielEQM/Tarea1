@@ -6,8 +6,10 @@ import (
 	"math/rand"
 	"net"
 	"os"
+	"strconv"
+	"time"
 
-	"github.com/rabbitmq/amqp091-go"
+	amqp "github.com/rabbitmq/amqp091-go"
 
 	pb "franklin/proto/franklin-sys/proto"
 
@@ -16,6 +18,24 @@ import (
 
 type server struct {
 	pb.UnimplementedMissionServer
+}
+
+func connectWithRetry(uri string) (*amqp.Connection, error) {
+	var conn *amqp.Connection
+	var err error
+	const maxRetries = 10
+	const delay = 5 * time.Second
+
+	for i := 0; i < maxRetries; i++ {
+		conn, err = amqp.Dial(uri)
+		if err == nil {
+			log.Println("[*] Conexión exitosa")
+			return conn, nil
+		}
+		log.Printf("Error en conexión (intendo %d/%d): %v", i+1, maxRetries, err)
+		time.Sleep(delay)
+	}
+	return nil, err
 }
 
 func fallo(err error, msg string) {
@@ -51,16 +71,50 @@ func (s *server) Distraccion(ctx context.Context, in *pb.DistraccionRequest) (*p
 */
 
 func (s *server) Golpe(ctx context.Context, in *pb.GolpeRequest) (*pb.GolpeResponse, error) {
+	//
+	amqpURI := os.Getenv("AMQP_URI")
+	if amqpURI == "" {
+		amqpURI = "amqp://guest:guest@localhost:5672/"
+	}
+	conn, err := connectWithRetry(amqpURI)
+	fallo(err, "Se excedio el tiempo")
+	defer conn.Close()
+
+	ch, err := conn.Channel()
+	fallo(err, "Fallo al abrir el canal")
+	defer ch.Close()
+
+	q, err := ch.QueueDeclare("Franklin", false, false, false, false, nil)
+	fallo(err, "Fallo al declarar la cola")
+	//
+	msgs, err := ch.Consume(
+		q.Name,
+		"",
+		true,
+		false,
+		false,
+		false,
+		nil,
+	)
+	fallo(err, "Fallo al registrar consumidor")
+
 	var estrellas int = 0
 	limite := 5
 	extra := 0
 	victoria := true
 	razon := ""
 	for i := 1; i < int(in.GetTurnos()); i++ {
+		go func() {
+			for d := range msgs {
+				new := string(d.Body)
+				estrellas, _ = strconv.Atoi(new)
+				log.Printf("Ahora tengo %d estrellas", estrellas)
+			}
+		}()
+		time.Sleep(50 * time.Millisecond)
 		if estrellas == limite {
 			victoria = false
 			razon = "Se llego a 5 estrellas..."
-			extra = 0
 			break
 		}
 		if estrellas >= 3 {
@@ -84,66 +138,11 @@ o derrota, el botin extra y la razon asociada.
 */
 
 func main() {
-	amqpURI := os.Getenv("AMQP_URI")
-	if amqpURI == "" {
-		amqpURI = "amqp://guest:guest@rabbitmq:5672/"
-	}
-
-	conn, err := amqp091.Dial(amqpURI)
-	fallo(err, "No se pudo conectar a RabbitMQ")
-	defer conn.Close()
-
-	ch, err := conn.Channel()
-	fallo(err, "No se pudo abrir un canal")
-	defer ch.Close()
-
-	q, err := ch.QueueDeclare(
-		"cola.Franklin",
-		false, false, false, false, nil,
-	)
-	fallo(err, "No se pudo declarar la cola")
-
-	err = ch.QueueBind(
-		q.Name,
-		"Franklin",
-		"notificaciones",
-		false,
-		nil,
-	)
-	fallo(err, "No se pudo hacer el bind")
-
-	msgs, err := ch.Consume(
-		q.Name,
-		"",
-		true,
-		false,
-		false,
-		false,
-		nil,
-	)
-	fallo(err, "No se pudo registrar el consumidor")
-
-	log.Printf("Franklin esperando notificaciones...\n")
-
-	forever := make(chan bool)
-
-	go func() {
-		for d := range msgs {
-			log.Printf("Franklin recibió: %s", d.Body)
-		}
-	}()
-
 	lis, err := net.Listen("tcp", ":50052")
-	if err != nil {
-		log.Fatalf("Fallo al escuchar: %v", err)
-	}
+	fallo(err, "Fallo al escuchar")
 
 	s := grpc.NewServer()
 	pb.RegisterMissionServer(s, &server{})
 	log.Printf("Servidor escuchando en %v", lis.Addr())
-
-	if err := s.Serve(lis); err != nil {
-		log.Fatalf("Fallo al servir: %v", err)
-	}
-	<-forever
+	fallo(err, "Fallo al servir")
 }

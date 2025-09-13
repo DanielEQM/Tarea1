@@ -23,6 +23,102 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type AvisoRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Pj            string                 `protobuf:"bytes,1,opt,name=pj,proto3" json:"pj,omitempty"`
+	Riesgo        int32                  `protobuf:"varint,2,opt,name=riesgo,proto3" json:"riesgo,omitempty"`
+	Turnos        int32                  `protobuf:"varint,3,opt,name=turnos,proto3" json:"turnos,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AvisoRequest) Reset() {
+	*x = AvisoRequest{}
+	mi := &file_michael_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AvisoRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AvisoRequest) ProtoMessage() {}
+
+func (x *AvisoRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_michael_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AvisoRequest.ProtoReflect.Descriptor instead.
+func (*AvisoRequest) Descriptor() ([]byte, []int) {
+	return file_michael_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *AvisoRequest) GetPj() string {
+	if x != nil {
+		return x.Pj
+	}
+	return ""
+}
+
+func (x *AvisoRequest) GetRiesgo() int32 {
+	if x != nil {
+		return x.Riesgo
+	}
+	return 0
+}
+
+func (x *AvisoRequest) GetTurnos() int32 {
+	if x != nil {
+		return x.Turnos
+	}
+	return 0
+}
+
+type AvisoResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AvisoResponse) Reset() {
+	*x = AvisoResponse{}
+	mi := &file_michael_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AvisoResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AvisoResponse) ProtoMessage() {}
+
+func (x *AvisoResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_michael_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AvisoResponse.ProtoReflect.Descriptor instead.
+func (*AvisoResponse) Descriptor() ([]byte, []int) {
+	return file_michael_proto_rawDescGZIP(), []int{1}
+}
+
 // El mensaje de solicitud. Contiene el nombre de la persona a saludar.
 type MissionRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -33,7 +129,7 @@ type MissionRequest struct {
 
 func (x *MissionRequest) Reset() {
 	*x = MissionRequest{}
-	mi := &file_michael_proto_msgTypes[0]
+	mi := &file_michael_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -45,7 +141,7 @@ func (x *MissionRequest) String() string {
 func (*MissionRequest) ProtoMessage() {}
 
 func (x *MissionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_michael_proto_msgTypes[0]
+	mi := &file_michael_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -58,7 +154,7 @@ func (x *MissionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MissionRequest.ProtoReflect.Descriptor instead.
 func (*MissionRequest) Descriptor() ([]byte, []int) {
-	return file_michael_proto_rawDescGZIP(), []int{0}
+	return file_michael_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *MissionRequest) GetRechazo() int32 {
@@ -82,7 +178,7 @@ type MissionResponse struct {
 
 func (x *MissionResponse) Reset() {
 	*x = MissionResponse{}
-	mi := &file_michael_proto_msgTypes[1]
+	mi := &file_michael_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -94,7 +190,7 @@ func (x *MissionResponse) String() string {
 func (*MissionResponse) ProtoMessage() {}
 
 func (x *MissionResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_michael_proto_msgTypes[1]
+	mi := &file_michael_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -107,7 +203,7 @@ func (x *MissionResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MissionResponse.ProtoReflect.Descriptor instead.
 func (*MissionResponse) Descriptor() ([]byte, []int) {
-	return file_michael_proto_rawDescGZIP(), []int{1}
+	return file_michael_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *MissionResponse) GetDisp() bool {
@@ -154,7 +250,7 @@ type ConfirmRequest struct {
 
 func (x *ConfirmRequest) Reset() {
 	*x = ConfirmRequest{}
-	mi := &file_michael_proto_msgTypes[2]
+	mi := &file_michael_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -166,7 +262,7 @@ func (x *ConfirmRequest) String() string {
 func (*ConfirmRequest) ProtoMessage() {}
 
 func (x *ConfirmRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_michael_proto_msgTypes[2]
+	mi := &file_michael_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -179,7 +275,7 @@ func (x *ConfirmRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ConfirmRequest.ProtoReflect.Descriptor instead.
 func (*ConfirmRequest) Descriptor() ([]byte, []int) {
-	return file_michael_proto_rawDescGZIP(), []int{2}
+	return file_michael_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *ConfirmRequest) GetConf() bool {
@@ -197,7 +293,7 @@ type ConfirmResponse struct {
 
 func (x *ConfirmResponse) Reset() {
 	*x = ConfirmResponse{}
-	mi := &file_michael_proto_msgTypes[3]
+	mi := &file_michael_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -209,7 +305,7 @@ func (x *ConfirmResponse) String() string {
 func (*ConfirmResponse) ProtoMessage() {}
 
 func (x *ConfirmResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_michael_proto_msgTypes[3]
+	mi := &file_michael_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -222,7 +318,7 @@ func (x *ConfirmResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ConfirmResponse.ProtoReflect.Descriptor instead.
 func (*ConfirmResponse) Descriptor() ([]byte, []int) {
-	return file_michael_proto_rawDescGZIP(), []int{3}
+	return file_michael_proto_rawDescGZIP(), []int{5}
 }
 
 type DistraccionRequest struct {
@@ -234,7 +330,7 @@ type DistraccionRequest struct {
 
 func (x *DistraccionRequest) Reset() {
 	*x = DistraccionRequest{}
-	mi := &file_michael_proto_msgTypes[4]
+	mi := &file_michael_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -246,7 +342,7 @@ func (x *DistraccionRequest) String() string {
 func (*DistraccionRequest) ProtoMessage() {}
 
 func (x *DistraccionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_michael_proto_msgTypes[4]
+	mi := &file_michael_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -259,7 +355,7 @@ func (x *DistraccionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DistraccionRequest.ProtoReflect.Descriptor instead.
 func (*DistraccionRequest) Descriptor() ([]byte, []int) {
-	return file_michael_proto_rawDescGZIP(), []int{4}
+	return file_michael_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *DistraccionRequest) GetTurnos() int32 {
@@ -278,7 +374,7 @@ type DistraccionResponse struct {
 
 func (x *DistraccionResponse) Reset() {
 	*x = DistraccionResponse{}
-	mi := &file_michael_proto_msgTypes[5]
+	mi := &file_michael_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -290,7 +386,7 @@ func (x *DistraccionResponse) String() string {
 func (*DistraccionResponse) ProtoMessage() {}
 
 func (x *DistraccionResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_michael_proto_msgTypes[5]
+	mi := &file_michael_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -303,7 +399,7 @@ func (x *DistraccionResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DistraccionResponse.ProtoReflect.Descriptor instead.
 func (*DistraccionResponse) Descriptor() ([]byte, []int) {
-	return file_michael_proto_rawDescGZIP(), []int{5}
+	return file_michael_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *DistraccionResponse) GetConfirmacion() bool {
@@ -322,7 +418,7 @@ type GolpeRequest struct {
 
 func (x *GolpeRequest) Reset() {
 	*x = GolpeRequest{}
-	mi := &file_michael_proto_msgTypes[6]
+	mi := &file_michael_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -334,7 +430,7 @@ func (x *GolpeRequest) String() string {
 func (*GolpeRequest) ProtoMessage() {}
 
 func (x *GolpeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_michael_proto_msgTypes[6]
+	mi := &file_michael_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -347,7 +443,7 @@ func (x *GolpeRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GolpeRequest.ProtoReflect.Descriptor instead.
 func (*GolpeRequest) Descriptor() ([]byte, []int) {
-	return file_michael_proto_rawDescGZIP(), []int{6}
+	return file_michael_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *GolpeRequest) GetTurnos() int32 {
@@ -368,7 +464,7 @@ type GolpeResponse struct {
 
 func (x *GolpeResponse) Reset() {
 	*x = GolpeResponse{}
-	mi := &file_michael_proto_msgTypes[7]
+	mi := &file_michael_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -380,7 +476,7 @@ func (x *GolpeResponse) String() string {
 func (*GolpeResponse) ProtoMessage() {}
 
 func (x *GolpeResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_michael_proto_msgTypes[7]
+	mi := &file_michael_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -393,7 +489,7 @@ func (x *GolpeResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GolpeResponse.ProtoReflect.Descriptor instead.
 func (*GolpeResponse) Descriptor() ([]byte, []int) {
-	return file_michael_proto_rawDescGZIP(), []int{7}
+	return file_michael_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *GolpeResponse) GetConfirmacion() bool {
@@ -421,7 +517,12 @@ var File_michael_proto protoreflect.FileDescriptor
 
 const file_michael_proto_rawDesc = "" +
 	"\n" +
-	"\rmichael.proto\x12\amensaje\"*\n" +
+	"\rmichael.proto\x12\amensaje\"N\n" +
+	"\fAvisoRequest\x12\x0e\n" +
+	"\x02pj\x18\x01 \x01(\tR\x02pj\x12\x16\n" +
+	"\x06riesgo\x18\x02 \x01(\x05R\x06riesgo\x12\x16\n" +
+	"\x06turnos\x18\x03 \x01(\x05R\x06turnos\"\x0f\n" +
+	"\rAvisoResponse\"*\n" +
 	"\x0eMissionRequest\x12\x18\n" +
 	"\arechazo\x18\x01 \x01(\x05R\arechazo\"\x81\x01\n" +
 	"\x0fMissionResponse\x12\x12\n" +
@@ -444,12 +545,14 @@ const file_michael_proto_rawDesc = "" +
 	"\n" +
 	"botinExtra\x18\x02 \x01(\x05R\n" +
 	"botinExtra\x12\x14\n" +
-	"\x05razon\x18\x03 \x01(\tR\x05razon2\x8d\x02\n" +
+	"\x05razon\x18\x03 \x01(\tR\x05razon2\x97\x03\n" +
 	"\aMission\x12;\n" +
 	"\x06Oferta\x12\x17.mensaje.MissionRequest\x1a\x18.mensaje.MissionResponse\x12C\n" +
 	"\x0eConfirmMission\x12\x17.mensaje.ConfirmRequest\x1a\x18.mensaje.ConfirmResponse\x12H\n" +
 	"\vDistraccion\x12\x1b.mensaje.DistraccionRequest\x1a\x1c.mensaje.DistraccionResponse\x126\n" +
-	"\x05Golpe\x12\x15.mensaje.GolpeRequest\x1a\x16.mensaje.GolpeResponseB\x13Z\x11michael-sys/protob\x06proto3"
+	"\x05Golpe\x12\x15.mensaje.GolpeRequest\x1a\x16.mensaje.GolpeResponse\x12C\n" +
+	"\x12NotificarEstrellas\x12\x15.mensaje.AvisoRequest\x1a\x16.mensaje.AvisoResponse\x12C\n" +
+	"\x0eNotificarGolpe\x12\x17.mensaje.ConfirmRequest\x1a\x18.mensaje.ConfirmResponseB\x13Z\x11michael-sys/protob\x06proto3"
 
 var (
 	file_michael_proto_rawDescOnce sync.Once
@@ -463,28 +566,34 @@ func file_michael_proto_rawDescGZIP() []byte {
 	return file_michael_proto_rawDescData
 }
 
-var file_michael_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_michael_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_michael_proto_goTypes = []any{
-	(*MissionRequest)(nil),      // 0: mensaje.MissionRequest
-	(*MissionResponse)(nil),     // 1: mensaje.MissionResponse
-	(*ConfirmRequest)(nil),      // 2: mensaje.ConfirmRequest
-	(*ConfirmResponse)(nil),     // 3: mensaje.ConfirmResponse
-	(*DistraccionRequest)(nil),  // 4: mensaje.DistraccionRequest
-	(*DistraccionResponse)(nil), // 5: mensaje.DistraccionResponse
-	(*GolpeRequest)(nil),        // 6: mensaje.GolpeRequest
-	(*GolpeResponse)(nil),       // 7: mensaje.GolpeResponse
+	(*AvisoRequest)(nil),        // 0: mensaje.AvisoRequest
+	(*AvisoResponse)(nil),       // 1: mensaje.AvisoResponse
+	(*MissionRequest)(nil),      // 2: mensaje.MissionRequest
+	(*MissionResponse)(nil),     // 3: mensaje.MissionResponse
+	(*ConfirmRequest)(nil),      // 4: mensaje.ConfirmRequest
+	(*ConfirmResponse)(nil),     // 5: mensaje.ConfirmResponse
+	(*DistraccionRequest)(nil),  // 6: mensaje.DistraccionRequest
+	(*DistraccionResponse)(nil), // 7: mensaje.DistraccionResponse
+	(*GolpeRequest)(nil),        // 8: mensaje.GolpeRequest
+	(*GolpeResponse)(nil),       // 9: mensaje.GolpeResponse
 }
 var file_michael_proto_depIdxs = []int32{
-	0, // 0: mensaje.Mission.Oferta:input_type -> mensaje.MissionRequest
-	2, // 1: mensaje.Mission.ConfirmMission:input_type -> mensaje.ConfirmRequest
-	4, // 2: mensaje.Mission.Distraccion:input_type -> mensaje.DistraccionRequest
-	6, // 3: mensaje.Mission.Golpe:input_type -> mensaje.GolpeRequest
-	1, // 4: mensaje.Mission.Oferta:output_type -> mensaje.MissionResponse
-	3, // 5: mensaje.Mission.ConfirmMission:output_type -> mensaje.ConfirmResponse
-	5, // 6: mensaje.Mission.Distraccion:output_type -> mensaje.DistraccionResponse
-	7, // 7: mensaje.Mission.Golpe:output_type -> mensaje.GolpeResponse
-	4, // [4:8] is the sub-list for method output_type
-	0, // [0:4] is the sub-list for method input_type
+	2, // 0: mensaje.Mission.Oferta:input_type -> mensaje.MissionRequest
+	4, // 1: mensaje.Mission.ConfirmMission:input_type -> mensaje.ConfirmRequest
+	6, // 2: mensaje.Mission.Distraccion:input_type -> mensaje.DistraccionRequest
+	8, // 3: mensaje.Mission.Golpe:input_type -> mensaje.GolpeRequest
+	0, // 4: mensaje.Mission.NotificarEstrellas:input_type -> mensaje.AvisoRequest
+	4, // 5: mensaje.Mission.NotificarGolpe:input_type -> mensaje.ConfirmRequest
+	3, // 6: mensaje.Mission.Oferta:output_type -> mensaje.MissionResponse
+	5, // 7: mensaje.Mission.ConfirmMission:output_type -> mensaje.ConfirmResponse
+	7, // 8: mensaje.Mission.Distraccion:output_type -> mensaje.DistraccionResponse
+	9, // 9: mensaje.Mission.Golpe:output_type -> mensaje.GolpeResponse
+	1, // 10: mensaje.Mission.NotificarEstrellas:output_type -> mensaje.AvisoResponse
+	5, // 11: mensaje.Mission.NotificarGolpe:output_type -> mensaje.ConfirmResponse
+	6, // [6:12] is the sub-list for method output_type
+	0, // [0:6] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -501,7 +610,7 @@ func file_michael_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_michael_proto_rawDesc), len(file_michael_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   8,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

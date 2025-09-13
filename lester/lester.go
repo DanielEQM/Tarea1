@@ -3,54 +3,24 @@ package main
 import (
 	"bufio"
 	"context"
-	"fmt"
 	"log"
 	"math/rand"
 	"net"
 	"os"
+	"strconv"
 	"time"
 
-	"github.com/streadway/amqp"
-
 	pb "lester/proto/lester-sys/proto"
+
+	amqp "github.com/rabbitmq/amqp091-go"
 
 	"google.golang.org/grpc"
 )
 
-var rabbitConn *amqp.Connection
-var rabbitCh *amqp.Channel
+var conn *amqp.Connection
+var ch *amqp.Channel
+var flag bool = true
 var sss [][]string
-
-func notificarEstrellas(personaje string, riesgo int, stopChan chan bool) {
-	frecuencia := 100 - riesgo
-	estrellas := 0
-
-	ticker := time.NewTicker(time.Duration(frecuencia) * time.Millisecond)
-	defer ticker.Stop()
-
-	for {
-		select {
-		case <-stopChan:
-			log.Printf("Se detuvieron las notificaciones a %s", personaje)
-			return
-		case <-ticker.C:
-			estrellas++
-			msg := fmt.Sprintf("%s tiene ahora %d estrellas", personaje, estrellas)
-			publishMessage(personaje, msg)
-
-			if personaje == "Trevor" && estrellas >= 7 {
-				log.Printf("Trevor alcanzó su limite de estrellas (7). Fracaso")
-				stopChan <- true
-				return
-			}
-			if personaje == "Franklin" && estrellas >= 5 {
-				log.Printf("Franklin alcanzó su limite de estrellas (5). Fracasó")
-				stopChan <- true
-				return
-			}
-		}
-	}
-}
 
 func fallo(err error, msg string) {
 	if err != nil {
@@ -58,37 +28,84 @@ func fallo(err error, msg string) {
 	}
 }
 
-func initRabbit() {
+func connectWithRetry(uri string) (*amqp.Connection, error) {
+	var conn *amqp.Connection
 	var err error
-	rabbitConn, err = amqp.Dial("amqp://guest:guest@rabbitmq:5672/")
-	fallo(err, "No se pudo conectar a RabbitMQ")
+	const maxRetries = 10
+	const delay = 5 * time.Second
 
-	rabbitCh, err = rabbitConn.Channel()
-	fallo(err, "No se pudo abrir el canal")
-
-	_, err = rabbitCh.QueueDeclare(
-		"notificaciones",
-		false,
-		false,
-		false,
-		false,
-		nil,
-	)
-	fallo(err, "No se pudo declarar la cola")
+	for i := 0; i < maxRetries; i++ {
+		conn, err = amqp.Dial(uri)
+		if err == nil {
+			log.Println("[*] Conexión exitosa")
+			return conn, nil
+		}
+		log.Printf("Error en conexión (intendo %d/%d): %v", i+1, maxRetries, err)
+		time.Sleep(delay)
+	}
+	return nil, err
 }
 
-func publishMessage(personaje, msg string) {
-	err := rabbitCh.Publish(
-		"notificaciones",
-		personaje,
-		false,
-		false,
-		amqp.Publishing{
-			ContentType: "text/plain",
-			Body:        []byte(msg),
-		})
-	fallo(err, "Error publicando un mensaje")
-	log.Printf(" [x] Lester notificó a %s: %s", personaje, msg)
+func (s *server) NotificarGolpe(ctx context.Context, in *pb.ConfirmRequest) (*pb.ConfirmResponse, error) {
+	flag = in.GetConf()
+	return &pb.ConfirmResponse{}, nil
+}
+
+func (s *server) NotificarEstrellas(ctx context.Context, in *pb.AvisoRequest) (*pb.AvisoResponse, error) {
+	go func() {
+		amqpURI := os.Getenv("AMQP_URI")
+		if amqpURI == "" {
+			amqpURI = "amqp://guest:guest@localhost:5672/"
+		}
+		conn, err := connectWithRetry(amqpURI)
+		if err != nil {
+			log.Fatalf("Se excedío el tiempo maximo. (%v)", err)
+		}
+		defer conn.Close()
+
+		ch, err = conn.Channel()
+		if err != nil {
+			log.Fatalf("No se puede abrir el canal: %v", err)
+		}
+		defer ch.Close()
+
+		q, err := ch.QueueDeclare(in.GetPj(), false, false, false, false, nil)
+		if err != nil {
+			log.Fatalf("No se puede declarar la cola: %v", err)
+		}
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+
+		frecuencia := 100 - in.GetRiesgo()
+		estrellas := 1
+
+		for i := 0; i < int(in.GetTurnos()); i++ {
+			if !flag {
+				break
+			}
+			if i == int(frecuencia) {
+				log.Printf("Aumento a %d estrellas!", estrellas)
+				body := strconv.Itoa(estrellas)
+				err = ch.PublishWithContext(ctx,
+					"",
+					q.Name,
+					false,
+					false,
+					amqp.Publishing{
+						ContentType: "text/plain",
+						Body:        []byte(body),
+					})
+				if err != nil {
+					log.Fatalf("No se pudo publicar el mensaje. %v", err)
+				}
+				frecuencia += 100 - in.GetRiesgo()
+				estrellas++
+			}
+			time.Sleep(50 * time.Millisecond)
+		}
+
+	}()
+	return &pb.AvisoResponse{}, nil
 }
 
 type server struct {
@@ -174,12 +191,7 @@ func main() {
 		cont++
 	}
 
-	stopChan := make(chan bool)
-	go notificarEstrellas("Franklin", 20, stopChan)
-	go notificarEstrellas("Trevor", 20, stopChan)
-
-	initRabbit()
-
+	// Servidor
 	lis, err := net.Listen("tcp", ":50051")
 	if err != nil {
 		log.Fatalf("Fallo al escuchar: %v", err)
@@ -187,9 +199,6 @@ func main() {
 	s := grpc.NewServer()
 	pb.RegisterMissionServer(s, &server{})
 	log.Printf("Servidor escuchando en %v", lis.Addr())
-
-	defer rabbitConn.Close()
-	defer rabbitCh.Close()
 
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("Fallo al servir: %v", err)

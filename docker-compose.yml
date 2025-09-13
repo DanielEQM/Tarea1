@@ -34,6 +34,8 @@ services:
       context: ./franklin
     depends_on:
       - rabbitmq
+    environment:
+      AMQP_URI: amqp://guest:guest@rabbitmq:5672/
     command: ["/app/franklin"]
     container_name: franklin-container
     ports:
@@ -44,6 +46,8 @@ services:
       context: ./trevor
     depends_on:
       - rabbitmq
+    environment:
+      AMQP_URI: amqp://guest:guest@rabbitmq:5672/
     command: ["/app/trevor"]
     container_name: trevor-container
     ports:

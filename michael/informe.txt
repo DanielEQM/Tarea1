@@ -1,0 +1,20 @@
+==============================================
+==        REPORTE FINAL DE LA MISIÓN        ==
+==============================================
+Misión: Asalato al banco
+Resultado Global: MISSION COMPLETADA CON EXITO
+
+       <--    REPARTO DEL BOTIN    -->        
+Botin Base: $735398
+Botin Extra (Habilidad de Chop): $0
+Botin Total: $183849
+----------------------------------------------
+botin franklin: $735398
+
+botin trevor: $735398
+
+botin lester: $735398 + extra: $2. Total: $735400
+
+----------------------------------------------
+Saldo Final: $183849
+==============================================
