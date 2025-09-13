@@ -38,11 +38,31 @@ func connectWithRetry(uri string) (*amqp.Connection, error) {
 	return nil, err
 }
 
+/*********************
+** Nombre: connectWithRetry
+**********************
+** Parametros: uri (string)
+**********************
+** Retorno: *amqp.Connection, error
+**********************
+** Descripción: Intenta realizar una conexion a amqp hasta alcanzar un maximo de intentos, con un delay determinado entre cada uno. Retorna la tupla conexion, nil en caso de conexion exitosa, o la tupla nil, err cuando no la logra luego del maximo de intentos.
+ */
+
 func fallo(err error, msg string) {
 	if err != nil {
 		log.Fatalf("%s: %s", msg, err)
 	}
 }
+
+/*********************
+** Nombre: fallo
+**********************
+** Parametros: err (error), msg (string)
+**********************
+** Retorno:
+**********************
+** Descripción: En caso de recibir un error como parametro, permite imprimirlo junto al mensaje recibido como parametro, para luego finalizar el programa.
+ */
 
 func (s *server) Distraccion(ctx context.Context, in *pb.DistraccionRequest) (*pb.DistraccionResponse, error) {
 	log.Printf("Trevor comienza la distracción por %d turnos", in.GetTurnos())

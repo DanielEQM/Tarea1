@@ -7,5 +7,4 @@ COPY . .
 RUN go mod tidy
 RUN go build -o lester .
 
-# Comando por defecto
 CMD ["./lester"]

@@ -28,6 +28,16 @@ func fallo(err error, msg string) {
 	}
 }
 
+/*********************
+** Nombre: fallo
+**********************
+** Parametros: err (error), msg (string)
+**********************
+** Retorno:
+**********************
+** Descripción: En caso de recibir un error como parametro, permite imprimirlo junto al mensaje recibido como parametro, para luego finalizar el programa.
+ */
+
 func connectWithRetry(uri string) (*amqp.Connection, error) {
 	var conn *amqp.Connection
 	var err error
@@ -46,10 +56,30 @@ func connectWithRetry(uri string) (*amqp.Connection, error) {
 	return nil, err
 }
 
+/*********************
+** Nombre: connectWithRetry
+**********************
+** Parametros: uri (string)
+**********************
+** Retorno: *amqp.Connection, error
+**********************
+** Descripción: Intenta realizar una conexion a amqp hasta alcanzar un maximo de intentos, con un delay determinado entre cada uno. Retorna la tupla conexion, nil en caso de conexion exitosa, o la tupla nil, err cuando no la logra luego del maximo de intentos.
+ */
+
 func (s *server) NotificarGolpe(ctx context.Context, in *pb.ConfirmRequest) (*pb.ConfirmResponse, error) {
 	flag = in.GetConf()
 	return &pb.ConfirmResponse{}, nil
 }
+
+/*********************
+** Nombre: NotificarGolpe
+**********************
+** Parametros: ctx (context.Context), in (*pb.ConfirmRequest)
+**********************
+** Retorno: *pb.ConfirmResponse, error
+**********************
+** Descripción:
+ */
 
 func (s *server) NotificarEstrellas(ctx context.Context, in *pb.AvisoRequest) (*pb.AvisoResponse, error) {
 	go func() {
@@ -100,6 +130,16 @@ func (s *server) NotificarEstrellas(ctx context.Context, in *pb.AvisoRequest) (*
 	return &pb.AvisoResponse{}, nil
 }
 
+/*********************
+** Nombre: NotificarEstrellas
+**********************
+** Parametros: ctx (context.Context), in (*pb.AvisoRequest)
+**********************
+** Retorno: *pb.AvisoResponse, error
+**********************
+** Descripción: Genera la mensajeria asincronica que permite notificar a Trevor y Franklin de sus estrellas. Se conecta a RabbitMQ, abre un canal, declara una cola y envia un mensaje cuando frecuencia coincide con la iteracion de los turnos de la mision.
+ */
+
 type server struct {
 	pb.UnimplementedMissionServer
 }
@@ -134,12 +174,12 @@ func (s *server) Oferta(ctx context.Context, in *pb.MissionRequest) (*pb.Mission
 */
 
 func (s *server) ConfirmMission(ctx context.Context, in *pb.ConfirmRequest) (*pb.ConfirmResponse, error) {
-	// debe hacer algo
+	log.Printf("Entendido, estaré atento.")
 	return &pb.ConfirmResponse{}, nil
 }
 
 /*********************
-** Nombre: confirmMission
+** Nombre: ConfirmMission
 **********************
 ** Parametros: ctx (context.Context), in (*pb.ConfirmRequest)
 **********************

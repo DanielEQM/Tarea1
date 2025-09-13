@@ -25,6 +25,16 @@ func fallo(err error, msgs string) {
 	}
 }
 
+/*********************
+** Nombre: fallo
+**********************
+** Parametros: err (error), msg (string)
+**********************
+** Retorno:
+**********************
+** Descripción: En caso de recibir un error como parametro, permite imprimirlo junto al mensaje recibido como parametro, para luego finalizar el programa.
+ */
+
 func main() {
 	connL, err := grpc.Dial(addressL, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	fallo(err, "No se pudo conectar")
@@ -175,7 +185,7 @@ func main() {
 		line := "==============================================\n"
 		line += "==        REPORTE FINAL DE LA MISIÓN        ==\n"
 		line += "==============================================\n"
-		line += "Misión: Asalato al banco\n"
+		line += "Misión: Asalto al banco\n"
 		line += "Resultado Global: MISSION COMPLETADA CON EXITO\n\n"
 		line += "       <--    REPARTO DEL BOTIN    -->        \n"
 		line += "Botin Base: $" + strconv.Itoa(botin) + "\n"

@@ -1,13 +1,9 @@
-// Especifica la versión de la sintaxis de Protocol Buffers.
 syntax = "proto3";
 
-// Define el paquete de Go que se generará. Evita colisiones de nombres.
 option go_package = "lester-sys/proto";
 package mensaje;
 
-// El servicio "Greeter" define un conjunto de funciones remotas.
 service Mission {
-  // Nuestra función remota. Recibe un HelloRequest y devuelve un HelloResponse.
   rpc Oferta (MissionRequest) returns (MissionResponse);
   rpc ConfirmMission (ConfirmRequest) returns (ConfirmResponse);
   rpc NotificarEstrellas(AvisoRequest) returns (AvisoResponse);
@@ -22,13 +18,10 @@ message AvisoRequest {
 
 message AvisoResponse {}
 
-
-// El mensaje de solicitud. Contiene el nombre de la persona a saludar.
 message MissionRequest {
   int32 rechazo = 1;
 }
 
-// El mensaje de respuesta. Contendrá el saludo final.
 message MissionResponse {
   bool  disp = 1;
   string botin = 2;
