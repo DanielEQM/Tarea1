@@ -14,9 +14,9 @@ import (
 )
 
 const (
-	addressL = "10.53.168.35:50051"
-	addressF = "10.53.168.37:50052"
-	addressT = "10.53.168.38:50053" // La dirección del servidor
+	addressL = "10.35.168.35:50051"
+	addressF = "10.35.168.37:50052"
+	addressT = "10.35.168.38:50053" // La dirección del servidor
 )
 
 func fallo(err error, msgs string) {
