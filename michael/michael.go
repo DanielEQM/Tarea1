@@ -61,8 +61,6 @@ func main() {
 		r, err = L.Oferta(ctx, &pb.MissionRequest{Rechazo: rechazo})
 		fallo(err, "No se pudo conectar")
 		if rechazo == 3 {
-			log.Printf("Michael rechazó 3 veces. Lester lo hace esperar 10s ...")
-			time.Sleep(10 * time.Second)
 			rechazo = 0
 		}
 		if r.GetDisp() {
