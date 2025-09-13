@@ -29,7 +29,7 @@ services:
     build: 
       context: ./franklin
     environment:
-      AMQP_URI: amqp://guest:guest@rabbitmq:5672/
+      AMQP_URI: amqp://guest:guest@10.35.168.35:5672/
     command: ["/app/franklin"]
     container_name: franklin-container
     ports:
@@ -39,7 +39,7 @@ services:
     build:
       context: ./trevor
     environment:
-      AMQP_URI: amqp://guest:guest@rabbitmq:5672/
+      AMQP_URI: amqp://guest:guest@10.35.168.35:5672/
     command: ["/app/trevor"]
     container_name: trevor-container
     ports:
