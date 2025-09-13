@@ -223,6 +223,110 @@ func (x *GolpeResponse) GetRazon() string {
 	return ""
 }
 
+type PagoRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Victoria      bool                   `protobuf:"varint,1,opt,name=victoria,proto3" json:"victoria,omitempty"`
+	Fase          string                 `protobuf:"bytes,2,opt,name=fase,proto3" json:"fase,omitempty"`
+	Who           string                 `protobuf:"bytes,3,opt,name=who,proto3" json:"who,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PagoRequest) Reset() {
+	*x = PagoRequest{}
+	mi := &file_trevor_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PagoRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PagoRequest) ProtoMessage() {}
+
+func (x *PagoRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_trevor_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PagoRequest.ProtoReflect.Descriptor instead.
+func (*PagoRequest) Descriptor() ([]byte, []int) {
+	return file_trevor_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *PagoRequest) GetVictoria() bool {
+	if x != nil {
+		return x.Victoria
+	}
+	return false
+}
+
+func (x *PagoRequest) GetFase() string {
+	if x != nil {
+		return x.Fase
+	}
+	return ""
+}
+
+func (x *PagoRequest) GetWho() string {
+	if x != nil {
+		return x.Who
+	}
+	return ""
+}
+
+type PagoResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Msj           string                 `protobuf:"bytes,1,opt,name=msj,proto3" json:"msj,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PagoResponse) Reset() {
+	*x = PagoResponse{}
+	mi := &file_trevor_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PagoResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PagoResponse) ProtoMessage() {}
+
+func (x *PagoResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_trevor_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PagoResponse.ProtoReflect.Descriptor instead.
+func (*PagoResponse) Descriptor() ([]byte, []int) {
+	return file_trevor_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *PagoResponse) GetMsj() string {
+	if x != nil {
+		return x.Msj
+	}
+	return ""
+}
+
 var File_trevor_proto protoreflect.FileDescriptor
 
 const file_trevor_proto_rawDesc = "" +
@@ -240,10 +344,17 @@ const file_trevor_proto_rawDesc = "" +
 	"\n" +
 	"botinExtra\x18\x02 \x01(\x05R\n" +
 	"botinExtra\x12\x14\n" +
-	"\x05razon\x18\x03 \x01(\tR\x05razon2\x8b\x01\n" +
+	"\x05razon\x18\x03 \x01(\tR\x05razon\"O\n" +
+	"\vPagoRequest\x12\x1a\n" +
+	"\bvictoria\x18\x01 \x01(\bR\bvictoria\x12\x12\n" +
+	"\x04fase\x18\x02 \x01(\tR\x04fase\x12\x10\n" +
+	"\x03who\x18\x03 \x01(\tR\x03who\" \n" +
+	"\fPagoResponse\x12\x10\n" +
+	"\x03msj\x18\x01 \x01(\tR\x03msj2\xcc\x01\n" +
 	"\aMission\x12H\n" +
 	"\vDistraccion\x12\x1b.mensaje.DistraccionRequest\x1a\x1c.mensaje.DistraccionResponse\x126\n" +
-	"\x05Golpe\x12\x15.mensaje.GolpeRequest\x1a\x16.mensaje.GolpeResponseB\x12Z\x10trevor-sys/protob\x06proto3"
+	"\x05Golpe\x12\x15.mensaje.GolpeRequest\x1a\x16.mensaje.GolpeResponse\x12?\n" +
+	"\x10ConfirmacionPago\x12\x14.mensaje.PagoRequest\x1a\x15.mensaje.PagoResponseB\x12Z\x10trevor-sys/protob\x06proto3"
 
 var (
 	file_trevor_proto_rawDescOnce sync.Once
@@ -257,20 +368,24 @@ func file_trevor_proto_rawDescGZIP() []byte {
 	return file_trevor_proto_rawDescData
 }
 
-var file_trevor_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_trevor_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_trevor_proto_goTypes = []any{
 	(*DistraccionRequest)(nil),  // 0: mensaje.DistraccionRequest
 	(*DistraccionResponse)(nil), // 1: mensaje.DistraccionResponse
 	(*GolpeRequest)(nil),        // 2: mensaje.GolpeRequest
 	(*GolpeResponse)(nil),       // 3: mensaje.GolpeResponse
+	(*PagoRequest)(nil),         // 4: mensaje.PagoRequest
+	(*PagoResponse)(nil),        // 5: mensaje.PagoResponse
 }
 var file_trevor_proto_depIdxs = []int32{
 	0, // 0: mensaje.Mission.Distraccion:input_type -> mensaje.DistraccionRequest
 	2, // 1: mensaje.Mission.Golpe:input_type -> mensaje.GolpeRequest
-	1, // 2: mensaje.Mission.Distraccion:output_type -> mensaje.DistraccionResponse
-	3, // 3: mensaje.Mission.Golpe:output_type -> mensaje.GolpeResponse
-	2, // [2:4] is the sub-list for method output_type
-	0, // [0:2] is the sub-list for method input_type
+	4, // 2: mensaje.Mission.ConfirmacionPago:input_type -> mensaje.PagoRequest
+	1, // 3: mensaje.Mission.Distraccion:output_type -> mensaje.DistraccionResponse
+	3, // 4: mensaje.Mission.Golpe:output_type -> mensaje.GolpeResponse
+	5, // 5: mensaje.Mission.ConfirmacionPago:output_type -> mensaje.PagoResponse
+	3, // [3:6] is the sub-list for method output_type
+	0, // [0:3] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -287,7 +402,7 @@ func file_trevor_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_trevor_proto_rawDesc), len(file_trevor_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

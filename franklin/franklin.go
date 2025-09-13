@@ -67,7 +67,6 @@ func fallo(err error, msg string) {
 func (s *server) Distraccion(ctx context.Context, in *pb.DistraccionRequest) (*pb.DistraccionResponse, error) {
 	log.Printf("Franklin comienza la distracción por %d turnos...", in.GetTurnos())
 	prob := rand.Intn(101)
-	log.Printf("la probabilidad es: %d", prob)
 	if prob < 10 {
 		log.Printf("Chop, para de ladrar!")
 		log.Printf("Oh no, fallamos")
@@ -156,6 +155,19 @@ En el caso de obtener 3 estrellas activa su habilidad especial de sumar $1000
 a la variable extra por cada turno que pase. Retorna la confirmacion de victoria
 o derrota, el botin extra y la razon asociada.
 */
+
+func (s *server) ConfirmacionPago(ctx context.Context, in *pb.PagoRequest) (*pb.PagoResponse, error) {
+	if in.GetVictoria() {
+		return &pb.PagoResponse{Msj: "Excelente! Avisame para la proxima misión"}, nil
+	}
+	if in.GetWho() != "Franklin" {
+		return &pb.PagoResponse{Msj: "Para la proxima lo lograremos!"}, nil
+	}
+	if in.GetFase() == "2" {
+		return &pb.PagoResponse{Msj: "La proxima vez no me distraere con Chops!"}, nil
+	}
+	return &pb.PagoResponse{Msj: "Me han atrapado! Perdón!"}, nil
+}
 
 func main() {
 	lis, err := net.Listen("tcp", ":50052")

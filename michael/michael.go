@@ -103,6 +103,8 @@ func main() {
 	log.Printf("probF: %d y probT: %d", probF, probT)
 
 	victoria := true
+	WhoFail := ""
+	whenFail := ""
 	if probF > probT {
 		log.Println("¡Franklin inicia la distracción!")
 		turnos := 200 - probF
@@ -128,10 +130,16 @@ func main() {
 			} else {
 				log.Println("Trevor falló en el golpe")
 				victoria = false
+				WhoFail = "Trevor"
+				whenFail = "3"
+				log.Printf("=== Golpe Fallido ===")
 			}
 		} else {
 			log.Println("Franklin falló en la distracción")
 			victoria = false
+			WhoFail = "Franklin"
+			whenFail = "2"
+			log.Printf("=== Distracción Fallida ===")
 		}
 	} else {
 		log.Println("=== Trevor inicia la distracción ===")
@@ -158,10 +166,16 @@ func main() {
 
 				log.Println("Franklin falló en el golpe")
 				victoria = false
+				WhoFail = "Franklin"
+				whenFail = "3"
+				log.Printf("=== Golpe Fallido ===")
 			}
 		} else {
 			log.Println("Trevor falló en la distracción")
 			victoria = false
+			WhoFail = "Trevor"
+			whenFail = "2"
+			log.Printf("=== Distracción Fallida ===")
 		}
 	}
 
@@ -173,8 +187,8 @@ func main() {
 	//---
 	botinTotal := botin + botinExtra
 	extraLester := (botinTotal) % 4
-	botinTotal -= extraLester
-	botinTotal /= 4
+	botinPJ := botinTotal - extraLester
+	botinPJ /= 4
 	//---
 	file, err := os.Create("informe.txt")
 	fallo(err, "No se pudo conectar")
@@ -192,12 +206,18 @@ func main() {
 		line += "Botin Extra (Habilidad de Chop): $" + strconv.Itoa(botinExtra) + "\n"
 		line += "Botin Total: $" + strconv.Itoa(botinTotal) + "\n"
 		line += "----------------------------------------------\n"
-		line += "botin franklin: $" + strconv.Itoa(botin) + "\n"
-		line += "\n"
-		line += "botin trevor: $" + strconv.Itoa(botin) + "\n"
-		line += "\n"
-		line += "botin lester: $" + strconv.Itoa(botin) + " + extra: $" + strconv.Itoa(extraLester) + ". Total: $" + strconv.Itoa(botin+extraLester) + "\n"
-		line += "\n"
+		line += "Botin franklin: $" + strconv.Itoa(botinPJ) + "\n"
+		msj, err := F.ConfirmacionPago(ctx, &pb.PagoRequest{Victoria: victoria})
+		fallo(err, "No se pudo conectar")
+		line += msj.GetMsj() + "\n"
+		line += "Botin trevor: $" + strconv.Itoa(botinPJ) + "\n"
+		msj, err = T.ConfirmacionPago(ctx, &pb.PagoRequest{Victoria: victoria})
+		fallo(err, "No se pudo conectar")
+		line += msj.GetMsj() + "\n"
+		line += "Botin lester: $" + strconv.Itoa(botinPJ) + " + extra: $" + strconv.Itoa(extraLester) + ". Total: $" + strconv.Itoa(botinPJ+extraLester) + "\n"
+		msj, err = L.ConfirmacionPago(ctx, &pb.PagoRequest{Victoria: victoria})
+		fallo(err, "No se pudo conectar")
+		line += msj.GetMsj() + "\n"
 		line += "----------------------------------------------\n"
 		line += "Saldo Final: $" + strconv.Itoa(botinTotal) + "\n"
 		line += "=============================================="
@@ -215,12 +235,18 @@ func main() {
 		line += "Botin Extra (Habilidad de Chop): $" + strconv.Itoa(botinExtra) + "\n"
 		line += "Botin Total Perdido: $" + strconv.Itoa(botinTotal) + "\n"
 		line += "--------------------------------------------\n"
-		line += "botin franklin: $0\n"
-		line += "\n"
-		line += "botin franklin: $0\n"
-		line += "\n"
-		line += "botin lester: $0 + extra: $0. Total: $0\n"
-		line += "\n"
+		line += "botin Franklin: $0\n"
+		msj, err := F.ConfirmacionPago(ctx, &pb.PagoRequest{Victoria: victoria, Fase: whenFail, Who: WhoFail})
+		fallo(err, "No se pudo conectar")
+		line += msj.GetMsj() + "\n"
+		line += "botin Trevor: $0\n"
+		msj, err = F.ConfirmacionPago(ctx, &pb.PagoRequest{Victoria: victoria, Fase: whenFail, Who: WhoFail})
+		fallo(err, "No se pudo conectar")
+		line += msj.GetMsj() + "\n"
+		line += "botin Lester: $0 + extra: $0. Total: $0\n"
+		msj, err = L.ConfirmacionPago(ctx, &pb.PagoRequest{Victoria: victoria, Fase: whenFail, Who: WhoFail})
+		fallo(err, "No se pudo conectar")
+		line += msj.GetMsj() + "\n"
 		line += "--------------------------------------------\n"
 		line += "Saldo Final Perdido: $0\n"
 		line += "============================================"

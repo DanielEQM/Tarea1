@@ -14,6 +14,7 @@ service Mission {
   rpc Golpe(GolpeRequest) returns (GolpeResponse);
   rpc NotificarEstrellas(AvisoRequest) returns (AvisoResponse);
   rpc NotificarGolpe(ConfirmRequest) returns (ConfirmResponse);
+  rpc ConfirmacionPago(PagoRequest) returns (PagoResponse);
 }
 
 message AvisoRequest {
@@ -61,4 +62,14 @@ message GolpeResponse {
   bool confirmacion = 1;
   int32 botinExtra = 2;
   string razon = 3;
+}
+
+
+message PagoRequest {
+  bool victoria = 1;
+  string fase = 2;
+  string who = 3;
+}
+message PagoResponse {
+  string msj = 1;
 }

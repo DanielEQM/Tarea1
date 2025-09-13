@@ -67,7 +67,6 @@ func fallo(err error, msg string) {
 func (s *server) Distraccion(ctx context.Context, in *pb.DistraccionRequest) (*pb.DistraccionResponse, error) {
 	log.Printf("Trevor comienza la distracción por %d turnos", in.GetTurnos())
 	prob := rand.Intn(101)
-	log.Printf("la probabilidad es: %d", prob)
 	if prob < 10 {
 		log.Printf("Parece que bebi más de la cuenta... zzz")
 		return &pb.DistraccionResponse{Confirmacion: false, Razon: "Bebi más de la cuenta"}, nil
@@ -154,6 +153,19 @@ En el caso de obtener más de 5 estrellas, activa su habilidad especial de aumen
 su límite de fracaso a 7 estrellas. Retorna la confirmacion de victoria
 o derrota, el botin extra y la razon asociada.
 */
+
+func (s *server) ConfirmacionPago(ctx context.Context, in *pb.PagoRequest) (*pb.PagoResponse, error) {
+	if in.GetVictoria() {
+		return &pb.PagoResponse{Msj: "Gracias! Avisame para la proxima misión"}, nil
+	}
+	if in.GetWho() != "Trevor" {
+		return &pb.PagoResponse{Msj: "Para la proxima lo lograremos!"}, nil
+	}
+	if in.GetFase() == "2" {
+		return &pb.PagoResponse{Msj: "Zzzzzzz, uh, ¿y la misión?"}, nil
+	}
+	return &pb.PagoResponse{Msj: "Tch, para la proxima será"}, nil
+}
 
 func main() {
 	lis, err := net.Listen("tcp", ":50053")

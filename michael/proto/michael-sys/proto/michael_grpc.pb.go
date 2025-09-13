@@ -27,6 +27,7 @@ const (
 	Mission_Golpe_FullMethodName              = "/mensaje.Mission/Golpe"
 	Mission_NotificarEstrellas_FullMethodName = "/mensaje.Mission/NotificarEstrellas"
 	Mission_NotificarGolpe_FullMethodName     = "/mensaje.Mission/NotificarGolpe"
+	Mission_ConfirmacionPago_FullMethodName   = "/mensaje.Mission/ConfirmacionPago"
 )
 
 // MissionClient is the client API for Mission service.
@@ -42,6 +43,7 @@ type MissionClient interface {
 	Golpe(ctx context.Context, in *GolpeRequest, opts ...grpc.CallOption) (*GolpeResponse, error)
 	NotificarEstrellas(ctx context.Context, in *AvisoRequest, opts ...grpc.CallOption) (*AvisoResponse, error)
 	NotificarGolpe(ctx context.Context, in *ConfirmRequest, opts ...grpc.CallOption) (*ConfirmResponse, error)
+	ConfirmacionPago(ctx context.Context, in *PagoRequest, opts ...grpc.CallOption) (*PagoResponse, error)
 }
 
 type missionClient struct {
@@ -112,6 +114,16 @@ func (c *missionClient) NotificarGolpe(ctx context.Context, in *ConfirmRequest, 
 	return out, nil
 }
 
+func (c *missionClient) ConfirmacionPago(ctx context.Context, in *PagoRequest, opts ...grpc.CallOption) (*PagoResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(PagoResponse)
+	err := c.cc.Invoke(ctx, Mission_ConfirmacionPago_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MissionServer is the server API for Mission service.
 // All implementations must embed UnimplementedMissionServer
 // for forward compatibility.
@@ -125,6 +137,7 @@ type MissionServer interface {
 	Golpe(context.Context, *GolpeRequest) (*GolpeResponse, error)
 	NotificarEstrellas(context.Context, *AvisoRequest) (*AvisoResponse, error)
 	NotificarGolpe(context.Context, *ConfirmRequest) (*ConfirmResponse, error)
+	ConfirmacionPago(context.Context, *PagoRequest) (*PagoResponse, error)
 	mustEmbedUnimplementedMissionServer()
 }
 
@@ -152,6 +165,9 @@ func (UnimplementedMissionServer) NotificarEstrellas(context.Context, *AvisoRequ
 }
 func (UnimplementedMissionServer) NotificarGolpe(context.Context, *ConfirmRequest) (*ConfirmResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method NotificarGolpe not implemented")
+}
+func (UnimplementedMissionServer) ConfirmacionPago(context.Context, *PagoRequest) (*PagoResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ConfirmacionPago not implemented")
 }
 func (UnimplementedMissionServer) mustEmbedUnimplementedMissionServer() {}
 func (UnimplementedMissionServer) testEmbeddedByValue()                 {}
@@ -282,6 +298,24 @@ func _Mission_NotificarGolpe_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Mission_ConfirmacionPago_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PagoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MissionServer).ConfirmacionPago(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Mission_ConfirmacionPago_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MissionServer).ConfirmacionPago(ctx, req.(*PagoRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Mission_ServiceDesc is the grpc.ServiceDesc for Mission service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -312,6 +346,10 @@ var Mission_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "NotificarGolpe",
 			Handler:    _Mission_NotificarGolpe_Handler,
+		},
+		{
+			MethodName: "ConfirmacionPago",
+			Handler:    _Mission_ConfirmacionPago_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

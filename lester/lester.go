@@ -189,6 +189,13 @@ func (s *server) ConfirmMission(ctx context.Context, in *pb.ConfirmRequest) (*pb
 Lester se entera a través de *pb.ConfirmResponse.
 */
 
+func (s *server) ConfirmacionPago(ctx context.Context, in *pb.PagoRequest) (*pb.PagoResponse, error) {
+	if in.GetVictoria() {
+		return &pb.PagoResponse{Msj: "Un gusto hacer negocios contigo!"}, nil
+	}
+	return &pb.PagoResponse{Msj: "Para eso mejor no te doy más misiones"}, nil
+}
+
 func main() {
 	file, err := os.Open("ofertas/ofertas_grande.csv")
 	fallo(err, "No se pudo cargar el archivo.")

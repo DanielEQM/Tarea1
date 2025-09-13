@@ -6,6 +6,7 @@ package mensaje;
 service Mission {
   rpc Distraccion(DistraccionRequest) returns (DistraccionResponse);
   rpc Golpe(GolpeRequest) returns (GolpeResponse);
+  rpc ConfirmacionPago(PagoRequest) returns (PagoResponse);
 }
 
 message DistraccionRequest {
@@ -25,4 +26,14 @@ message GolpeResponse {
   bool confirmacion = 1;
   int32 botinExtra = 2;
   string razon = 3;
+}
+
+message PagoRequest {
+  bool victoria = 1;
+  string fase = 2;
+  string who = 3;
+}
+
+message PagoResponse {
+  string msj = 1;
 }

@@ -513,6 +513,110 @@ func (x *GolpeResponse) GetRazon() string {
 	return ""
 }
 
+type PagoRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Victoria      bool                   `protobuf:"varint,1,opt,name=victoria,proto3" json:"victoria,omitempty"`
+	Fase          string                 `protobuf:"bytes,2,opt,name=fase,proto3" json:"fase,omitempty"`
+	Who           string                 `protobuf:"bytes,3,opt,name=who,proto3" json:"who,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PagoRequest) Reset() {
+	*x = PagoRequest{}
+	mi := &file_michael_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PagoRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PagoRequest) ProtoMessage() {}
+
+func (x *PagoRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_michael_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PagoRequest.ProtoReflect.Descriptor instead.
+func (*PagoRequest) Descriptor() ([]byte, []int) {
+	return file_michael_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *PagoRequest) GetVictoria() bool {
+	if x != nil {
+		return x.Victoria
+	}
+	return false
+}
+
+func (x *PagoRequest) GetFase() string {
+	if x != nil {
+		return x.Fase
+	}
+	return ""
+}
+
+func (x *PagoRequest) GetWho() string {
+	if x != nil {
+		return x.Who
+	}
+	return ""
+}
+
+type PagoResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Msj           string                 `protobuf:"bytes,1,opt,name=msj,proto3" json:"msj,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PagoResponse) Reset() {
+	*x = PagoResponse{}
+	mi := &file_michael_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PagoResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PagoResponse) ProtoMessage() {}
+
+func (x *PagoResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_michael_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PagoResponse.ProtoReflect.Descriptor instead.
+func (*PagoResponse) Descriptor() ([]byte, []int) {
+	return file_michael_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *PagoResponse) GetMsj() string {
+	if x != nil {
+		return x.Msj
+	}
+	return ""
+}
+
 var File_michael_proto protoreflect.FileDescriptor
 
 const file_michael_proto_rawDesc = "" +
@@ -545,14 +649,21 @@ const file_michael_proto_rawDesc = "" +
 	"\n" +
 	"botinExtra\x18\x02 \x01(\x05R\n" +
 	"botinExtra\x12\x14\n" +
-	"\x05razon\x18\x03 \x01(\tR\x05razon2\x97\x03\n" +
+	"\x05razon\x18\x03 \x01(\tR\x05razon\"O\n" +
+	"\vPagoRequest\x12\x1a\n" +
+	"\bvictoria\x18\x01 \x01(\bR\bvictoria\x12\x12\n" +
+	"\x04fase\x18\x02 \x01(\tR\x04fase\x12\x10\n" +
+	"\x03who\x18\x03 \x01(\tR\x03who\" \n" +
+	"\fPagoResponse\x12\x10\n" +
+	"\x03msj\x18\x01 \x01(\tR\x03msj2\xd8\x03\n" +
 	"\aMission\x12;\n" +
 	"\x06Oferta\x12\x17.mensaje.MissionRequest\x1a\x18.mensaje.MissionResponse\x12C\n" +
 	"\x0eConfirmMission\x12\x17.mensaje.ConfirmRequest\x1a\x18.mensaje.ConfirmResponse\x12H\n" +
 	"\vDistraccion\x12\x1b.mensaje.DistraccionRequest\x1a\x1c.mensaje.DistraccionResponse\x126\n" +
 	"\x05Golpe\x12\x15.mensaje.GolpeRequest\x1a\x16.mensaje.GolpeResponse\x12C\n" +
 	"\x12NotificarEstrellas\x12\x15.mensaje.AvisoRequest\x1a\x16.mensaje.AvisoResponse\x12C\n" +
-	"\x0eNotificarGolpe\x12\x17.mensaje.ConfirmRequest\x1a\x18.mensaje.ConfirmResponseB\x13Z\x11michael-sys/protob\x06proto3"
+	"\x0eNotificarGolpe\x12\x17.mensaje.ConfirmRequest\x1a\x18.mensaje.ConfirmResponse\x12?\n" +
+	"\x10ConfirmacionPago\x12\x14.mensaje.PagoRequest\x1a\x15.mensaje.PagoResponseB\x13Z\x11michael-sys/protob\x06proto3"
 
 var (
 	file_michael_proto_rawDescOnce sync.Once
@@ -566,7 +677,7 @@ func file_michael_proto_rawDescGZIP() []byte {
 	return file_michael_proto_rawDescData
 }
 
-var file_michael_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_michael_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var file_michael_proto_goTypes = []any{
 	(*AvisoRequest)(nil),        // 0: mensaje.AvisoRequest
 	(*AvisoResponse)(nil),       // 1: mensaje.AvisoResponse
@@ -578,25 +689,29 @@ var file_michael_proto_goTypes = []any{
 	(*DistraccionResponse)(nil), // 7: mensaje.DistraccionResponse
 	(*GolpeRequest)(nil),        // 8: mensaje.GolpeRequest
 	(*GolpeResponse)(nil),       // 9: mensaje.GolpeResponse
+	(*PagoRequest)(nil),         // 10: mensaje.PagoRequest
+	(*PagoResponse)(nil),        // 11: mensaje.PagoResponse
 }
 var file_michael_proto_depIdxs = []int32{
-	2, // 0: mensaje.Mission.Oferta:input_type -> mensaje.MissionRequest
-	4, // 1: mensaje.Mission.ConfirmMission:input_type -> mensaje.ConfirmRequest
-	6, // 2: mensaje.Mission.Distraccion:input_type -> mensaje.DistraccionRequest
-	8, // 3: mensaje.Mission.Golpe:input_type -> mensaje.GolpeRequest
-	0, // 4: mensaje.Mission.NotificarEstrellas:input_type -> mensaje.AvisoRequest
-	4, // 5: mensaje.Mission.NotificarGolpe:input_type -> mensaje.ConfirmRequest
-	3, // 6: mensaje.Mission.Oferta:output_type -> mensaje.MissionResponse
-	5, // 7: mensaje.Mission.ConfirmMission:output_type -> mensaje.ConfirmResponse
-	7, // 8: mensaje.Mission.Distraccion:output_type -> mensaje.DistraccionResponse
-	9, // 9: mensaje.Mission.Golpe:output_type -> mensaje.GolpeResponse
-	1, // 10: mensaje.Mission.NotificarEstrellas:output_type -> mensaje.AvisoResponse
-	5, // 11: mensaje.Mission.NotificarGolpe:output_type -> mensaje.ConfirmResponse
-	6, // [6:12] is the sub-list for method output_type
-	0, // [0:6] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	2,  // 0: mensaje.Mission.Oferta:input_type -> mensaje.MissionRequest
+	4,  // 1: mensaje.Mission.ConfirmMission:input_type -> mensaje.ConfirmRequest
+	6,  // 2: mensaje.Mission.Distraccion:input_type -> mensaje.DistraccionRequest
+	8,  // 3: mensaje.Mission.Golpe:input_type -> mensaje.GolpeRequest
+	0,  // 4: mensaje.Mission.NotificarEstrellas:input_type -> mensaje.AvisoRequest
+	4,  // 5: mensaje.Mission.NotificarGolpe:input_type -> mensaje.ConfirmRequest
+	10, // 6: mensaje.Mission.ConfirmacionPago:input_type -> mensaje.PagoRequest
+	3,  // 7: mensaje.Mission.Oferta:output_type -> mensaje.MissionResponse
+	5,  // 8: mensaje.Mission.ConfirmMission:output_type -> mensaje.ConfirmResponse
+	7,  // 9: mensaje.Mission.Distraccion:output_type -> mensaje.DistraccionResponse
+	9,  // 10: mensaje.Mission.Golpe:output_type -> mensaje.GolpeResponse
+	1,  // 11: mensaje.Mission.NotificarEstrellas:output_type -> mensaje.AvisoResponse
+	5,  // 12: mensaje.Mission.NotificarGolpe:output_type -> mensaje.ConfirmResponse
+	11, // 13: mensaje.Mission.ConfirmacionPago:output_type -> mensaje.PagoResponse
+	7,  // [7:14] is the sub-list for method output_type
+	0,  // [0:7] is the sub-list for method input_type
+	0,  // [0:0] is the sub-list for extension type_name
+	0,  // [0:0] is the sub-list for extension extendee
+	0,  // [0:0] is the sub-list for field type_name
 }
 
 func init() { file_michael_proto_init() }
@@ -610,7 +725,7 @@ func file_michael_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_michael_proto_rawDesc), len(file_michael_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   12,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
