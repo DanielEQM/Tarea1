@@ -58,21 +58,15 @@ func (s *server) NotificarEstrellas(ctx context.Context, in *pb.AvisoRequest) (*
 			amqpURI = "amqp://guest:guest@localhost:5672/"
 		}
 		conn, err := connectWithRetry(amqpURI)
-		if err != nil {
-			log.Fatalf("Se excedío el tiempo maximo. (%v)", err)
-		}
+		fallo(err, "Se excedió el tiempo maximo")
 		defer conn.Close()
 
 		ch, err = conn.Channel()
-		if err != nil {
-			log.Fatalf("No se puede abrir el canal: %v", err)
-		}
+		fallo(err, "No se puede abrir el canal")
 		defer ch.Close()
 
 		q, err := ch.QueueDeclare(in.GetPj(), false, false, false, false, nil)
-		if err != nil {
-			log.Fatalf("No se puede declarar la cola: %v", err)
-		}
+		fallo(err, "No se puede declarar la cola")
 		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer cancel()
 
@@ -95,9 +89,7 @@ func (s *server) NotificarEstrellas(ctx context.Context, in *pb.AvisoRequest) (*
 						ContentType: "text/plain",
 						Body:        []byte(body),
 					})
-				if err != nil {
-					log.Fatalf("No se pudo publicar el mensaje. %v", err)
-				}
+				fallo(err, "No se pudo publicar el mensaje.")
 				frecuencia += 100 - in.GetRiesgo()
 				estrellas++
 			}
@@ -159,9 +151,7 @@ Lester se entera a través de *pb.ConfirmResponse.
 
 func main() {
 	file, err := os.Open("ofertas/ofertas_grande.csv")
-	if err != nil {
-		log.Fatalf("%v", err)
-	}
+	fallo(err, "No se pudo cargar el archivo.")
 	defer file.Close()
 
 	reader := bufio.NewReader(file)
@@ -193,9 +183,7 @@ func main() {
 
 	// Servidor
 	lis, err := net.Listen("tcp", ":50051")
-	if err != nil {
-		log.Fatalf("Fallo al escuchar: %v", err)
-	}
+	fallo(err, "Fallo al escuchar.")
 	s := grpc.NewServer()
 	pb.RegisterMissionServer(s, &server{})
 	log.Printf("Servidor escuchando en %v", lis.Addr())

@@ -32,7 +32,7 @@ func connectWithRetry(uri string) (*amqp.Connection, error) {
 			log.Println("[*] Conexión exitosa")
 			return conn, nil
 		}
-		log.Printf("Error en conexión (intendo %d/%d): %v", i+1, maxRetries, err)
+		log.Printf("Error en conexión (intento %d/%d): %v", i+1, maxRetries, err)
 		time.Sleep(delay)
 	}
 	return nil, err
@@ -144,5 +144,9 @@ func main() {
 	s := grpc.NewServer()
 	pb.RegisterMissionServer(s, &server{})
 	log.Printf("Servidor escuchando en %v", lis.Addr())
-	fallo(err, "Fallo al servir")
+
+	if err := s.Serve(lis); err != nil {
+		log.Fatalf("Fallo al servir: %v", err)
+	}
+
 }
